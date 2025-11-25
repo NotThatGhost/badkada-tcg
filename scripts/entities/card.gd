@@ -2,6 +2,13 @@ extends Panel
 
 var card_active = false
 
+var card_owner : int
+#var card_owner = [ # This is an array just in case I need to pull a string
+	#"emptyspaceforreasons",
+	#"player1",
+	#"player2"
+#]
+
 var card_name = ""
 var card_type = "no_type"
 
@@ -40,7 +47,6 @@ func set_card_usability(new_status=null):
 		card_active = new_status
 	else:
 		pass
-	print("Card usability status: ", card_active)
 	if card_active == true:
 		modulate = Color8(255, 255, 255, 255)
 	elif card_active == false:
@@ -54,6 +60,8 @@ func intitialize_card():
 func use_card(): # Yup another hack, maybe I can get this to work with dictionaries
 	match card_type:
 		"skill":
+			print("Skill card used")
+			TurnAndPhaseHandler.emit_signal("player_changed_rally_status", card_owner, true)
 			match card_name:
 				"net_shot":
 					pass

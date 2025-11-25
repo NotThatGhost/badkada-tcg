@@ -96,6 +96,7 @@ func player_draw_new_card(player:int, amount:int):
 		var new_card = NEW_CARD_PATH.instantiate()
 		new_card.card_name = new_card_name
 		new_card.card_type = card_types[new_card_type]
+		new_card.card_owner = player
 		get_parent().get_node("PlayArea_Player1/HScrollBar/CardHolder_Player" +str(player)).add_child(new_card)
 		game_use_deck.erase(new_card.card_name)
 		i += 1

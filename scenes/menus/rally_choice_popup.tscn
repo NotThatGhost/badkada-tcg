@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=3 uid="uid://cs5rfeswmdvhk"]
+
+[ext_resource type="Script" path="res://scripts/levels_and_menus/rally_choice_popup.gd" id="1_shcov"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s11f1"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[node name="RallyChoicePopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_shcov")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 208.0
+offset_bottom = 155.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_s11f1")
+
+[node name="WARNING" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -107.0
+offset_top = 6.0
+offset_right = 107.0
+offset_bottom = 55.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Skip rally phase?"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+offset_left = 1.0
+offset_top = 42.0
+offset_right = 208.0
+offset_bottom = 155.0
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_right = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="AcceptButton" type="Button" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Yes"
+
+[node name="DeclineButton" type="Button" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "No"
+
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/AcceptButton" to="." method="_on_accept_button_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/DeclineButton" to="." method="_on_decline_button_pressed"]
