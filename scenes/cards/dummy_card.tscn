@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://buy0f1i8rmrh1"]
+
+[node name="DummyCard" type="Panel"]
+custom_minimum_size = Vector2(94, 145)
+anchors_preset = -1
+anchor_right = 0.196
+anchor_bottom = 0.17
+offset_right = -0.0800018
+offset_bottom = -0.180008
+grow_horizontal = 2
+grow_vertical = 2

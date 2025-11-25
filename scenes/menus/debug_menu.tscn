@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://bu5ifgp7k1fo5"]
+
+[ext_resource type="Script" path="res://scripts/levels_and_menus/debug_menu.gd" id="1_s0u85"]
+
+[node name="DebugMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_s0u85")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DrawPhaseDebugButton" type="Button" parent="CanvasLayer"]
+offset_left = 351.0
+offset_top = -1.0
+offset_right = 481.0
+offset_bottom = 92.0
+text = "Force 
+Draw Phase"
+
+[connection signal="pressed" from="CanvasLayer/DrawPhaseDebugButton" to="." method="_on_draw_phase_debug_button_pressed"]
