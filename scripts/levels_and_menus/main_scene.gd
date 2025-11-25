@@ -8,3 +8,5 @@ func _ready() -> void:
 
 #func _physics_process(delta: float) -> void:
 	#$CardHandlerNode.player_draw_new_card(1)
+
+#Test for github
