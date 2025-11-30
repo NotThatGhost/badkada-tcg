@@ -4,9 +4,13 @@ const RALLY_CHOICE_POPUP_PATH = preload("res://scenes/menus/rally_choice_popup.t
 
 func _ready() -> void:
 	TurnAndPhaseHandler.connect("phase_changed", update_phase_label_text)
-	$CardHandler.player_draw_new_card(1, 12)
+	CardHandler.player_draw_new_card(1, 6)
+	CardHandler.player_draw_new_card(2, 6)
 	TurnAndPhaseHandler.next_phase()
 	
+func _physics_process(delta: float) -> void:
+	pass
+
 
 func update_phase_label_text():
 	var tween = get_tree().create_tween()

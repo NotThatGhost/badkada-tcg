@@ -2,6 +2,7 @@ extends Panel
 
 var card_active = false
 
+
 var card_owner : int
 #var card_owner = [ # This is an array just in case I need to pull a string
 	#"emptyspaceforreasons",
@@ -62,6 +63,11 @@ func use_card(): # Yup another hack, maybe I can get this to work with dictionar
 		"skill":
 			print("Skill card used")
 			TurnAndPhaseHandler.emit_signal("player_changed_rally_status", card_owner, true)
+			match card_owner:
+				1:
+					TurnAndPhaseHandler.player_1_used_skill_card_count += 1
+				2:
+					TurnAndPhaseHandler.player_2_used_skill_card_count += 1
 			match card_name:
 				"net_shot":
 					pass

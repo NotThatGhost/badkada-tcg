@@ -4,10 +4,13 @@ var player_1_phase = ""
 var player_2_phase = ""
 
 var player_1_wants_to_rally = false
-var player_2_wants_to_rally = false
+var player_2_wants_to_rally = true
 
 var player_1_ready_for_next_phase = false
 var player_2_ready_for_next_phase = false
+
+var player_1_used_skill_card_count = 0
+var player_2_used_skill_card_count = 0
 
 var current_phase_index = 0
 
@@ -34,20 +37,24 @@ func next_phase():
 func phase_switch(new_phase:String):
 	match new_phase:
 		"draw":
+			print("I GUESS WE DOIN DRAW PHASES NOW")
 			CardHandler.player_draw_new_card(1, 1)
 			CardHandler.player_draw_new_card(2, 1)
+			next_phase()
+			#CardHandler.player_draw_new_card(2, 1)
 		"main":
 			pass
 		"rally":
 			if player_1_wants_to_rally == true && player_2_wants_to_rally == true:
-				print("Both players want to rally but I havent implemented it yet so Im skipping that")
-				pass
+				print("Both players want to rally, good luck!")
+				rally_phase()
 			else:
 				next_phase()
 				print("One of the players chose to skip rally phase")
 		"end": # TODO add points to whatever player didnt skip rally if applicable
 			player_1_wants_to_rally = false
 			player_2_wants_to_rally = false
+			await get_tree().create_timer(2).timeout
 			next_phase()
 	emit_signal("phase_changed")
 	print("Current phase: ", new_phase)
@@ -55,13 +62,47 @@ func phase_switch(new_phase:String):
 func player_rally_status_tracker(player:int, new_status:bool):
 	match player:
 		1:
+			if player_1_wants_to_rally == new_status:
+				return
 			player_1_wants_to_rally = new_status
 		2:
+			if player_2_wants_to_rally == new_status:
+				return
 			player_2_wants_to_rally = new_status
 	if player_1_wants_to_rally == true && player_2_wants_to_rally == true:
 		next_phase()
 	elif player_1_wants_to_rally == true && player_2_wants_to_rally == false || player_1_wants_to_rally == false && player_2_wants_to_rally == true:
 		print("Both players still arent ready for rally")
+	
+
+func rally_phase():
+	var player_1_skill_card_count = CardHandler.get_card_type_count(1, "skill")
+	var player_2_skill_card_count = CardHandler.get_card_type_count(2, "skill")
+	player_1_used_skill_card_count = 0
+	player_2_used_skill_card_count = 0
+	var rally_winner = 0 # Set to player number on their win
+	
+	print("player_1_skill_card_count: ", player_1_skill_card_count)
+	print("player_2_skill_card_count: ", player_2_skill_card_count)
+	
+	while rally_winner == 0:
+		print("checking if someones won")
+		if player_1_used_skill_card_count == player_1_skill_card_count:
+			rally_winner = 2
+		elif player_2_used_skill_card_count == player_2_skill_card_count:
+			rally_winner = 1
+		await get_tree().create_timer(.1).timeout
+	
+	match rally_winner:
+		1:
+			ScoreHandler.player_1_score += 1
+		2:
+			ScoreHandler.player_2_score += 1
+	print("Player 1 score: ", ScoreHandler.player_1_score)
+	print("Player 2 score: ", ScoreHandler.player_2_score)
+	next_phase()
+	
+	
 	
 
 func set_global_phase(new_phase:String): # Not really for use regularly

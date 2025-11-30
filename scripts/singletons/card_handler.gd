@@ -2,6 +2,8 @@ extends Node
 
 const NEW_CARD_PATH = preload("res://scenes/cards/card.tscn")
 
+#@onready var card_holder_player_1_path = $PlayArea_Player1/HScrollBar/CardHolder_Player1
+
 var player_1_cards = []
 var player_2_cards = []
 
@@ -59,6 +61,8 @@ var card_types = [
 	"event"
 ]
 
+signal player_draw_card # call with player number and instanced node
+
 #var card_names = [
 	#"intimidate",
 	#"deception",
@@ -87,8 +91,12 @@ func get_card_type_from_name(card_name:String):
 		return 3
 	else:
 		print("shits fucked with the cards")
+
 func player_draw_new_card(player:int, amount:int):
 	print("Starting draw deck size: ", game_use_deck.size())
+	if game_use_deck.size() == 0:
+		print("AHHHH TRYIN TO DRAW A CARD CANT DO IT DECKS EMPTY")
+		return
 	var i = 0
 	while i < amount:
 		var new_card_name = game_use_deck.pick_random()
@@ -97,7 +105,19 @@ func player_draw_new_card(player:int, amount:int):
 		new_card.card_name = new_card_name
 		new_card.card_type = card_types[new_card_type]
 		new_card.card_owner = player
-		get_parent().get_node("PlayArea_Player1/HScrollBar/CardHolder_Player" +str(player)).add_child(new_card)
+		emit_signal("player_draw_card", player, new_card)
+		match player:
+			1:
+				player_1_cards.append(new_card.card_type)
+			2:
+				player_2_cards.append(new_card.card_type)
 		game_use_deck.erase(new_card.card_name)
 		i += 1
 	print("Ending draw deck size: ", game_use_deck.size())
+
+func get_card_type_count(player:int, card_type_count_query:String):
+	match player:
+		1:
+			return player_1_cards.count(card_type_count_query)
+		2:
+			return player_2_cards.count(card_type_count_query)
