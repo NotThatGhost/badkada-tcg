@@ -4,15 +4,25 @@ const NEW_CARD_PATH = preload("res://scenes/cards/card.tscn")
 
 #@onready var card_holder_player_1_path = $PlayArea_Player1/HScrollBar/CardHolder_Player1
 
+var hide_player_2_cards = true
+
 var player_1_cards = []
 var player_2_cards = []
 
 var permanent_deck = [
 	"intimidate",
+	"intimidate",
+	"deception",
+	"deception",
 	"deception",
 	"anticipate",
+	"anticipate",
+	"counter",
 	"counter",
 	"reversal",
+	"break",
+	"break",
+	"break",
 	"break",
 	"cancel",
 	"net_shot",

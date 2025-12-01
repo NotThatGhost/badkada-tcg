@@ -57,6 +57,8 @@ func intitialize_card():
 	$CARDNAME.set_text(card_name)
 	$CARDTYPE.set_text(card_type)
 	set_card_usability()
+	if CardHandler.hide_player_2_cards == true && card_owner == 2:
+		$HiddenCardBox.visible = true
 
 func use_card(): # Yup another hack, maybe I can get this to work with dictionaries
 	match card_type:
@@ -102,7 +104,7 @@ func use_card(): # Yup another hack, maybe I can get this to work with dictionar
 				"reversal":
 					pass
 				"break":
-					pass
+					CardHandler.player_draw_new_card(card_owner, 2)
 		"event":
 			match card_name:
 				"cancel":
