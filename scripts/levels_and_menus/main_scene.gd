@@ -8,6 +8,8 @@ func _ready() -> void:
 	CardHandler.player_draw_new_card(2, 6)
 	TurnAndPhaseHandler.next_phase()
 	
+	CardHandler.player_draw_new_card(1, 1, "intimidate")
+	
 func _physics_process(delta: float) -> void:
 	pass
 

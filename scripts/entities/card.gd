@@ -92,7 +92,11 @@ func use_card(): # Yup another hack, maybe I can get this to work with dictionar
 		"talent":
 			match card_name:
 				"intimidate":
-					pass
+					var blind_card = CardHandler.player_2_cards.pick_random()
+					CardHandler.player_1_cards.append(blind_card)
+					CardHandler.player_2_cards.erase(blind_card)
+					CardHandler.emit_signal("player_remove_card", 2, blind_card)
+					CardHandler.player_draw_new_card(card_owner, 1, blind_card)
 				"deception":
 					pass
 				"anticipate":

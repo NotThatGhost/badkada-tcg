@@ -72,7 +72,7 @@ var card_types = [
 ]
 
 signal player_draw_card # call with player number and instanced node
-
+signal player_remove_card # call with player number and card name
 #var card_names = [
 	#"intimidate",
 	#"deception",
@@ -87,7 +87,8 @@ func _ready() -> void:
 	reset_deck()
 
 func reset_deck():
-	game_use_deck = permanent_deck
+	game_use_deck = permanent_deck.duplicate(true)
+	permanent_deck.make_read_only()
 	print("resetting deck")
 
 func get_card_type_from_name(card_name:String):
@@ -102,11 +103,37 @@ func get_card_type_from_name(card_name:String):
 	else:
 		print("shits fucked with the cards")
 
-func player_draw_new_card(player:int, amount:int):
+func player_draw_new_card(player:int, amount:int, specific_card = null):
 	print("Starting draw deck size: ", game_use_deck.size())
 	if game_use_deck.size() == 0:
 		print("AHHHH TRYIN TO DRAW A CARD CANT DO IT DECKS EMPTY")
 		return
+	
+	if specific_card != null:
+		print("Specific card isnt null")
+		#print(permanent_deck.has(specific_card))
+		if permanent_deck.has(specific_card) == true:
+			var i = 0
+			while i < amount:
+				print("permanent deck has specific card")
+				var new_card_name = specific_card
+				var new_card_type = get_card_type_from_name(new_card_name)
+				var new_card = NEW_CARD_PATH.instantiate()
+				new_card.card_name = new_card_name
+				new_card.card_type = card_types[new_card_type]
+				new_card.card_owner = player
+				new_card.name = new_card_name
+				emit_signal("player_draw_card", player, new_card)
+				match player:
+					1:
+						player_1_cards.append(new_card.card_name)
+					2:
+						player_2_cards.append(new_card.card_name)
+				i += 1
+			return
+			print("THIS SHOULD BE A RETURN BUT ISNT")
+	
+	
 	var i = 0
 	while i < amount:
 		var new_card_name = game_use_deck.pick_random()
@@ -115,13 +142,14 @@ func player_draw_new_card(player:int, amount:int):
 		new_card.card_name = new_card_name
 		new_card.card_type = card_types[new_card_type]
 		new_card.card_owner = player
+		new_card.name = new_card_name
 		emit_signal("player_draw_card", player, new_card)
 		match player:
 			1:
-				player_1_cards.append(new_card.card_type)
+				player_1_cards.append(new_card.card_name)
 			2:
-				player_2_cards.append(new_card.card_type)
-		game_use_deck.erase(new_card.card_name)
+				player_2_cards.append(new_card.card_name)
+		#game_use_deck.erase(new_card.card_name)
 		i += 1
 	print("Ending draw deck size: ", game_use_deck.size())
 
