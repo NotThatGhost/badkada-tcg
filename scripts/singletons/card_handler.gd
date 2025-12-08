@@ -4,6 +4,8 @@ const NEW_CARD_PATH = preload("res://scenes/cards/card.tscn")
 
 #@onready var card_holder_player_1_path = $PlayArea_Player1/HScrollBar/CardHolder_Player1
 
+var times_set_usability = 0
+
 var hide_player_2_cards = false
 
 var cancel_card_in_effect = false
@@ -18,6 +20,10 @@ var player_2_selected_card = ""
 var player_1_selected_card_count = 0
 var player_2_selected_card_count = 0
 
+var empty_array = ["empty_space"]
+
+var player_1_usable_cards = []
+var player_2_usable_cards = []
 
 var player_1_current_power = 0
 var player_2_current_power = 0
@@ -66,18 +72,36 @@ var permanent_deck2 = {
 		"break3" : ["break", "support"],
 		"break4" : ["break", "support"],
 		"cancel" : ["break", "event"],
-		"net_shot" : ["net_shot", "skill", 1],
-		"lift" : ["lift", "skill", 1],
-		"net_kill" : ["net_kill", "skill", 1],
-		"block" : ["block", "skill", 1],
-		"push" : ["push", "skill", 1],
-		"drive" : ["drive", "skill", 1],
-		"drop_shot" : ["drop_shot", "skill", 1],
-		"clear" : ["clear", "skill", 1],
-		"smash" : ["smash", "skill", 1]
+		"net_shot1" : ["net_shot", "skill", 1],
+		"net_shot2" : ["net_shot", "skill", 2],
+		"net_shot3" : ["net_shot", "skill", 3],
+		"lift1" : ["lift", "skill", 1],
+		"lift2" : ["lift", "skill", 2],
+		"lift3" : ["lift", "skill", 3],
+		"net_kill1" : ["net_kill", "skill", 1],
+		"net_kill2" : ["net_kill", "skill", 2],
+		"net_kill3" : ["net_kill", "skill", 3],
+		"block1" : ["block", "skill", 1],
+		"block2" : ["block", "skill", 2],
+		"block3" : ["block", "skill", 3],
+		"push1" : ["push", "skill", 1],
+		"push2" : ["push", "skill", 2],
+		"push3" : ["push", "skill", 3],
+		"drive1" : ["drive", "skill", 1],
+		"drive2" : ["drive", "skill", 2],
+		"drive3" : ["drive", "skill", 3],
+		"drop_shot1" : ["drop_shot", "skill", 1],
+		"drop_shot2" : ["drop_shot", "skill", 2],
+		"drop_shot3" : ["drop_shot", "skill", 3],
+		"clear1" : ["clear", "skill", 1],
+		"clear2" : ["clear", "skill", 2],
+		"clear3" : ["clear", "skill", 3],
+		"smash1" : ["smash", "skill", 1],
+		"smash2" : ["smash", "skill", 2],
+		"smash3" : ["smash", "skill", 3]
 }
 
-var game_use_deck = [] # Will get its contents on game startup for use without fucking up the permanent deck
+var game_use_deck = {} # Will get its contents on game startup for use without fucking up the permanent deck
 
 var skill_cards = [
 	"net_shot",
@@ -135,10 +159,11 @@ signal reset_card_usage # dont call with anything
 
 func _ready() -> void:
 	reset_deck()
+	TurnAndPhaseHandler.connect("phase_changed", clear_player_usable_cards)
 
 func reset_deck():
-	game_use_deck = permanent_deck.duplicate(true)
-	permanent_deck.make_read_only()
+	game_use_deck = permanent_deck2.duplicate(true)
+	permanent_deck2.make_read_only()
 	print("resetting deck")
 
 func get_card_type_from_name(card_name:String):
@@ -152,6 +177,11 @@ func get_card_type_from_name(card_name:String):
 		return 3
 	else:
 		print("shits fucked with the cards")
+
+func dictionary_pick_random(dictionary:Dictionary):
+	var random_key = dictionary.keys().pick_random()
+	print(random_key)
+	return dictionary[random_key]
 
 func player_draw_new_card(player:int, amount:int, power_level = null, specific_card = null):
 	#print("Starting draw deck size: ", game_use_deck.size())
@@ -180,27 +210,47 @@ func player_draw_new_card(player:int, amount:int, power_level = null, specific_c
 						player_2_cards.append(new_card.card_name)
 			return
 	for n in amount:
-		var new_card_name = game_use_deck.pick_random()
-		var new_card_type = get_card_type_from_name(new_card_name)
+		var new_card_info = dictionary_pick_random(game_use_deck)
 		var new_card = NEW_CARD_PATH.instantiate()
-		new_card.card_name = new_card_name
-		new_card.card_type = card_types[new_card_type]
+		new_card.card_name = new_card_info[0]
+		new_card.card_type = new_card_info[1]
 		new_card.card_owner = player
-		new_card.name = new_card_name
+		new_card.name = new_card.name
+		
 		if new_card.card_type == "skill":
+			new_card.power_level = new_card_info[2]
 			match player:
 				1:
 					TurnAndPhaseHandler.player_1_skill_card_count += 1
 				2:
 					TurnAndPhaseHandler.player_2_skill_card_count += 1
+		
 		emit_signal("player_draw_card", player, new_card)
-		match player:
-			1:
-				player_1_cards.append(new_card.card_name)
-			2:
-				player_2_cards.append(new_card.card_name)
+		game_use_deck.erase(game_use_deck.find_key(new_card_info))
+		#match player:
+			#1:
+				#player_1_cards.append(new_card_info[0])
+			#2:
+				#player_2_cards.append(new_card_info[0])
 		#game_use_deck.erase(new_card.card_name)
 	#print("Ending draw deck size: ", game_use_deck.size())
+
+func reset_player_card_scenes(player:int):
+	match player:
+		1:
+			emit_signal("player_clear_card_holder", 1)
+			for n in player_1_cards.size():
+				player_draw_new_card(1, 1, null, player_1_cards[n])
+		2:
+			for n in player_2_cards.size():
+				player_draw_new_card(2, 1, null, player_2_cards[n])
+		
+
+func clear_player_usable_cards():
+	player_1_usable_cards = empty_array.duplicate()
+	player_2_usable_cards = empty_array.duplicate()
+	player_1_usable_cards.erase("empty_space")
+	player_2_usable_cards.erase("empty_space")
 
 func reversal_card_effect():
 	var player_1_new_cards = CardHandler.player_2_cards.duplicate()

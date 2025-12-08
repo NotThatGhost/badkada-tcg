@@ -44,6 +44,8 @@ func next_phase():
 func phase_switch(new_phase:String):
 	match new_phase:
 		"draw":
+			#CardHandler.reset_player_card_scenes(1)
+			#CardHandler.reset_player_card_scenes(2)
 			print("I GUESS WE DOIN DRAW PHASES NOW")
 			CardHandler.player_draw_new_card(1, 1)
 			CardHandler.player_draw_new_card(2, 1)
@@ -64,6 +66,7 @@ func phase_switch(new_phase:String):
 			CardHandler.player_1_current_target = ""
 			CardHandler.player_2_current_target = ""
 			next_phase()
+			CardHandler.clear_player_usable_cards()
 	emit_signal("phase_changed")
 	print("Current phase: ", new_phase)
 
@@ -99,19 +102,26 @@ func rally_phase():
 	player_2_used_skill_card_count = 0
 	var rally_winner = 0 # Set to player number on their win
 	
-	print("player_1_skill_card_count: ", player_1_skill_card_count)
-	print("player_2_skill_card_count: ", player_2_skill_card_count)
+	print("player_1_usable_cards: ", CardHandler.player_1_usable_cards.size())
+	print("player_2_usable_cards: ", CardHandler.player_2_usable_cards.size())
 	
 	while rally_winner == 0:
-		print("checking if someones won")
-		print("player 1 target: " +str(CardHandler.player_1_current_target))
-		print("player 2 target: " +str(CardHandler.player_2_current_target))
-		if player_1_used_skill_card_count == player_1_skill_card_count:
-			rally_winner = compare_integer_sizes(player_1_used_skill_card_count, player_2_used_skill_card_count)
-		elif player_2_used_skill_card_count == player_2_skill_card_count:
-			rally_winner = compare_integer_sizes(player_1_used_skill_card_count, player_2_used_skill_card_count)
-			
-			
+		#print("checking if someones won. player 1 cards: " +str(CardHandler.player_1_usable_cards.count("skill")) +str(" player 2 cards: " +str(CardHandler.player_2_usable_cards.count("skill"))))
+		#print("player 1 target: " +str(CardHandler.player_1_current_target))
+		#print("player 2 target: " +str(CardHandler.player_2_current_target))
+		#if player_1_used_skill_card_count == player_1_skill_card_count:
+			#rally_winner = compare_integer_sizes(player_1_used_skill_card_count, player_2_used_skill_card_count)
+		#elif player_2_used_skill_card_count == player_2_skill_card_count:
+			#rally_winner = compare_integer_sizes(player_1_used_skill_card_count, player_2_used_skill_card_count)
+		if CardHandler.player_1_usable_cards.count("skill") == 0:
+			rally_winner = 2
+		elif CardHandler.player_2_usable_cards.count("skill") == 0:
+			rally_winner = 1
+		
+		
+		
+		
+		
 		await get_tree().create_timer(.1).timeout
 	
 	match rally_winner:
@@ -121,6 +131,11 @@ func rally_phase():
 			ScoreHandler.player_2_score += 1
 	print("Player 1 score: ", ScoreHandler.player_1_score)
 	print("Player 2 score: ", ScoreHandler.player_2_score)
+	#CardHandler.player_1_usable_cards = CardHandler.empty_array.duplicate()
+	#CardHandler.player_1_usable_cards.erase("empty_space_:)")
+	#CardHandler.player_2_usable_cards = CardHandler.empty_array.duplicate()
+	#CardHandler.player_2_usable_cards.erase("empty_space_:)")
+	CardHandler.emit_signal("reset_card_usage")
 	next_phase()
 	
 	
