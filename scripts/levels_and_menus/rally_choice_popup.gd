@@ -3,7 +3,7 @@ extends Control
 
 
 func _on_accept_button_pressed() -> void:
-	TurnAndPhaseHandler.player_1_wants_to_rally = true
+	TurnAndPhaseHandler.emit_signal("player_changed_rally_status", 1, true)
 	queue_free()
 
 func _on_decline_button_pressed() -> void:

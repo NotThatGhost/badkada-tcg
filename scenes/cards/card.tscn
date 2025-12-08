@@ -30,11 +30,41 @@ horizontal_alignment = 1
 [node name="CARDNAME" type="Label" parent="."]
 layout_mode = 0
 offset_left = 1.0
-offset_top = 58.0
+offset_top = 23.0
 offset_right = 95.0
-offset_bottom = 81.0
+offset_bottom = 46.0
 theme_override_font_sizes/font_size = 14
 text = "CARD NAME"
+horizontal_alignment = 1
+
+[node name="AREA" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 86.0
+offset_right = 95.0
+offset_bottom = 109.0
+theme_override_font_sizes/font_size = 14
+text = "AREA"
+horizontal_alignment = 1
+
+[node name="TARGET" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 101.0
+offset_right = 95.0
+offset_bottom = 124.0
+theme_override_font_sizes/font_size = 14
+text = "TARGET"
+horizontal_alignment = 1
+
+[node name="POWER" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 54.0
+offset_right = 95.0
+offset_bottom = 77.0
+theme_override_font_sizes/font_size = 14
+text = "POWER"
 horizontal_alignment = 1
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]
@@ -48,5 +78,10 @@ offset_top = -2.0
 offset_right = 94.0
 offset_bottom = 146.0
 color = Color(0.13125, 0.13125, 0.13125, 1)
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2(-5, 3)
+points = PackedVector2Array(22, 100, 79, 100)
+width = 1.0
 
 [connection signal="pressed" from="TouchScreenButton" to="." method="_on_touch_screen_button_pressed"]
