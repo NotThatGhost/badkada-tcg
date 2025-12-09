@@ -147,6 +147,7 @@ signal player_clear_card_holder # call with player number
 signal card_used # dont call with anything
 signal card_selected # dont call with anything
 signal reset_card_usage # dont call with anything
+signal set_usability
 #var card_names = [
 	#"intimidate",
 	#"deception",
@@ -159,7 +160,8 @@ signal reset_card_usage # dont call with anything
 
 func _ready() -> void:
 	reset_deck()
-	TurnAndPhaseHandler.connect("phase_changed", clear_player_usable_cards)
+	#TurnAndPhaseHandler.connect("main_phase_entered", clear_player_usable_cards)
+	#TurnAndPhaseHandler.connect("rally_phase_entered", clear_player_usable_cards)
 
 func reset_deck():
 	game_use_deck = permanent_deck2.duplicate(true)

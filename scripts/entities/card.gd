@@ -20,7 +20,8 @@ var target_area = ""
 var power_level = 0
 
 func _ready() -> void:
-	TurnAndPhaseHandler.connect("phase_changed", set_card_usability)
+	TurnAndPhaseHandler.connect("main_phase_entered", set_card_usability)
+	TurnAndPhaseHandler.connect("rally_phase_entered", set_card_usability)
 	CardHandler.connect("card_used", set_card_usability)
 	CardHandler.connect("card_used", use_selected_card)
 	CardHandler.connect("card_selected", set_card_usability)
@@ -58,40 +59,57 @@ func check_card_usability(type_of_card:String):
 			#if card_area != CardHandler.player_1_current_target:
 				#return false
 
-func set_card_usability(new_status=null, selecting = false):
+func set_card_usability(selecting = null):
+	selecting = false
 	CardHandler.times_set_usability += 1
-	print("Checking card usability - ", CardHandler.times_set_usability)
+	#print("Checking card usability - ", CardHandler.times_set_usability)
 	if card_already_used == true:
 		card_active = false
 		modulate = Color8(20, 20, 20, 255)
 		print("Card already used")
 		return
 	card_active = check_card_usability(card_type)
-	if new_status != null:
-		card_active = new_status
-	if TurnAndPhaseHandler.current_phase_index == 2 && card_area != "":
-		match card_owner:
-			1:
-				if card_area == CardHandler.player_2_current_target:
-					card_active = true
-				else:
-					card_active = false
-			2:
-				if card_area == CardHandler.player_1_current_target:
-					card_active = true
-				else:
-					card_active = false
+	#if new_status != null:
+		#card_active = new_status
+	#card_active = true
+	#if card_type == "skill":
+		#
+		#match card_owner:
+			#1:
+				#if card_area == CardHandler.player_2_current_target:
+					#card_active = true
+				#else:
+					#card_active = false
+			#2:
+				#if card_area == CardHandler.player_1_current_target:
+					#card_active = true
+				#else:
+					#card_active = false
+	#else:
+		#if card_type == "skill":
+			#print("This fucker isnt satisfied")
+			#print("CPI: " +str(TurnAndPhaseHandler.current_phase_index), " CT: " +str(card_type))
 	if card_already_used == false && card_active == true && selecting == false:
 		match card_type:
 			"skill":
 				match card_owner:
 					1:
-						if target_area == CardHandler.player_1_current_target || card_area == CardHandler.player_2_current_target || TurnAndPhaseHandler.current_phase_index != 2:
+						if target_area == CardHandler.player_1_current_target || card_area == CardHandler.player_2_current_target || CardHandler.player_2_current_target == "" || TurnAndPhaseHandler.current_phase_index != 2:
 							CardHandler.player_1_usable_cards.append(card_type)
+						else:
+							card_active = false
+							print("no conditions satisfied")
 							
 					2:
-						if target_area == CardHandler.player_2_current_target || card_area == CardHandler.player_1_current_target || TurnAndPhaseHandler.current_phase_index != 2:
+						if target_area == CardHandler.player_2_current_target || card_area == CardHandler.player_1_current_target || CardHandler.player_1_current_target == "" || TurnAndPhaseHandler.current_phase_index != 2:
 							CardHandler.player_2_usable_cards.append(card_type)
+						else:
+							card_active = false
+							print("no conditions satisfied")
+	else:
+		if card_type == "skill":
+			print("one of these picky bastards isnt satisfied")
+			print("CAU: " +str(card_already_used), " CA: " +str(card_active), " selecting: " +str(selecting))
 			#"talent":
 				#match card_owner:
 					#1:
@@ -110,13 +128,13 @@ func set_card_usability(new_status=null, selecting = false):
 			modulate = Color8(20, 20, 20, 255)
 	else:
 		modulate = Color8(255, 0, 0, 255)
-
+	
 
 func intitialize_card():
 	$CARDNAME.set_text(card_name)
 	$CARDTYPE.set_text(card_type)
 	#reset_card_usage()
-	#set_card_usability()
+	set_card_usability()
 	if CardHandler.hide_player_2_cards == true && card_owner == 2:
 		$HiddenCardBox.visible = true
 	if card_type == "skill":
@@ -255,14 +273,14 @@ func use_card(): # Yup another hack, maybe I can get this to work with dictionar
 			#2:
 				#CardHandler.player_2_usable_cards = CardHandler.empty_array.duplicate()
 				#CardHandler.player_1_usable_cards.erase("empty_space_:)")
-	if card_selected == false:
-		CardHandler.clear_player_usable_cards()
-		set_card_usability(false)
-		CardHandler.emit_signal("card_used")
-		card_already_used = true
+	
+	CardHandler.clear_player_usable_cards()
+	#set_card_usability(false)
+	CardHandler.emit_signal("card_used")
+	card_already_used = true
 	print("Card area: ", card_area)
 	print("Card Target", target_area)
-	
+	TurnAndPhaseHandler.check_for_rally_winner()
 func reset_card_usage():
 	card_already_used = false
 	#CardHandler.player_1_usable_cards.clear()
