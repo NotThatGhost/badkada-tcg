@@ -110,7 +110,7 @@ func set_card_usability(selected = null):
 							print("no conditions satisfied")
 	else:
 		if card_type == "skill":
-			print("one of these picky bastards isnt satisfied")
+			#print("one of these picky bastards isnt satisfied")
 			print("CAU: " +str(card_already_used), " CA: " +str(card_active), " selecting: " +str(selected))
 			#"talent":
 				#match card_owner:
@@ -246,7 +246,7 @@ func use_card(selected_card = null): # Yup another hack, maybe I can get this to
 						#CardHandler.anticipate_card_in_effect = true
 					"counter":
 						CardHandler.counter_card_in_effect = true
-						print("COUNTER CARD USED BIATCH")
+						#print("COUNTER CARD USED BIATCH")
 			elif CardHandler.cancel_card_in_effect == true:
 				CardHandler.cancel_card_in_effect = false
 				print("Card canceled!")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://co4uk16q2prsd"]
+[gd_scene load_steps=12 format=3 uid="uid://co4uk16q2prsd"]
 
 [ext_resource type="Texture2D" uid="uid://bpc44qpv04wld" path="res://icon.svg" id="1_jcymt"]
 [ext_resource type="Script" path="res://scripts/levels_and_menus/main_scene.gd" id="1_lqo8o"]
@@ -12,6 +12,134 @@ border_width_left = 4
 border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uaehk"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[sub_resource type="Animation" id="Animation_denf3"]
+resource_name = "beginning_draw_animation"
+length = 5.0
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DeckIcon:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2, 3.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [1, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [2, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [1, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [2, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [1, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [2, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [1, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [2, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [1, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [2, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [1, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [2, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [1, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [2, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [1, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [2, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [1, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [2, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [1, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [2, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [1, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [2, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [1, 1],
+"method": &"main_scene_draw_card"
+}, {
+"args": [2, 1],
+"method": &"main_scene_draw_card"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_no8t4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DeckIcon:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rx5v4"]
+_data = {
+"RESET": SubResource("Animation_no8t4"),
+"beginning_draw_animation": SubResource("Animation_denf3")
+}
 
 [node name="MainScene" type="Control"]
 layout_mode = 3
@@ -221,6 +349,33 @@ text = "2"
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 text = "3"
+
+[node name="DeckIcon" type="Panel" parent="."]
+visible = false
+offset_left = 175.0
+offset_top = 352.0
+offset_right = 292.0
+offset_bottom = 486.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uaehk")
+
+[node name="DECKSIZECOUNT" type="Label" parent="DeckIcon"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -47.0
+offset_top = 10.0
+offset_right = 59.0
+offset_bottom = 125.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 81
+text = "00"
+metadata/_edit_lock_ = true
+
+[node name="MainAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_rx5v4")
+}
 
 [connection signal="pressed" from="RallyChoicePopupZone/RallyChoicePopupZoneButton" to="." method="_on_rally_choice_popup_zone_button_pressed"]
 [connection signal="pressed" from="Player1DeceptionPanel/HBoxContainer/StrengthButton1" to="." method="_on_strength_button_1_pressed"]

@@ -219,7 +219,8 @@ func player_draw_new_card(player:int, amount:int, power_level = null, specific_c
 				new_card.card_name = new_card_info[0]
 				new_card.card_type = new_card_info[1]
 				new_card.card_owner = player
-				new_card.name = new_card.card_name
+				#new_card.card_name
+				new_card.name = permanent_deck2.find_key(new_card_info)
 				if new_card.card_type == "skill":
 					new_card.power_level = new_card_info[2]
 				emit_signal("player_draw_card", player, new_card)
@@ -239,8 +240,8 @@ func player_draw_new_card(player:int, amount:int, power_level = null, specific_c
 		new_card.card_name = new_card_info[0]
 		new_card.card_type = new_card_info[1]
 		new_card.card_owner = player
-		
-		new_card.name = new_card.card_name
+		#new_card.card_name
+		new_card.name = permanent_deck2.find_key(new_card_info)
 		
 		if new_card.card_type == "skill":
 			new_card.power_level = new_card_info[2]

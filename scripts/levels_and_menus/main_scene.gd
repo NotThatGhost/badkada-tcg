@@ -3,11 +3,16 @@ extends Control
 const RALLY_CHOICE_POPUP_PATH = preload("res://scenes/menus/rally_choice_popup.tscn")
 
 func _ready() -> void:
+	update_phase_label_text()
+	$DeckIcon/DECKSIZECOUNT.set_text(str(CardHandler.game_use_deck.size()))
 	TurnAndPhaseHandler.connect("phase_changed", update_phase_label_text)
 	CardHandler.connect("power_select_screen_activate", activate_power_select_popup)
+	await get_tree().create_timer(1).timeout
+	$MainAnimationPlayer.play("beginning_draw_animation")
+	await $MainAnimationPlayer.animation_finished
 	TurnAndPhaseHandler.next_phase()
-	CardHandler.player_draw_new_card(1, 12)
-	CardHandler.player_draw_new_card(2, 12)
+	#CardHandler.player_draw_new_card(1, 12)
+	#CardHandler.player_draw_new_card(2, 12)
 	#CardHandler.player_draw_new_card(1, 1, null, "deception1")
 	
 	
@@ -16,6 +21,9 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	pass
 
+func main_scene_draw_card(player:int, amount: int):
+	CardHandler.player_draw_new_card(player, amount)
+	$DeckIcon/DECKSIZECOUNT.set_text(str(CardHandler.game_use_deck.size()))
 
 func update_phase_label_text():
 	var tween = get_tree().create_tween()
