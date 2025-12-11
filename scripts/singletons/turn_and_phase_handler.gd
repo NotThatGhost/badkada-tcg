@@ -149,27 +149,39 @@ func rally_phase_refactor():
 	
 
 func check_for_rally_winner():
-	await get_tree().create_timer(.5).timeout
+	if current_phase_index != 2:
+		print("IT AINT EVEN THE RALLY PHASE")
+		return
 	print("checking for rally winner")
 	var rally_winner = 0
-	if current_phase_index == 2:
-		if CardHandler.player_1_usable_cards.has("empty_space") == false:
-			if CardHandler.player_1_usable_cards.count("skill") == 0:
-				rally_winner = 2
-			elif CardHandler.player_2_usable_cards.count("skill") == 0:
-				rally_winner = 1
-			else:
-				print("no winner yet")
-				#CardHandler.clear_player_usable_cards()
-				return 
-		match rally_winner:
-				1:
-					ScoreHandler.player_1_score += 1
-				2:
-					ScoreHandler.player_2_score += 1
-		CardHandler.emit_signal("reset_card_usage")
-		print("Player ", rally_winner, " won the rally")
-		next_phase()
+	#if current_phase_index == 2:
+	if CardHandler.player_1_current_power > 0:
+		if CardHandler.player_1_current_power < CardHandler.player_2_current_power:
+			rally_winner = 2
+		else:
+			pass
+	if CardHandler.player_2_current_power > 0:
+		if CardHandler.player_2_current_power < CardHandler.player_1_current_power:
+			rally_winner = 1
+		else:
+			pass
+	if CardHandler.player_1_usable_cards.count("skill") == 0:
+		rally_winner = 2
+	elif CardHandler.player_2_usable_cards.count("skill") == 0:
+		rally_winner = 1
+	match rally_winner:
+			1:
+				ScoreHandler.player_1_score += 1
+			2:
+				ScoreHandler.player_2_score += 1
+			0:
+				print("No winner yet")
+				return
+	CardHandler.emit_signal("reset_card_usage")
+	print("Player ", rally_winner, " won the rally")
+	CardHandler.player_1_current_power = 0
+	CardHandler.player_2_current_power = 0
+	next_phase()
 
 func set_global_phase(new_phase:String): # Not really for use regularly
 	

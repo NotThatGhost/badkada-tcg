@@ -1,10 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://co4uk16q2prsd"]
+[gd_scene load_steps=8 format=3 uid="uid://co4uk16q2prsd"]
 
 [ext_resource type="Texture2D" uid="uid://bpc44qpv04wld" path="res://icon.svg" id="1_jcymt"]
 [ext_resource type="Script" path="res://scripts/levels_and_menus/main_scene.gd" id="1_lqo8o"]
 [ext_resource type="Script" path="res://scripts/singletons/card_handler.gd" id="3_den1x"]
 [ext_resource type="Script" path="res://scripts/singletons/turn_and_phase_handler.gd" id="3_qu4be"]
 [ext_resource type="Script" path="res://scripts/entities/card_holder.gd" id="5_uu4ap"]
+[ext_resource type="Script" path="res://scripts/entities/player_2_ai.gd" id="6_nerfj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nsvak"]
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
 
 [node name="MainScene" type="Control"]
 layout_mode = 3
@@ -118,6 +125,9 @@ alignment = 1
 script = ExtResource("5_uu4ap")
 player_owner = 2
 
+[node name="Player2AIHolder" type="Node2D" parent="PlayArea_Player2/HScrollBar"]
+script = ExtResource("6_nerfj")
+
 [node name="PHASELABEL" type="Label" parent="."]
 layout_mode = 0
 offset_left = 101.0
@@ -140,11 +150,22 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 46
 text = "CURRENT PHASE"
 
+[node name="SCORELABEL" type="Label" parent="."]
+layout_mode = 0
+offset_left = 129.0
+offset_top = 401.0
+offset_right = 367.0
+offset_bottom = 465.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 36
+text = "Score: 0 - 0"
+
 [node name="RallyChoicePopupZone" type="Control" parent="."]
 anchors_preset = 0
 offset_top = 330.0
 offset_right = 480.0
 offset_bottom = 524.0
+metadata/_edit_lock_ = true
 
 [node name="RallyChoicePopupZoneButton" type="Button" parent="RallyChoicePopupZone"]
 layout_mode = 1
@@ -154,5 +175,54 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 flat = true
+metadata/_edit_lock_ = true
+
+[node name="Player1DeceptionPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 1.0
+offset_top = 685.0
+offset_right = 213.0
+offset_bottom = 855.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_nsvak")
+
+[node name="SelectCardStrength" type="Label" parent="Player1DeceptionPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -79.5
+offset_top = 1.0
+offset_right = 79.5
+offset_bottom = 38.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Select card power!"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Player1DeceptionPanel"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 55.0
+offset_right = 206.0
+offset_bottom = 119.0
+alignment = 1
+
+[node name="StrengthButton1" type="Button" parent="Player1DeceptionPanel/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+text = "1"
+
+[node name="StrengthButton2" type="Button" parent="Player1DeceptionPanel/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+text = "2"
+
+[node name="StrengthButton3" type="Button" parent="Player1DeceptionPanel/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+text = "3"
 
 [connection signal="pressed" from="RallyChoicePopupZone/RallyChoicePopupZoneButton" to="." method="_on_rally_choice_popup_zone_button_pressed"]
+[connection signal="pressed" from="Player1DeceptionPanel/HBoxContainer/StrengthButton1" to="." method="_on_strength_button_1_pressed"]
+[connection signal="pressed" from="Player1DeceptionPanel/HBoxContainer/StrengthButton2" to="." method="_on_strength_button_2_pressed"]
+[connection signal="pressed" from="Player1DeceptionPanel/HBoxContainer/StrengthButton3" to="." method="_on_strength_button_3_pressed"]

@@ -9,6 +9,10 @@ var times_set_usability = 0
 var hide_player_2_cards = false
 
 var cancel_card_in_effect = false
+var anticipate_card_in_effect = false
+var counter_card_in_effect = false
+var power_select_screen_visible_player_1 = true
+var power_select_screen_visible_player_2 = true
 
 var player_1_cards = []
 var player_2_cards = []
@@ -19,11 +23,20 @@ var player_1_selected_card = ""
 var player_2_selected_card = ""
 var player_1_selected_card_count = 0
 var player_2_selected_card_count = 0
+var player_1_selected_card_power = 0
+var player_2_selected_card_power = 0
 
 var empty_array = ["empty_space"]
 
 var player_1_usable_cards = []
 var player_2_usable_cards = []
+
+var player_1_selected_card_traits = []
+var player_2_selected_card_traits = []
+
+var player_1_card_use_buffer = 0
+var player_2_card_use_buffer = 0
+
 
 var player_1_current_power = 0
 var player_2_current_power = 0
@@ -148,6 +161,7 @@ signal card_used # dont call with anything
 signal card_selected # dont call with anything
 signal reset_card_usage # dont call with anything
 signal set_usability
+signal power_select_screen_activate
 #var card_names = [
 	#"intimidate",
 	#"deception",
@@ -160,6 +174,7 @@ signal set_usability
 
 func _ready() -> void:
 	reset_deck()
+	#connect("card_used", )
 	#TurnAndPhaseHandler.connect("main_phase_entered", clear_player_usable_cards)
 	#TurnAndPhaseHandler.connect("rally_phase_entered", clear_player_usable_cards)
 
@@ -187,29 +202,36 @@ func dictionary_pick_random(dictionary:Dictionary):
 
 func player_draw_new_card(player:int, amount:int, power_level = null, specific_card = null):
 	#print("Starting draw deck size: ", game_use_deck.size())
+	print("Game use deck size = ", game_use_deck.size())
 	if game_use_deck.size() == 0:
 		print("AHHHH TRYIN TO DRAW A CARD CANT DO IT DECKS EMPTY")
 		return
 	if specific_card != null:
+		print("Drawing specific card: ", specific_card)
+
 		#print("Specific card isnt null")
 		#print(permanent_deck.has(specific_card))
-		if permanent_deck.has(specific_card) == true:
+		if permanent_deck2.has(specific_card) == true:
 			for n in amount:
-				#print("permanent deck has specific card")
-				var new_card_name = specific_card
-				var new_card_type = get_card_type_from_name(new_card_name)
+				var new_card_info = permanent_deck2[specific_card]
+				print("permanent deck has specific card")
 				var new_card = NEW_CARD_PATH.instantiate()
-				new_card.card_name = new_card_name
-				new_card.card_type = card_types[new_card_type]
+				new_card.card_name = new_card_info[0]
+				new_card.card_type = new_card_info[1]
 				new_card.card_owner = player
-				new_card.name = new_card_name
-				new_card.power_level = power_level
+				new_card.name = new_card.card_name
+				if new_card.card_type == "skill":
+					new_card.power_level = new_card_info[2]
 				emit_signal("player_draw_card", player, new_card)
 				match player:
 					1:
-						player_1_cards.append(new_card.card_name)
+						player_1_cards.append(permanent_deck2.find_key(new_card_info))
+						
 					2:
-						player_2_cards.append(new_card.card_name)
+						player_2_cards.append(permanent_deck2.find_key(new_card_info))
+			return
+		else:
+			print("Permanent deck does not have card: ", specific_card)
 			return
 	for n in amount:
 		var new_card_info = dictionary_pick_random(game_use_deck)
@@ -217,15 +239,16 @@ func player_draw_new_card(player:int, amount:int, power_level = null, specific_c
 		new_card.card_name = new_card_info[0]
 		new_card.card_type = new_card_info[1]
 		new_card.card_owner = player
-		new_card.name = new_card.name
+		
+		new_card.name = new_card.card_name
 		
 		if new_card.card_type == "skill":
 			new_card.power_level = new_card_info[2]
-			match player:
-				1:
-					TurnAndPhaseHandler.player_1_skill_card_count += 1
-				2:
-					TurnAndPhaseHandler.player_2_skill_card_count += 1
+		match player:
+			1:
+				player_1_cards.append(permanent_deck2.find_key(new_card_info))
+			2:
+				player_2_cards.append(permanent_deck2.find_key(new_card_info))
 		
 		emit_signal("player_draw_card", player, new_card)
 		game_use_deck.erase(game_use_deck.find_key(new_card_info))
@@ -257,13 +280,6 @@ func clear_player_usable_cards():
 func reversal_card_effect():
 	var player_1_new_cards = CardHandler.player_2_cards.duplicate()
 	var player_2_new_cards = CardHandler.player_1_cards.duplicate()
-	var player_1_new_skill_card_count = TurnAndPhaseHandler.player_2_skill_card_count
-	var player_2_new_skill_card_count = TurnAndPhaseHandler.player_1_skill_card_count
-	
-	TurnAndPhaseHandler.reset_skill_card_counts()
-	
-	TurnAndPhaseHandler.player_1_skill_card_count = player_1_new_skill_card_count
-	TurnAndPhaseHandler.player_2_skill_card_count = player_2_new_skill_card_count
 	
 	CardHandler.player_1_cards.clear()
 	CardHandler.player_2_cards.clear()
@@ -273,19 +289,14 @@ func reversal_card_effect():
 	CardHandler.player_1_cards.append(player_1_new_cards)
 	CardHandler.player_2_cards.append(player_2_new_cards)
 	
-
-	
 	CardHandler.emit_signal("player_clear_card_holder", 1)
 	CardHandler.emit_signal("player_clear_card_holder", 2)
 	
-
-	
 	for n in player_1_new_cards.size():
-		CardHandler.player_draw_new_card(1, 1, player_1_new_cards[n])
+		CardHandler.player_draw_new_card(1, 1, null, player_1_new_cards[n])
 		#print("one cycle of player 1 swap done")
-	
 	for n in player_2_new_cards.size():
-		CardHandler.player_draw_new_card(2, 1, player_2_new_cards[n])
+		CardHandler.player_draw_new_card(2, 1, null, player_2_new_cards[n])
 
 func get_card_type_count(player:int, card_type_count_query:String):
 	match player:
@@ -293,3 +304,12 @@ func get_card_type_count(player:int, card_type_count_query:String):
 			return player_1_cards.count(card_type_count_query)
 		2:
 			return player_2_cards.count(card_type_count_query)
+
+#func use_card_when_selected(player:int):
+	#match player:
+		#1:
+			#if player_1_selected_card_count > 0:
+				#
+		#2:
+			#pass
+			
