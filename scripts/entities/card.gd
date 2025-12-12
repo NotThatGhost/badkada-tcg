@@ -30,6 +30,21 @@ func _ready() -> void:
 	CardHandler.connect("reset_card_usage", reset_card_usage)
 	intitialize_card()
 
+func set_card_visible_info():
+	$CARDNAME.set_text(str(card_name))
+	$TARGET.set_text(str(target_area))
+	$AREA.set_text(str(card_area))
+	$CARDTYPE.set_text(str(card_type))
+	$POWER.set_text(str(power_level))
+	if card_area == "" || target_area == "":
+		$Line2D.visible = false
+	else:
+		$Line2D.visible = true
+	if power_level == 0:
+		$POWER.visible = false
+	else:
+		$POWER.visible = true
+
 func check_card_usability(type_of_card:String):
 # Yeah this ones a bit fucky but it should work and I have a deadline
 	match type_of_card:
@@ -62,6 +77,8 @@ func check_card_usability(type_of_card:String):
 				#return false
 
 func set_card_usability(selected = null):
+	set_card_visible_info()
+	
 	if selected == null:
 		selected = false
 	CardHandler.times_set_usability += 1
@@ -135,8 +152,7 @@ func set_card_usability(selected = null):
 	
 
 func intitialize_card():
-	$CARDNAME.set_text(card_name)
-	$CARDTYPE.set_text(card_type)
+	set_card_visible_info()
 	#reset_card_usage()
 	set_card_usability()
 	if CardHandler.hide_player_2_cards == true && card_owner == 2:
@@ -214,10 +230,14 @@ func use_card(selected_card = null): # Yup another hack, maybe I can get this to
 								CardHandler.emit_signal("power_select_screen_activate", card_owner, true)
 								while CardHandler.power_select_screen_visible_player_1 == true:
 									await get_tree().create_timer(.1).timeout
+									# This prevents anything from happening until the player selects a card
 								self.power_level = CardHandler.player_1_selected_card_power
 								card_name = CardHandler.player_1_selected_card_traits[0]
 								card_area = CardHandler.player_1_selected_card_traits[1]
 								target_area = CardHandler.player_1_selected_card_traits[2]
+								card_type = CardHandler.player_1_selected_card_traits[3]
+								
+								CardHandler.deception_card_in_effect = true
 							2:
 								CardHandler.emit_signal("power_select_screen_activate", card_owner, true)
 								while CardHandler.power_select_screen_visible_player_2 == true:
@@ -226,6 +246,8 @@ func use_card(selected_card = null): # Yup another hack, maybe I can get this to
 								card_name = CardHandler.player_2_selected_card_traits[0]
 								card_area = CardHandler.player_2_selected_card_traits[1]
 								target_area = CardHandler.player_2_selected_card_traits[2]
+								card_type = CardHandler.player_2_selected_card_traits[3]
+								CardHandler.deception_card_in_effect = true
 					"anticipate":
 						var random_number = randi_range(1, 2)
 						print("random number: ", random_number)
@@ -280,7 +302,9 @@ func use_card(selected_card = null): # Yup another hack, maybe I can get this to
 					if CardHandler.player_2_card_use_buffer >= CardHandler.player_1_card_use_buffer:
 						CardHandler.counter_card_in_effect = false
 	if CardHandler.counter_card_in_effect == false:
-		
+		if CardHandler.deception_card_in_effect == true:
+			CardHandler.emit_signal("card_used")
+			return
 		match card_owner:
 			1:
 				CardHandler.player_2_card_use_buffer = 0
@@ -334,12 +358,18 @@ func reset_card_usage():
 
 func use_selected_card():
 	if card_selected == true:
+		if CardHandler.deception_card_in_effect == true:
+			CardHandler.deception_card_in_effect = false
+			select_card()
+			return
 		set_card_usability(true)
 		match card_owner:
 			1:
 				CardHandler.player_1_card_use_buffer += 1
+				CardHandler.player_1_selected_card = ""
 			2:
 				CardHandler.player_2_card_use_buffer += 1
+				CardHandler.player_2_selected_card = ""
 
 func select_card(status_override = null):
 	card_selected = !card_selected
@@ -357,6 +387,7 @@ func select_card(status_override = null):
 						CardHandler.player_1_selected_card_traits.append(card_name)
 						CardHandler.player_1_selected_card_traits.append(card_area)
 						CardHandler.player_1_selected_card_traits.append(target_area)
+						CardHandler.player_1_selected_card_traits.append(card_type)
 					CardHandler.player_1_selected_card_count += 1
 					card_in_selected_series = CardHandler.player_1_selected_card_count
 					self_modulate = Color8(0, 0, 255, 255)
@@ -384,6 +415,7 @@ func select_card(status_override = null):
 						CardHandler.player_2_selected_card_traits.append(card_name)
 						CardHandler.player_2_selected_card_traits.append(card_area)
 						CardHandler.player_2_selected_card_traits.append(target_area)
+						CardHandler.player_2_selected_card_traits.append(card_type)
 					CardHandler.player_2_selected_card_count += 1
 					card_in_selected_series = CardHandler.player_2_selected_card_count
 					self_modulate = Color8(0, 0, 255, 255)
@@ -404,13 +436,21 @@ func select_card(status_override = null):
 
 func _on_touch_screen_button_pressed() -> void:
 	if Input.is_action_pressed("ui_select"):
-		if CardHandler.player_1_selected_card == "" || CardHandler.player_1_selected_card == card_name || card_type != "skill":
-			select_card()
-			return
-		else:
-			print("This bitch unselectable!")
-			return
-		
+		match card_owner:
+			1:
+				if CardHandler.player_1_selected_card == "" || CardHandler.player_1_selected_card == card_name || card_type != "skill":
+					select_card()
+					return
+				else:
+					print("This bitch unselectable!")
+					return
+			2:
+				if CardHandler.player_2_selected_card == "" || CardHandler.player_2_selected_card == card_name || card_type != "skill":
+					select_card()
+					return
+				else:
+					print("This bitch unselectable!")
+					return
 	if card_active == true:
 		use_card()
 		

@@ -3,6 +3,8 @@ extends Control
 const RALLY_CHOICE_POPUP_PATH = preload("res://scenes/menus/rally_choice_popup.tscn")
 
 func _ready() -> void:
+	TurnAndPhaseHandler.player_1_card_holder = $PlayArea_Player1/HScrollBar/CardHolder_Player1
+	TurnAndPhaseHandler.player_2_card_holder = $PlayArea_Player2/HScrollBar/CardHolder_Player2
 	update_phase_label_text()
 	$DeckIcon/DECKSIZECOUNT.set_text(str(CardHandler.game_use_deck.size()))
 	TurnAndPhaseHandler.connect("phase_changed", update_phase_label_text)
@@ -52,7 +54,7 @@ func _on_rally_choice_popup_zone_button_pressed() -> void:
 
 
 func player_1_power_button_function(selected_power:int):
-	CardHandler.player_1_selected_card_power = 1
+	CardHandler.player_1_selected_card_power = selected_power
 	$Player1DeceptionPanel.visible = false
 	CardHandler.power_select_screen_visible_player_1 = false
 

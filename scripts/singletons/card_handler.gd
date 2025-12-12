@@ -11,6 +11,7 @@ var hide_player_2_cards = false
 var cancel_card_in_effect = false
 var anticipate_card_in_effect = false
 var counter_card_in_effect = false
+var deception_card_in_effect = false
 var power_select_screen_visible_player_1 = true
 var power_select_screen_visible_player_2 = true
 

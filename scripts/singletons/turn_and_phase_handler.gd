@@ -1,10 +1,14 @@
 extends Node
 
+var player_1_card_holder
+var player_2_card_holder
+
+
 var player_1_phase = ""
 var player_2_phase = ""
 
 var player_1_wants_to_rally = false
-var player_2_wants_to_rally = true
+var player_2_wants_to_rally = false
 
 var player_1_ready_for_next_phase = false
 var player_2_ready_for_next_phase = false
@@ -146,7 +150,27 @@ func rally_phase_refactor():
 	#next_phase()
 	
 	
-	
+func check_player_card_power_levels(player_to_check:int):
+	var temporary_power_level_buffer : int
+	match player_to_check:
+		1:
+			for n in player_1_card_holder.get_child_count():
+				print("Checking player 1 card power level: " +str( player_1_card_holder.get_child(n)))
+				if player_1_card_holder.get_child(n).power_level > CardHandler.player_2_current_power && player_1_card_holder.get_child(n).card_active == true:
+					return true
+				else:
+					print("Card not powerful enough!")
+			print("Player 1's cards arent high enough")
+			return false
+		2:
+			for n in player_2_card_holder.get_child_count():
+				print("Checking player 2 card power levels" +str( player_2_card_holder.get_child(n)))
+				if player_2_card_holder.get_child(n).power_level > CardHandler.player_1_current_power && player_2_card_holder.get_child(n).card_active == true:
+					return true
+				else:
+					print("Card not powerful enough!")
+			print("Player 2's cards arent high enough")
+			return false
 
 func check_for_rally_winner():
 	if current_phase_index != 2:
@@ -156,12 +180,12 @@ func check_for_rally_winner():
 	var rally_winner = 0
 	#if current_phase_index == 2:
 	if CardHandler.player_1_current_power > 0:
-		if CardHandler.player_1_current_power < CardHandler.player_2_current_power:
+		if CardHandler.player_1_current_power < CardHandler.player_2_current_power && check_player_card_power_levels(1) == false:
 			rally_winner = 2
 		else:
 			pass
 	if CardHandler.player_2_current_power > 0:
-		if CardHandler.player_2_current_power < CardHandler.player_1_current_power:
+		if CardHandler.player_2_current_power < CardHandler.player_1_current_power && check_player_card_power_levels(2) == false:
 			rally_winner = 1
 		else:
 			pass
@@ -169,6 +193,8 @@ func check_for_rally_winner():
 		rally_winner = 2
 	elif CardHandler.player_2_usable_cards.count("skill") == 0:
 		rally_winner = 1
+	CardHandler.player_1_selected_card = ""
+	CardHandler.player_2_selected_card = ""
 	match rally_winner:
 			1:
 				ScoreHandler.player_1_score += 1
