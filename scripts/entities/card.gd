@@ -1,12 +1,17 @@
 extends Panel
 
+var card_in_focus = false
 var card_active = false
 var card_combinable = false
 var card_already_used = false
 var card_selected = false
 var card_selectable_for_combine = false
 
+var checking_input = false
+
 var card_in_selected_series = 0
+
+var times_tapped = 0
 
 var card_owner : int
 #var card_owner = [ # This is an array just in case I need to pull a string
@@ -28,14 +33,35 @@ func _ready() -> void:
 	CardHandler.connect("card_used", use_selected_card)
 	CardHandler.connect("card_selected", set_card_usability)
 	CardHandler.connect("reset_card_usage", reset_card_usage)
+	CardHandler.connect("new_card_focus_signal", take_card_out_of_focus)
 	intitialize_card()
 
 func set_card_visible_info():
-	$CARDNAME.set_text(str(card_name))
+	#$CARDNAME.set_text(str(card_name))
+	
+	if card_type == "skill":
+		if CardHandler.card_textures.has(card_name) == true:
+			$TextureRect.texture = CardHandler.card_textures[card_name]
+			$TextureRect.visible = true
+			$POWER.set_text(str(power_level))
+			$POWER.visible = true
+			$Marquee.visible = false
+			return
+	var new_marquee_card_name = [card_name, card_name]
+	if CardHandler.card_textures.has(card_name) == true:
+		print(card_name)
+		$TextureRect.texture = CardHandler.card_textures[card_name]
+		$TextureRect.visible = true
+	else:
+		print("Card textures doesnt have that in there")
+	$Marquee.lines[0] = new_marquee_card_name[0]
+	$Marquee.lines[1] = new_marquee_card_name[1]+str(" ")
 	$TARGET.set_text(str(target_area))
 	$AREA.set_text(str(card_area))
 	$CARDTYPE.set_text(str(card_type))
-	$POWER.set_text(str(power_level))
+	#$CARDTYPE.visible = !$TextureRect.visible
+	$Marquee.visible = true
+	
 	if card_area == "" || target_area == "":
 		$Line2D.visible = false
 	else:
@@ -152,6 +178,8 @@ func set_card_usability(selected = null):
 	
 
 func intitialize_card():
+	while card_name == "":
+		pass
 	set_card_visible_info()
 	#reset_card_usage()
 	set_card_usability()
@@ -286,7 +314,7 @@ func use_card(selected_card = null): # Yup another hack, maybe I can get this to
 		"event":
 			match card_name:
 				"cancel":
-					pass
+					CardHandler.cancel_card_in_effect = true
 	#if card_in_selected_series == 0:
 	 #CardHandler.anticipate_card_in_effect == false && 
 	if CardHandler.counter_card_in_effect == true:
@@ -337,6 +365,8 @@ func use_card(selected_card = null): # Yup another hack, maybe I can get this to
 			CardHandler.player_1_card_use_buffer += 1
 		2:
 			CardHandler.player_2_card_use_buffer += 1
+	
+	CardHandler.most_recent_used_card = card_name
 	
 	
 
@@ -390,7 +420,7 @@ func select_card(status_override = null):
 						CardHandler.player_1_selected_card_traits.append(card_type)
 					CardHandler.player_1_selected_card_count += 1
 					card_in_selected_series = CardHandler.player_1_selected_card_count
-					self_modulate = Color8(0, 0, 255, 255)
+					modulate = Color8(0, 0, 255, 255)
 					print("card selected! ", CardHandler.player_1_selected_card)
 				false:
 					CardHandler.player_1_current_power -= power_level
@@ -398,7 +428,7 @@ func select_card(status_override = null):
 					CardHandler.player_1_selected_card_traits.clear()
 					CardHandler.player_1_selected_card_count -= 1
 					card_in_selected_series = 0
-					self_modulate = Color8(255, 255, 255, 255)
+					modulate = Color8(255, 255, 255, 255)
 					if CardHandler.player_1_selected_card_count == 0:
 						CardHandler.player_1_selected_card = ""
 					print("card unselected!")
@@ -434,25 +464,103 @@ func select_card(status_override = null):
 	
 			print("Player 2 cards power level: ", CardHandler.player_2_current_power)
 
+func take_card_out_of_focus():
+	card_in_focus = false
+	#$FOCUSTEXT.visible = false
+	#modulate = Color8(255, 255, 255, 255)
+	$FocusArrow.visible = false
+
+func put_card_in_focus():
+	CardHandler.emit_signal("new_card_focus_signal")
+	card_in_focus = true
+	#$FOCUSTEXT.visible = true
+	#modulate = Color8(0, 255, 0, 255)
+	$FocusArrow.visible = true
+
+func _physics_process(delta: float) -> void:
+	if card_in_focus == true:
+		if Input.is_action_just_pressed("ui_select"):
+			match card_owner:
+				1:
+					if CardHandler.player_1_selected_card == "" || CardHandler.player_1_selected_card == card_name || card_type != "skill":
+						select_card()
+						return
+					else:
+						print("This bitch unselectable!")
+						return
+				2:
+					if CardHandler.player_2_selected_card == "" || CardHandler.player_2_selected_card == card_name || card_type != "skill":
+						select_card()
+						return
+					else:
+						print("This bitch unselectable!")
+						return
+		if Input.is_action_just_pressed("ui_use"):
+			if card_active == true:
+				use_card()
+			
+		elif card_active == false:
+			print("Card unusable in current phase!")
+
+
+
 func _on_touch_screen_button_pressed() -> void:
-	if Input.is_action_pressed("ui_select"):
-		match card_owner:
-			1:
-				if CardHandler.player_1_selected_card == "" || CardHandler.player_1_selected_card == card_name || card_type != "skill":
-					select_card()
-					return
-				else:
-					print("This bitch unselectable!")
-					return
-			2:
-				if CardHandler.player_2_selected_card == "" || CardHandler.player_2_selected_card == card_name || card_type != "skill":
-					select_card()
-					return
-				else:
-					print("This bitch unselectable!")
-					return
-	if card_active == true:
-		use_card()
+	print("input recieved")
+	if card_in_focus == true:
+		if checking_input == false:
+			$InputTimer.start()
+			checking_input = true
+		times_tapped += 1
+	#if times_tapped == 1:
+		#Input.action_press("ui_use")
+	#elif times_tapped >= 2:
+		#Input.action_press("ui_select")
+		#times_tapped = 0
+	print("Times tapped = ", times_tapped)
+	await get_tree().create_timer(1).timeout
+	if card_in_focus == false:
+		put_card_in_focus()
+		return
+	#if Input.is_action_pressed("ui_select"):
+		#match card_owner:
+			#1:
+				#if CardHandler.player_1_selected_card == "" || CardHandler.player_1_selected_card == card_name || card_type != "skill":
+					#select_card()
+					#return
+				#else:
+					#print("This bitch unselectable!")
+					#return
+			#2:
+				#if CardHandler.player_2_selected_card == "" || CardHandler.player_2_selected_card == card_name || card_type != "skill":
+					#select_card()
+					#return
+				#else:
+					#print("This bitch unselectable!")
+					#return
+	#if Input.is_action_just_pressed("ui_use"):
+		#if card_active == true:
+			#use_card()
+		#
+	#elif card_active == false:
+		#print("Card unusable in current phase!")
 		
-	elif card_active == false:
-		print("Card unusable in current phase!")
+
+
+func _on_input_timer_timeout() -> void:
+	match times_tapped:
+		1:
+			Input.action_press("ui_use")
+			Input.action_release("ui_use")
+			print("ui_using")
+		2:
+			Input.action_press("ui_select")
+			Input.action_release("ui_select")
+			print("ui_selecting")
+		
+	#if times_tapped == 1:
+		#Input.action_press("ui_use")
+	#elif times_tapped >= 2:
+		#Input.action_press("ui_select")
+		#times_tapped = 0
+	times_tapped = 0
+	checking_input = false

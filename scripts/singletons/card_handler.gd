@@ -2,11 +2,30 @@ extends Node
 
 const NEW_CARD_PATH = preload("res://scenes/cards/card.tscn")
 
+const card_textures = {
+	"block" : preload("res://assets/card_assets/Independent cards/Block Card.png"),
+	"clear" : preload("res://assets/card_assets/Independent cards/Clear card.png"),
+	"drive" : preload("res://assets/card_assets/Independent cards/Drive card.png"),
+	"drop_shot" : preload("res://assets/card_assets/Independent cards/Drop_Shot card.png"),
+	"lift" : preload("res://assets/card_assets/Independent cards/Lift card.png"),
+	"net_kill" : preload("res://assets/card_assets/Independent cards/Net_Kill card.png"),
+	"net_shot" : preload("res://assets/card_assets/Independent cards/net_shot card.png"),
+	"push" : preload("res://assets/card_assets/Independent cards/Push card.png"),
+	"smash" : preload("res://assets/card_assets/Independent cards/Smash card.png"),
+	"anticipate" : preload("res://assets/card_assets/Dependent Cards/Anticipate card.png"),
+	"break" : preload("res://assets/card_assets/Dependent Cards/Break card.png"),
+	"cancel" : preload("res://assets/card_assets/Dependent Cards/Cancel card.png"),
+	"counter" : preload("res://assets/card_assets/Dependent Cards/Counter card.png"),
+	"deception" : preload("res://assets/card_assets/Dependent Cards/Deception card.png"),
+	"intimidate" : preload("res://assets/card_assets/Dependent Cards/Intimidate card.png"),
+	"reversal" : preload("res://assets/card_assets/Dependent Cards/Reversal card.png"),
+}
+
 #@onready var card_holder_player_1_path = $PlayArea_Player1/HScrollBar/CardHolder_Player1
 
 var times_set_usability = 0
 
-var hide_player_2_cards = false
+var hide_player_2_cards = true
 
 var cancel_card_in_effect = false
 var anticipate_card_in_effect = false
@@ -14,6 +33,8 @@ var counter_card_in_effect = false
 var deception_card_in_effect = false
 var power_select_screen_visible_player_1 = true
 var power_select_screen_visible_player_2 = true
+
+var most_recent_used_card = ""
 
 var player_1_cards = []
 var player_2_cards = []
@@ -163,6 +184,7 @@ signal card_selected # dont call with anything
 signal reset_card_usage # dont call with anything
 signal set_usability
 signal power_select_screen_activate
+signal new_card_focus_signal
 #var card_names = [
 	#"intimidate",
 	#"deception",
@@ -178,6 +200,57 @@ func _ready() -> void:
 	#connect("card_used", )
 	#TurnAndPhaseHandler.connect("main_phase_entered", clear_player_usable_cards)
 	#TurnAndPhaseHandler.connect("rally_phase_entered", clear_player_usable_cards)
+
+func reset_game():
+	reset_deck()
+	times_set_usability = 0
+	hide_player_2_cards = true
+	cancel_card_in_effect = false
+	anticipate_card_in_effect = false
+	counter_card_in_effect = false
+	deception_card_in_effect = false
+	power_select_screen_visible_player_1 = true
+	power_select_screen_visible_player_2 = true
+	player_1_cards = []
+	player_2_cards = []
+	player_1_current_target = ""
+	player_2_current_target = ""
+	player_1_selected_card = ""
+	player_2_selected_card = ""
+	player_1_selected_card_count = 0
+	player_2_selected_card_count = 0
+	player_1_selected_card_power = 0
+	player_2_selected_card_power = 0
+	empty_array = ["empty_space"]
+	player_1_usable_cards = []
+	player_2_usable_cards = []
+	player_1_selected_card_traits = []
+	player_2_selected_card_traits = []
+	player_1_card_use_buffer = 0
+	player_2_card_use_buffer = 0
+	player_1_current_power = 0
+	player_2_current_power = 0
+	
+	TurnAndPhaseHandler.previous_rally_winner = 0
+
+	TurnAndPhaseHandler.player_1_phase = ""
+	TurnAndPhaseHandler.player_2_phase = ""
+
+	TurnAndPhaseHandler.player_1_wants_to_rally = false
+	TurnAndPhaseHandler.player_2_wants_to_rally = false
+
+	TurnAndPhaseHandler.player_1_ready_for_next_phase = false
+	TurnAndPhaseHandler.player_2_ready_for_next_phase = false
+
+	TurnAndPhaseHandler.player_1_skill_card_count = 0
+	TurnAndPhaseHandler.player_2_skill_card_count = 0
+
+	TurnAndPhaseHandler.player_1_used_skill_card_count = 0
+	TurnAndPhaseHandler.player_2_used_skill_card_count = 0
+
+	TurnAndPhaseHandler.current_phase_index = 0
+
+	TurnAndPhaseHandler.player_in_turn = 1
 
 func reset_deck():
 	game_use_deck = permanent_deck2.duplicate(true)

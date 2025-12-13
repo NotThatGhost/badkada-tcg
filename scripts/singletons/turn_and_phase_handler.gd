@@ -3,6 +3,7 @@ extends Node
 var player_1_card_holder
 var player_2_card_holder
 
+var previous_rally_winner = 0
 
 var player_1_phase = ""
 var player_2_phase = ""
@@ -208,6 +209,7 @@ func check_for_rally_winner():
 	CardHandler.player_1_current_power = 0
 	CardHandler.player_2_current_power = 0
 	next_phase()
+	previous_rally_winner = rally_winner
 
 func set_global_phase(new_phase:String): # Not really for use regularly
 	

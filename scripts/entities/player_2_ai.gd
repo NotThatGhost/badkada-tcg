@@ -11,11 +11,12 @@ func _ready() -> void:
 	TurnAndPhaseHandler.connect("player_turn_changed", play)
  
 func play(unused_parameter = null):
+	await get_tree().create_timer(2).timeout
 	if active_status == false:
 		return
 	var already_attempted_card_indexes = []
 	while TurnAndPhaseHandler.player_in_turn == 2:
-		await get_tree().create_timer(.5).timeout
+		
 		if TurnAndPhaseHandler.player_in_turn != 2:
 			print("ai turn over")
 			return

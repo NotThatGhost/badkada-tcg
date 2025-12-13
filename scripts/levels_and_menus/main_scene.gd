@@ -3,6 +3,7 @@ extends Control
 const RALLY_CHOICE_POPUP_PATH = preload("res://scenes/menus/rally_choice_popup.tscn")
 
 func _ready() -> void:
+	CardHandler.connect("card_used", update_card_used_text)
 	TurnAndPhaseHandler.player_1_card_holder = $PlayArea_Player1/HScrollBar/CardHolder_Player1
 	TurnAndPhaseHandler.player_2_card_holder = $PlayArea_Player2/HScrollBar/CardHolder_Player2
 	update_phase_label_text()
@@ -27,6 +28,9 @@ func main_scene_draw_card(player:int, amount: int):
 	CardHandler.player_draw_new_card(player, amount)
 	$DeckIcon/DECKSIZECOUNT.set_text(str(CardHandler.game_use_deck.size()))
 
+func update_card_used_text():
+	$PLAYERCARDUSEINDICATORLABEL.set_text("Player " +str(TurnAndPhaseHandler.player_in_turn) +str(" used ") +str(CardHandler.most_recent_used_card))
+
 func update_phase_label_text():
 	var tween = get_tree().create_tween()
 	var tween2 = get_tree().create_tween()
@@ -36,7 +40,19 @@ func update_phase_label_text():
 	$PHASELABEL2.set_text(new_text +str(" phase"))
 	tween.tween_property($PHASELABEL, "visible_characters",20, 1)
 	tween2.tween_property($PHASELABEL2, "visible_characters", 20, 1)
+	
+	match TurnAndPhaseHandler.current_phase_index:
+		0:
+			move_phase_indicator_arrow(-3, 2)
+		1:
+			move_phase_indicator_arrow(133, 2)
+		2:
+			move_phase_indicator_arrow(-3, 98)
+		3:
+			move_phase_indicator_arrow(133, 98)
 
+func move_phase_indicator_arrow(x, y):
+	$PlayArea_Player1/PhaseIndicator_Player1/PhaseIndicatorArrow.position = Vector2(x, y)
 
 func activate_power_select_popup(player:int, new_status:bool):
 	match player:
