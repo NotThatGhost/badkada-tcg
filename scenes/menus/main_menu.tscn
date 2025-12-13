@@ -4,19 +4,27 @@
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
-anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 154.32
+offset_top = 213.5
+offset_right = -154.32
+offset_bottom = -213.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_50c6w")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = -1.0
+anchors_preset = -1
+anchor_left = -0.94
+anchor_top = -0.52
+anchor_right = 2.031
+anchor_bottom = 1.569
+offset_left = 0.0783997
+offset_top = 0.0400238
+offset_right = -0.0321655
+offset_bottom = 0.0369263
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -25,10 +33,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -213.0
-offset_top = 28.0
-offset_right = 213.0
-offset_bottom = 166.0
+offset_left = -228.0
+offset_top = -151.0
+offset_right = 228.0
+offset_bottom = -13.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 96
@@ -50,10 +58,18 @@ text = "Trading Card Game"
 horizontal_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 2
-offset_top = 507.0
-offset_right = 481.0
-offset_bottom = 856.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.5
+offset_top = 77.5
+offset_right = 240.5
+offset_bottom = 426.5
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_right = 20
 

@@ -11,17 +11,21 @@ border_width_bottom = 4
 
 [node name="RallyChoicePopup" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_shcov")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 208.0
-offset_bottom = 155.0
+offset_left = -104.0
+offset_top = -76.0
+offset_right = 104.0
+offset_bottom = 79.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_s11f1")
 
 [node name="WARNING" type="Label" parent="Panel"]
@@ -38,6 +42,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Skip rally phase?"
 horizontal_alignment = 1
 autowrap_mode = 2
+metadata/_edit_lock_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
 layout_mode = 2

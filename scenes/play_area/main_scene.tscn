@@ -160,10 +160,18 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PlayArea_Player1" type="ColorRect" parent="."]
-layout_mode = 0
-offset_top = 524.0
-offset_right = 480.0
-offset_bottom = 854.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = 96.0
+offset_right = 240.0
+offset_bottom = 426.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Portrait_Player1" type="TextureRect" parent="PlayArea_Player1"]
 visible = false
@@ -246,9 +254,18 @@ script = ExtResource("5_uu4ap")
 player_owner = 1
 
 [node name="PlayArea_Player2" type="ColorRect" parent="."]
-layout_mode = 0
-offset_right = 480.0
-offset_bottom = 330.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -425.0
+offset_right = 240.0
+offset_bottom = -95.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Portrait_Player2" type="TextureRect" parent="PlayArea_Player2"]
 visible = false
@@ -318,11 +335,18 @@ theme_override_font_sizes/font_size = 46
 text = "CURRENT PHASE"
 
 [node name="SCORELABEL" type="Label" parent="."]
-layout_mode = 0
-offset_left = 129.0
-offset_top = 401.0
-offset_right = 367.0
-offset_bottom = 465.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -119.0
+offset_top = -32.0
+offset_right = 119.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 36
 text = "Score: 0 - 0"
@@ -339,11 +363,18 @@ theme_override_font_sizes/font_size = 26
 text = "Player 1 used: net shot!"
 
 [node name="RallyChoicePopupZone" type="Control" parent="."]
-anchors_preset = 0
-offset_top = 330.0
-offset_right = 480.0
-offset_bottom = 524.0
-metadata/_edit_lock_ = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -97.0
+offset_right = 240.0
+offset_bottom = 97.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="RallyChoicePopupZoneButton" type="Button" parent="RallyChoicePopupZone"]
 layout_mode = 1
@@ -357,11 +388,18 @@ metadata/_edit_lock_ = true
 
 [node name="Player1DeceptionPanel" type="Panel" parent="."]
 visible = false
-layout_mode = 0
-offset_left = 1.0
-offset_top = 685.0
-offset_right = 213.0
-offset_bottom = 855.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -239.0
+offset_top = 257.0
+offset_right = -27.0
+offset_bottom = 427.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_nsvak")
 
 [node name="SelectCardStrength" type="Label" parent="Player1DeceptionPanel"]
@@ -369,10 +407,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -79.5
-offset_top = 1.0
-offset_right = 79.5
-offset_bottom = 38.0
+offset_left = -88.0
+offset_top = -1.0
+offset_right = 71.0
+offset_bottom = 36.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Select card power!"
@@ -403,11 +441,18 @@ text = "3"
 [node name="DeckIcon" type="TextureRect" parent="."]
 visible = false
 texture_filter = 1
-layout_mode = 0
-offset_left = 161.0
-offset_top = 326.0
-offset_right = 217.0
-offset_bottom = 399.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -104.5
+offset_right = -19.0
+offset_bottom = -31.5
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(3, 3)
 texture = ExtResource("7_g51wg")
 

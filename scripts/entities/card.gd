@@ -48,6 +48,7 @@ func set_card_visible_info():
 			$Marquee.visible = false
 			return
 	var new_marquee_card_name = [card_name, card_name]
+	print(new_marquee_card_name)
 	if CardHandler.card_textures.has(card_name) == true:
 		print(card_name)
 		$TextureRect.texture = CardHandler.card_textures[card_name]

@@ -1,7 +1,7 @@
 extends Control
 
 func _ready() -> void:
-	$RESULT.set_text("Player ", str(TurnAndPhaseHandler.previous_rally_winner), " has won!")
+	$RESULT.set_text("Player " +str(TurnAndPhaseHandler.previous_rally_winner) +str(" wins!"))
 	CardHandler.reset_game()
 
 
