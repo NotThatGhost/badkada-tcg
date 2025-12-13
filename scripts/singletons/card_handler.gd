@@ -290,7 +290,10 @@ func player_draw_new_card(player:int, amount:int, power_level = null, specific_c
 				var new_card_info = permanent_deck2[specific_card]
 				print("permanent deck has specific card")
 				var new_card = NEW_CARD_PATH.instantiate()
-				new_card.card_name = new_card_info[0]
+				if new_card_info[0].contains("1") || new_card_info[0].contains("2") || new_card_info[0].contains("1"):
+					new_card.card_name = new_card_info[0].left(new_card_info.length() - 1)
+				else:
+					new_card.card_name = new_card_info[0]
 				new_card.card_type = new_card_info[1]
 				new_card.card_owner = player
 				#new_card.card_name
@@ -311,7 +314,12 @@ func player_draw_new_card(player:int, amount:int, power_level = null, specific_c
 	for n in amount:
 		var new_card_info = dictionary_pick_random(game_use_deck)
 		var new_card = NEW_CARD_PATH.instantiate()
-		new_card.card_name = new_card_info[0]
+		if new_card_info[0].contains("1") || new_card_info[0].contains("2") || new_card_info[0].contains("1"):
+			new_card.card_name = new_card_info[0].left(new_card_info.length() - 1)
+			print(new_card.card_name)
+		else:
+			new_card.card_name = new_card_info[0]
+			print(new_card.card_name)
 		new_card.card_type = new_card_info[1]
 		new_card.card_owner = player
 		#new_card.card_name
