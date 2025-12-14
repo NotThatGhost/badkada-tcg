@@ -3,8 +3,6 @@ extends Node
 var player_1_card_holder
 var player_2_card_holder
 
-var previous_rally_winner = 0
-
 var player_1_phase = ""
 var player_2_phase = ""
 
@@ -35,6 +33,7 @@ var phases = [
 signal phase_changed # use with a string for the phase as the parameter
 signal rally_phase_entered 
 signal main_phase_entered
+signal draw_phase_entered
 signal player_changed_rally_status # use with player number and bool for status
 signal player_turn_changed
 
@@ -54,6 +53,7 @@ func phase_switch(new_phase:String):
 			#CardHandler.reset_player_card_scenes(1)
 			#CardHandler.reset_player_card_scenes(2)
 			print("I GUESS WE DOIN DRAW PHASES NOW")
+			emit_signal("draw_phase_entered")
 			CardHandler.player_draw_new_card(1, 1)
 			CardHandler.player_draw_new_card(2, 1)
 			next_phase()
@@ -104,7 +104,7 @@ func compare_integer_sizes(int_1:int, int_2:int):
 		return 2
 
 func rally_phase_refactor():
-	
+	#Go to check_for_rally_phase for the meat and potatoes
 	print("player_1_usable_cards: ", CardHandler.player_1_usable_cards.size())
 	print("player_2_usable_cards: ", CardHandler.player_2_usable_cards.size())
 	emit_signal("rally_phase_entered")
@@ -190,9 +190,9 @@ func check_for_rally_winner():
 			rally_winner = 1
 		else:
 			pass
-	if CardHandler.player_1_usable_cards.count("skill") == 0:
+	if CardHandler.player_1_usable_cards.count("skill") == 0 && rally_winner == 0:
 		rally_winner = 2
-	elif CardHandler.player_2_usable_cards.count("skill") == 0:
+	elif CardHandler.player_2_usable_cards.count("skill") == 0 && rally_winner == 0:
 		rally_winner = 1
 	CardHandler.player_1_selected_card = ""
 	CardHandler.player_2_selected_card = ""
@@ -209,7 +209,7 @@ func check_for_rally_winner():
 	CardHandler.player_1_current_power = 0
 	CardHandler.player_2_current_power = 0
 	next_phase()
-	previous_rally_winner = rally_winner
+	#previous_rally_winner = rally_winner
 
 func set_global_phase(new_phase:String): # Not really for use regularly
 	

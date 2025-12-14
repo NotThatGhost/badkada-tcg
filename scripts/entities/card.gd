@@ -21,6 +21,7 @@ var card_owner : int
 #]
 
 var card_name = ""
+@onready var new_marquee_card_name = [card_name, card_name]
 var card_type = "no_type"
 var card_area = ""
 var target_area = ""
@@ -29,6 +30,7 @@ var power_level = 0
 func _ready() -> void:
 	TurnAndPhaseHandler.connect("main_phase_entered", set_card_usability)
 	TurnAndPhaseHandler.connect("rally_phase_entered", set_card_usability)
+	TurnAndPhaseHandler.connect("phase_changed", take_card_out_of_focus)
 	CardHandler.connect("card_used", set_card_usability)
 	CardHandler.connect("card_used", use_selected_card)
 	CardHandler.connect("card_selected", set_card_usability)
@@ -46,17 +48,23 @@ func set_card_visible_info():
 			$POWER.set_text(str(power_level))
 			$POWER.visible = true
 			$Marquee.visible = false
+			print("card texture returning")
 			return
-	var new_marquee_card_name = [card_name, card_name]
-	print(new_marquee_card_name)
-	if CardHandler.card_textures.has(card_name) == true:
-		print(card_name)
-		$TextureRect.texture = CardHandler.card_textures[card_name]
-		$TextureRect.visible = true
+	if card_name != "":
+		new_marquee_card_name = [card_name, card_name]
 	else:
-		print("Card textures doesnt have that in there")
-	$Marquee.lines[0] = new_marquee_card_name[0]
-	$Marquee.lines[1] = new_marquee_card_name[1]+str(" ")
+		print("card name doesnt exist")
+	print(new_marquee_card_name)
+	#if CardHandler.card_textures.has(card_name) == true:
+	print(card_name)
+	$TextureRect.set_deferred("texture", CardHandler.card_textures[card_name])
+	$TextureRect.visible = true
+	#else:
+		#print("Card textures doesnt have that in there")
+	$Marquee.lines[0] = str(" ")+str(new_marquee_card_name[0])
+	$Marquee.lines[1] = str(" ")+str(new_marquee_card_name[1])
+	$Marquee.get_child(0).set_text("  " +str(new_marquee_card_name[0]))
+	$Marquee.get_child(1).set_text("  " +str(new_marquee_card_name[1]))
 	$TARGET.set_text(str(target_area))
 	$AREA.set_text(str(card_area))
 	$CARDTYPE.set_text(str(card_type))
@@ -104,7 +112,7 @@ func check_card_usability(type_of_card:String):
 				#return false
 
 func set_card_usability(selected = null):
-	set_card_visible_info()
+	#set_card_visible_info()
 	
 	if selected == null:
 		selected = false
@@ -180,6 +188,7 @@ func set_card_usability(selected = null):
 
 func intitialize_card():
 	while card_name == "":
+		print("Card name not set yet")
 		pass
 	set_card_visible_info()
 	#reset_card_usage()
@@ -366,8 +375,8 @@ func use_card(selected_card = null): # Yup another hack, maybe I can get this to
 			CardHandler.player_1_card_use_buffer += 1
 		2:
 			CardHandler.player_2_card_use_buffer += 1
-	
-	CardHandler.most_recent_used_card = card_name
+	if TurnAndPhaseHandler.current_phase_index == 1 || TurnAndPhaseHandler.current_phase_index == 2:
+		CardHandler.emit_signal("add_card_to_grid", card_owner, card_name)
 	
 	
 
@@ -518,7 +527,6 @@ func _on_touch_screen_button_pressed() -> void:
 		#Input.action_press("ui_select")
 		#times_tapped = 0
 	print("Times tapped = ", times_tapped)
-	await get_tree().create_timer(1).timeout
 	if card_in_focus == false:
 		put_card_in_focus()
 		return

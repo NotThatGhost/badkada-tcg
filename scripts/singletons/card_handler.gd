@@ -2,7 +2,7 @@ extends Node
 
 const NEW_CARD_PATH = preload("res://scenes/cards/card.tscn")
 
-const card_textures = {
+@onready var card_textures = {
 	"block" : preload("res://assets/card_assets/Independent cards/Block Card.png"),
 	"clear" : preload("res://assets/card_assets/Independent cards/Clear card.png"),
 	"drive" : preload("res://assets/card_assets/Independent cards/Drive card.png"),
@@ -185,6 +185,7 @@ signal reset_card_usage # dont call with anything
 signal set_usability
 signal power_select_screen_activate
 signal new_card_focus_signal
+signal add_card_to_grid # call with player number and card name
 #var card_names = [
 	#"intimidate",
 	#"deception",
@@ -359,6 +360,7 @@ func clear_player_usable_cards():
 	player_2_usable_cards = empty_array.duplicate()
 	player_1_usable_cards.erase("empty_space")
 	player_2_usable_cards.erase("empty_space")
+	#TurnAndPhaseHandler.emit_signal("draw_phase_entered")
 
 func reversal_card_effect():
 	var player_1_new_cards = CardHandler.player_2_cards.duplicate()

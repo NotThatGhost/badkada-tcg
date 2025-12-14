@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8xtjn57y1qim"
-path="res://.godot/imported/vash_the_stampede.png-e2c3da66d4bb452c66f030707a11c16b.ctex"
+uid="uid://cbmamafn7odqp"
+path="res://.godot/imported/longsword.png-f8f4be311f7775da48ba1dd6c60887da.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/vash_the_stampede.png"
-dest_files=["res://.godot/imported/vash_the_stampede.png-e2c3da66d4bb452c66f030707a11c16b.ctex"]
+source_file="res://assets/character_icons/longsword.png"
+dest_files=["res://.godot/imported/longsword.png-f8f4be311f7775da48ba1dd6c60887da.ctex"]
 
 [params]
 

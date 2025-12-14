@@ -1,13 +1,16 @@
-[gd_scene load_steps=13 format=3 uid="uid://co4uk16q2prsd"]
+[gd_scene load_steps=16 format=3 uid="uid://co4uk16q2prsd"]
 
-[ext_resource type="Texture2D" uid="uid://bpc44qpv04wld" path="res://icon.svg" id="1_jcymt"]
 [ext_resource type="Script" path="res://scripts/levels_and_menus/main_scene.gd" id="1_lqo8o"]
 [ext_resource type="Script" path="res://scripts/singletons/card_handler.gd" id="3_den1x"]
 [ext_resource type="Script" path="res://scripts/singletons/turn_and_phase_handler.gd" id="3_qu4be"]
-[ext_resource type="Texture2D" uid="uid://cw411iswr6aow" path="res://assets/clare_claymore.png" id="4_rarnp"]
+[ext_resource type="Texture2D" uid="uid://cbmamafn7odqp" path="res://assets/character_icons/longsword.png" id="4_3l808"]
 [ext_resource type="Script" path="res://scripts/entities/card_holder.gd" id="5_uu4ap"]
+[ext_resource type="Texture2D" uid="uid://b6k6m5undge3w" path="res://assets/character_icons/frozen produze.png" id="6_il3a7"]
 [ext_resource type="Script" path="res://scripts/entities/player_2_ai.gd" id="6_nerfj"]
 [ext_resource type="Texture2D" uid="uid://cs0w6lvegq6db" path="res://assets/card_assets/deck.png" id="7_g51wg"]
+[ext_resource type="Texture2D" uid="uid://cwd5jn87ux728" path="res://assets/GameMat.png" id="8_2irxq"]
+[ext_resource type="Script" path="res://scripts/entities/game_mat.gd" id="9_07ap6"]
+[ext_resource type="FontFile" uid="uid://c74pcc377w760" path="res://assets/Fonts/Pixel.ttf" id="10_ki3vl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nsvak"]
 border_width_left = 4
@@ -174,14 +177,14 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Portrait_Player1" type="TextureRect" parent="PlayArea_Player1"]
-visible = false
+texture_filter = 2
 layout_mode = 0
-offset_left = -2.0
-offset_top = 147.0
-offset_right = 898.0
-offset_bottom = 1847.0
-scale = Vector2(0.155, 0.155)
-texture = ExtResource("4_rarnp")
+offset_left = 24.0
+offset_top = 160.0
+offset_right = 1061.0
+offset_bottom = 1427.0
+scale = Vector2(0.135, 0.135)
+texture = ExtResource("4_3l808")
 
 [node name="PhaseIndicator_Player1" type="Panel" parent="PlayArea_Player1"]
 layout_mode = 0
@@ -233,16 +236,13 @@ polygon = PackedVector2Array(5, 26, 5, 42, 21, 34)
 [node name="HScrollBar" type="ScrollContainer" parent="PlayArea_Player1"]
 clip_contents = false
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -233.0
-offset_top = -167.0
-offset_right = 228.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -340.0
+offset_right = 461.0
+offset_bottom = -173.0
+grow_vertical = 0
 horizontal_scroll_mode = 2
 vertical_scroll_mode = 0
 
@@ -268,13 +268,13 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Portrait_Player2" type="TextureRect" parent="PlayArea_Player2"]
-visible = false
+texture_filter = 2
 layout_mode = 0
 offset_left = 2.0
 offset_top = 5.0
 offset_right = 162.0
 offset_bottom = 165.0
-texture = ExtResource("1_jcymt")
+texture = ExtResource("6_il3a7")
 
 [node name="PhaseIndicator_Player2" type="Panel" parent="PlayArea_Player2"]
 visible = false
@@ -334,6 +334,70 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 46
 text = "CURRENT PHASE"
 
+[node name="PLAYERCARDUSEINDICATORLABEL" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 84.0
+offset_top = 365.0
+offset_right = 376.0
+offset_bottom = 401.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 26
+text = "Player 1 used: net shot!"
+
+[node name="GameMat" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -93.5
+offset_right = 240.0
+offset_bottom = 85.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_2irxq")
+script = ExtResource("9_07ap6")
+
+[node name="MarginContainerP2" type="MarginContainer" parent="GameMat"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -228.5
+offset_top = 14.0
+offset_right = 228.5
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 0
+
+[node name="CardIndicatorGridPlayer2" type="HBoxContainer" parent="GameMat/MarginContainerP2"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="MarginContainerP1" type="MarginContainer" parent="GameMat"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -228.5
+offset_top = 124.0
+offset_right = 228.5
+offset_bottom = 170.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 0
+
+[node name="CardIndicatorGridPlayer1" type="HBoxContainer" parent="GameMat/MarginContainerP1"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
 [node name="SCORELABEL" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -348,19 +412,9 @@ offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_ki3vl")
 theme_override_font_sizes/font_size = 36
-text = "Score: 0 - 0"
-
-[node name="PLAYERCARDUSEINDICATORLABEL" type="Label" parent="."]
-visible = false
-layout_mode = 0
-offset_left = 84.0
-offset_top = 365.0
-offset_right = 376.0
-offset_bottom = 401.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 26
-text = "Player 1 used: net shot!"
+text = "SCORE: 0 - 0"
 
 [node name="RallyChoicePopupZone" type="Control" parent="."]
 layout_mode = 1
@@ -381,10 +435,11 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 0
 flat = true
-metadata/_edit_lock_ = true
 
 [node name="Player1DeceptionPanel" type="Panel" parent="."]
 visible = false
@@ -461,12 +516,13 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -16.3333
-offset_top = 17.6667
-offset_right = 7.66667
-offset_bottom = 47.6667
+offset_left = -18.3333
+offset_top = 25.8333
+offset_right = 13.6667
+offset_bottom = 55.8333
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 21
+theme_override_fonts/font = ExtResource("10_ki3vl")
+theme_override_font_sizes/font_size = 17
 text = "00"
 
 [node name="MainAnimationPlayer" type="AnimationPlayer" parent="."]

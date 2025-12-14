@@ -1,15 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://dbstutislps62"]
+[gd_scene load_steps=4 format=3 uid="uid://dbstutislps62"]
 
 [ext_resource type="Script" path="res://scripts/levels_and_menus/main_menu.gd" id="1_50c6w"]
+[ext_resource type="FontFile" uid="uid://c74pcc377w760" path="res://assets/Fonts/Pixel.ttf" id="2_2jfxh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nb5ij"]
+bg_color = Color(0.090625, 0.090625, 0.090625, 1)
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 154.32
-offset_top = 213.5
-offset_right = -154.32
-offset_bottom = -213.5
+offset_left = 5.0
+offset_top = -2.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_50c6w")
@@ -34,13 +38,14 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -228.0
-offset_top = -151.0
+offset_top = 85.0
 offset_right = 228.0
-offset_bottom = -13.0
+offset_bottom = 168.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 96
-text = "BADKADA"
+theme_override_fonts/font = ExtResource("2_2jfxh")
+theme_override_font_sizes/font_size = 66
+text = "BADKADA!"
 
 [node name="SUBTITLE" type="Label" parent="TITLE"]
 layout_mode = 1
@@ -48,11 +53,12 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -228.0
-offset_top = 107.0
+offset_top = 69.0
 offset_right = 228.0
-offset_bottom = 245.0
+offset_bottom = 109.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_2jfxh")
 theme_override_font_sizes/font_size = 31
 text = "Trading Card Game"
 horizontal_alignment = 1
@@ -64,9 +70,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -240.5
-offset_top = 77.5
-offset_right = 240.5
+offset_left = -240.68
+offset_top = -55.5
+offset_right = 240.32
 offset_bottom = 426.5
 grow_horizontal = 2
 grow_vertical = 2
@@ -81,15 +87,94 @@ theme_override_constants/separation = 45
 custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_2jfxh")
 theme_override_font_sizes/font_size = 70
-text = "Play"
+text = "PLAY"
+
+[node name="HowToPlayButton" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_2jfxh")
+theme_override_font_sizes/font_size = 45
+text = "HOW TO PLAY"
 
 [node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 70
-text = "Quit"
+theme_override_fonts/font = ExtResource("2_2jfxh")
+theme_override_font_sizes/font_size = 58
+text = "QUIT GAME"
+
+[node name="HowToPlayMenu" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nb5ij")
+
+[node name="BackButton" type="Button" parent="HowToPlayMenu"]
+layout_mode = 0
+offset_top = 5.0
+offset_right = 52.0
+offset_bottom = 103.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("2_2jfxh")
+theme_override_font_sizes/font_size = 71
+text = "<"
+flat = true
+
+[node name="BigInfoBox" type="Label" parent="HowToPlayMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -231.0
+offset_top = -312.0
+offset_right = 231.0
+offset_bottom = 472.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_spacing = -5
+text = "|Controls|
+
+-Swipe on cards to scroll
+
+-Tap once to focus a card, tap it again to use it
+
+-Tap twice within a second to select, do the same to unselect
+
+|Important to note|
+
+Every card *should* work just fine on use without any special instruction with the exception of the Deception and Counter cards. Some cards' processes have been automated for the sake of simplicity, such as the Intimidate card automatically picking a card from your opponents hand, and the Anticipate card automatically rolling the die to see if your opponents last move would be ignored or not.
+
+- To use the Deception card, the skill card you want to mimic must be selected first, then use the Deception card and select the power level, then the Deception card with transform into a copy of the card you had selected.
+
+- To use the Counter card, simply use it as usual and then use the cards you want according to the rules laid out in the Canva, everything should work out properly.
+"
+autowrap_mode = 2
+
+[node name="Info" type="Label" parent="HowToPlayMenu"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -278.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "Badkada TGC Prototype 1.7.0"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HowToPlayButton" to="." method="_on_how_to_play_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="HowToPlayMenu/BackButton" to="." method="_on_back_button_pressed"]

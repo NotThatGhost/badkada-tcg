@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://8fpl0a8tyf55"]
+[gd_scene load_steps=8 format=3 uid="uid://8fpl0a8tyf55"]
 
 [ext_resource type="Script" path="res://scripts/entities/card.gd" id="1_u5168"]
-[ext_resource type="Texture2D" uid="uid://cllss8wi32cp7" path="res://assets/card_assets/Dependent Cards/Cancel card.png" id="2_be44j"]
 [ext_resource type="Script" path="res://addons/marquee/marquee.gd" id="2_p8l17"]
+[ext_resource type="Texture2D" uid="uid://ci7ncmtoag1hi" path="res://assets/card_assets/Dependent Cards/Intimidate card.png" id="2_u8xyv"]
 [ext_resource type="LabelSettings" uid="uid://b5i04hqj08wtd" path="res://assets/new_label_settings.tres" id="3_b4tg6"]
 [ext_resource type="Texture2D" uid="uid://551ywdkw1h44" path="res://assets/card_assets/Card Back.png" id="5_awi60"]
+[ext_resource type="FontFile" uid="uid://c74pcc377w760" path="res://assets/Fonts/Pixel.ttf" id="5_ji4dd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yfxjy"]
 size = Vector2(94.28, 146)
@@ -49,22 +50,20 @@ texture_filter = 1
 layout_mode = 0
 offset_right = 94.0
 offset_bottom = 145.0
-texture = ExtResource("2_be44j")
+texture = ExtResource("2_u8xyv")
 metadata/_edit_lock_ = true
 
 [node name="Marquee" type="Control" parent="."]
-visible = false
 modulate = Color(0, 0, 0, 1)
 self_modulate = Color(0, 0, 0, 1)
 clip_contents = true
 custom_minimum_size = Vector2(1, 23)
 anchors_preset = 0
 offset_top = 3.0
-offset_right = 95.0
+offset_right = 98.0
 offset_bottom = 26.0
 scale = Vector2(0.95, 0.95)
 script = ExtResource("2_p8l17")
-delay = 0.0
 duration = 5.0
 lines = Array[String](["", ""])
 
@@ -119,6 +118,7 @@ offset_top = 122.0
 offset_right = 127.0
 offset_bottom = 145.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_ji4dd")
 theme_override_font_sizes/font_size = 14
 text = "0"
 horizontal_alignment = 1

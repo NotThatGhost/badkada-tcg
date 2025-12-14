@@ -51,7 +51,7 @@ func play(unused_parameter = null):
 				pass
 		else:
 			pass
-		print("P2AI Card attempted!")
+		print("P2AI Card attempted!", card_in_use)
 		already_attempted_card_indexes.append(random_number)
 
 func use_card(card_in_use = null, random_number = null):

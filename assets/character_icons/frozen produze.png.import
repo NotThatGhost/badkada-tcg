@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cw411iswr6aow"
-path="res://.godot/imported/clare_claymore.png-e0a4f52ce20cc26882e5158a6ca3b803.ctex"
+uid="uid://b6k6m5undge3w"
+path="res://.godot/imported/frozen produze.png-f1d5b41a183c367f59a61256ab48a637.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/clare_claymore.png"
-dest_files=["res://.godot/imported/clare_claymore.png-e0a4f52ce20cc26882e5158a6ca3b803.ctex"]
+source_file="res://assets/character_icons/frozen produze.png"
+dest_files=["res://.godot/imported/frozen produze.png-f1d5b41a183c367f59a61256ab48a637.ctex"]
 
 [params]
 

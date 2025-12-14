@@ -35,7 +35,7 @@ func update_phase_label_text():
 	var tween = get_tree().create_tween()
 	var tween2 = get_tree().create_tween()
 	var new_text = TurnAndPhaseHandler.phases[TurnAndPhaseHandler.current_phase_index]
-	$SCORELABEL.set_text("Score: " +str(ScoreHandler.player_1_score) +str(" - ") +str(ScoreHandler.player_2_score))
+	$SCORELABEL.set_text("SCORE: " +str(ScoreHandler.player_1_score) +str(" - ") +str(ScoreHandler.player_2_score))
 	$PHASELABEL.set_text(new_text +str(" phase"))
 	$PHASELABEL2.set_text(new_text +str(" phase"))
 	tween.tween_property($PHASELABEL, "visible_characters",20, 1)
