@@ -3,6 +3,8 @@ extends Control
 const RALLY_CHOICE_POPUP_PATH = preload("res://scenes/menus/rally_choice_popup.tscn")
 
 func _ready() -> void:
+	$PlayArea_Player1/HScrollBar.horizontal_scroll_mode = 3
+	$PlayArea_Player2/HScrollBar.horizontal_scroll_mode = 3
 	CardHandler.connect("card_used", update_card_used_text)
 	TurnAndPhaseHandler.player_1_card_holder = $PlayArea_Player1/HScrollBar/CardHolder_Player1
 	TurnAndPhaseHandler.player_2_card_holder = $PlayArea_Player2/HScrollBar/CardHolder_Player2

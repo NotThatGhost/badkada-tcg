@@ -44,51 +44,9 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2, 3.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "values": [{
-"args": [1, 1],
-"method": &"main_scene_draw_card"
-}, {
-"args": [2, 1],
-"method": &"main_scene_draw_card"
-}, {
-"args": [1, 1],
-"method": &"main_scene_draw_card"
-}, {
-"args": [2, 1],
-"method": &"main_scene_draw_card"
-}, {
-"args": [1, 1],
-"method": &"main_scene_draw_card"
-}, {
-"args": [2, 1],
-"method": &"main_scene_draw_card"
-}, {
-"args": [1, 1],
-"method": &"main_scene_draw_card"
-}, {
-"args": [2, 1],
-"method": &"main_scene_draw_card"
-}, {
-"args": [1, 1],
-"method": &"main_scene_draw_card"
-}, {
-"args": [2, 1],
-"method": &"main_scene_draw_card"
-}, {
-"args": [1, 1],
-"method": &"main_scene_draw_card"
-}, {
-"args": [2, 1],
-"method": &"main_scene_draw_card"
-}, {
-"args": [1, 1],
-"method": &"main_scene_draw_card"
-}, {
-"args": [2, 1],
-"method": &"main_scene_draw_card"
-}, {
 "args": [1, 1],
 "method": &"main_scene_draw_card"
 }, {
@@ -140,6 +98,7 @@ _data = {
 }
 
 [node name="MainScene" type="Control"]
+clip_contents = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -234,20 +193,20 @@ position = Vector2(-3, 2)
 polygon = PackedVector2Array(5, 26, 5, 42, 21, 34)
 
 [node name="HScrollBar" type="ScrollContainer" parent="PlayArea_Player1"]
-clip_contents = false
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -340.0
-offset_right = 461.0
-offset_bottom = -173.0
+offset_top = -341.0
+offset_right = 478.0
+offset_bottom = -171.0
 grow_vertical = 0
-horizontal_scroll_mode = 2
+horizontal_scroll_mode = 0
 vertical_scroll_mode = 0
 
 [node name="CardHolder_Player1" type="HBoxContainer" parent="PlayArea_Player1/HScrollBar"]
 layout_mode = 2
+size_flags_vertical = 10
 theme_override_constants/separation = 10
 alignment = 1
 script = ExtResource("5_uu4ap")
@@ -270,9 +229,9 @@ grow_vertical = 2
 [node name="Portrait_Player2" type="TextureRect" parent="PlayArea_Player2"]
 texture_filter = 2
 layout_mode = 0
-offset_left = 2.0
+offset_left = 304.0
 offset_top = 5.0
-offset_right = 162.0
+offset_right = 480.0
 offset_bottom = 165.0
 texture = ExtResource("6_il3a7")
 
