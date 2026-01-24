@@ -1,16 +1,18 @@
-[gd_scene load_steps=16 format=3 uid="uid://co4uk16q2prsd"]
+[gd_scene load_steps=18 format=3 uid="uid://co4uk16q2prsd"]
 
-[ext_resource type="Script" path="res://scripts/levels_and_menus/main_scene.gd" id="1_lqo8o"]
-[ext_resource type="Script" path="res://scripts/singletons/card_handler.gd" id="3_den1x"]
-[ext_resource type="Script" path="res://scripts/singletons/turn_and_phase_handler.gd" id="3_qu4be"]
+[ext_resource type="Script" uid="uid://cmfgw5tvq4yby" path="res://scripts/levels_and_menus/main_scene.gd" id="1_lqo8o"]
+[ext_resource type="Script" uid="uid://bj6wj7g5dedab" path="res://scripts/singletons/card_handler.gd" id="3_den1x"]
+[ext_resource type="Script" uid="uid://cfts8udgxx61a" path="res://scripts/singletons/turn_and_phase_handler.gd" id="3_qu4be"]
 [ext_resource type="Texture2D" uid="uid://cbmamafn7odqp" path="res://assets/character_icons/longsword.png" id="4_3l808"]
-[ext_resource type="Script" path="res://scripts/entities/card_holder.gd" id="5_uu4ap"]
+[ext_resource type="Script" uid="uid://by1u84oj1ixhi" path="res://scripts/entities/card_holder.gd" id="5_uu4ap"]
+[ext_resource type="StyleBox" uid="uid://cm6foakk6sekj" path="res://assets/styles/info_panel.tres" id="5_xypni"]
 [ext_resource type="Texture2D" uid="uid://b6k6m5undge3w" path="res://assets/character_icons/frozen produze.png" id="6_il3a7"]
-[ext_resource type="Script" path="res://scripts/entities/player_2_ai.gd" id="6_nerfj"]
+[ext_resource type="Script" uid="uid://ehx3mmk8uwm7" path="res://scripts/entities/player_2_ai.gd" id="6_nerfj"]
 [ext_resource type="Texture2D" uid="uid://cs0w6lvegq6db" path="res://assets/card_assets/deck.png" id="7_g51wg"]
 [ext_resource type="Texture2D" uid="uid://cwd5jn87ux728" path="res://assets/GameMat.png" id="8_2irxq"]
-[ext_resource type="Script" path="res://scripts/entities/game_mat.gd" id="9_07ap6"]
+[ext_resource type="Script" uid="uid://j1cqp0ttrrbp" path="res://scripts/entities/game_mat.gd" id="9_07ap6"]
 [ext_resource type="FontFile" uid="uid://c74pcc377w760" path="res://assets/Fonts/Pixel.ttf" id="10_ki3vl"]
+[ext_resource type="PackedScene" uid="uid://b5d0gdm6lk0u3" path="res://scenes/menus/game_log_panel.tscn" id="13_xypni"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nsvak"]
 border_width_left = 4
@@ -93,8 +95,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rx5v4"]
 _data = {
-"RESET": SubResource("Animation_no8t4"),
-"beginning_draw_animation": SubResource("Animation_denf3")
+&"RESET": SubResource("Animation_no8t4"),
+&"beginning_draw_animation": SubResource("Animation_denf3")
 }
 
 [node name="MainScene" type="Control"]
@@ -151,45 +153,55 @@ offset_left = 179.0
 offset_top = 162.0
 offset_right = 462.0
 offset_bottom = 326.0
+theme_override_styles/panel = ExtResource("5_xypni")
 
 [node name="DRAW" type="Label" parent="PlayArea_Player1/PhaseIndicator_Player1"]
 layout_mode = 0
-offset_left = 20.0
-offset_top = 10.0
-offset_right = 127.0
-offset_bottom = 60.0
-theme_override_font_sizes/font_size = 36
-text = "Draw"
+offset_left = 24.0
+offset_top = 23.0
+offset_right = 140.0
+offset_bottom = 73.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_ki3vl")
+theme_override_font_sizes/font_size = 31
+text = "DRAW"
 
 [node name="MAIN" type="Label" parent="PlayArea_Player1/PhaseIndicator_Player1"]
 layout_mode = 0
-offset_left = 154.0
-offset_top = 10.0
-offset_right = 261.0
-offset_bottom = 60.0
-theme_override_font_sizes/font_size = 36
-text = "Main"
+offset_left = 156.0
+offset_top = 21.0
+offset_right = 263.0
+offset_bottom = 71.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_ki3vl")
+theme_override_font_sizes/font_size = 31
+text = "MAIN"
 
 [node name="RALLY" type="Label" parent="PlayArea_Player1/PhaseIndicator_Player1"]
 layout_mode = 0
-offset_left = 18.0
-offset_top = 109.0
-offset_right = 125.0
-offset_bottom = 159.0
-theme_override_font_sizes/font_size = 36
-text = "Rally"
+offset_left = 25.0
+offset_top = 113.0
+offset_right = 155.0
+offset_bottom = 163.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_ki3vl")
+theme_override_font_sizes/font_size = 31
+text = "RALLY"
 
 [node name="END" type="Label" parent="PlayArea_Player1/PhaseIndicator_Player1"]
 layout_mode = 0
-offset_left = 153.0
-offset_top = 109.0
-offset_right = 260.0
-offset_bottom = 159.0
-theme_override_font_sizes/font_size = 36
-text = "End"
+offset_left = 159.0
+offset_top = 112.0
+offset_right = 266.0
+offset_bottom = 162.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_ki3vl")
+theme_override_font_sizes/font_size = 31
+text = "END"
 
 [node name="PhaseIndicatorArrow" type="Polygon2D" parent="PlayArea_Player1/PhaseIndicator_Player1"]
 position = Vector2(-3, 2)
+color = Color(0, 0, 0, 1)
 polygon = PackedVector2Array(5, 26, 5, 42, 21, 34)
 
 [node name="HScrollBar" type="ScrollContainer" parent="PlayArea_Player1"]
@@ -486,8 +498,13 @@ text = "00"
 
 [node name="MainAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_rx5v4")
+&"": SubResource("AnimationLibrary_rx5v4")
 }
+
+[node name="GameLogPanel" parent="." instance=ExtResource("13_xypni")]
+layout_mode = 1
+offset_top = -146.0
+offset_bottom = 85.0
 
 [connection signal="pressed" from="RallyChoicePopupZone/RallyChoicePopupZoneButton" to="." method="_on_rally_choice_popup_zone_button_pressed"]
 [connection signal="pressed" from="Player1DeceptionPanel/HBoxContainer/StrengthButton1" to="." method="_on_strength_button_1_pressed"]

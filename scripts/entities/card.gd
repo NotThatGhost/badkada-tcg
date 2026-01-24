@@ -378,7 +378,7 @@ func use_card(selected_card = null): # Yup another hack, maybe I can get this to
 	if TurnAndPhaseHandler.current_phase_index == 1 || TurnAndPhaseHandler.current_phase_index == 2:
 		CardHandler.emit_signal("add_card_to_grid", card_owner, card_name)
 	
-	
+	GameLogHandler.emit_signal("add_text_to_game_log", "Player " +str(card_owner) +str(" used ") +str(card_name))
 
 	#if CardHandler.counter_card_in_effect == true:
 		#print("Counter card still in effect")

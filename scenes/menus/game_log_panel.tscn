@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5d0gdm6lk0u3"]
+
+[ext_resource type="StyleBox" uid="uid://cm6foakk6sekj" path="res://assets/styles/info_panel.tres" id="1_0u7jw"]
+[ext_resource type="Script" uid="uid://cwa4xvq8s71x2" path="res://scripts/levels_and_menus/game_log_panel.gd" id="2_k786o"]
+[ext_resource type="FontFile" uid="uid://fs8hi38lwpb8" path="res://assets/Fonts/px10.ttf" id="3_0u7jw"]
+
+[node name="GameLogPanel" type="Panel"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -219.5
+offset_top = -277.0
+offset_right = 219.5
+offset_bottom = 252.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_0u7jw")
+script = ExtResource("2_k786o")
+debug_text_message = "It worked?"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 7.5
+offset_top = 7.0
+offset_right = 431.5
+offset_bottom = 522.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("3_0u7jw")
+theme_override_font_sizes/normal_font_size = 21
+bbcode_enabled = true
+scroll_following = true
+
+[connection signal="meta_clicked" from="ScrollContainer/RichTextLabel" to="." method="_on_rich_text_label_meta_clicked"]

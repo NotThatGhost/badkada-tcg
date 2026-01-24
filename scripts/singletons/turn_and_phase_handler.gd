@@ -77,6 +77,7 @@ func phase_switch(new_phase:String):
 			CardHandler.clear_player_usable_cards()
 	emit_signal("phase_changed")
 	print("Current phase: ", new_phase)
+	GameLogHandler.emit_signal("add_text_to_game_log", str("[u]") +str(new_phase) +str(" phase entered!") +str("[/u]"))
 
 func player_rally_status_tracker(player:int, new_status:bool):
 	match player:

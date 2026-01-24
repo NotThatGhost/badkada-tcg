@@ -18,7 +18,6 @@ func add_card_indicator_to_player_grid(player:int, card_name:String):
 			player_2_grid.add_child(new_used_card_indicator)
 	new_used_card_indicator.get_node("TextureRect").texture = CardHandler.card_textures[card_name]
 
-
 func clear_grids():
 	print("Clearing grids!")
 	var player_1_grid_children = player_1_grid.get_children()

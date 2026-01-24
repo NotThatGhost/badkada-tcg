@@ -14,7 +14,7 @@ config/name="BADKADA TCG"
 config/version="1.7.1"
 config/tags=PackedStringArray("commission")
 run/main_scene="res://scenes/menus/main_menu.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 TurnAndPhaseHandler="*res://scripts/singletons/turn_and_phase_handler.gd"
 CardHandler="*res://scripts/singletons/card_handler.gd"
 ScoreHandler="*res://scripts/singletons/score_handler.gd"
+GameLogHandler="*res://scripts/singletons/game_log_handler.gd"
 
 [debug]
 
