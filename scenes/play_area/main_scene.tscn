@@ -280,6 +280,7 @@ player_owner = 2
 
 [node name="Player2AIHolder" type="Node2D" parent="PlayArea_Player2/HScrollBar"]
 script = ExtResource("6_nerfj")
+active_status = false
 
 [node name="PHASELABEL" type="Label" parent="."]
 visible = false

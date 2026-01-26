@@ -18,7 +18,39 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("1_0u7jw")
 script = ExtResource("2_k786o")
-debug_text_message = "It worked?"
+debug_text_message = "It worked?
+
+"
+net_shot_message = "Area - Forecourt   I   Target - Forecourt
+"
+lift_message = "Area - Forecourt   I   Target - Rearcourt
+"
+net_kill_message = "Forecourt   I   Target - Midcourt, Rearcourt
+"
+block_message = "Midcourt   I   Target - Forecourt
+"
+push_message = "Midcourt   I   Target - Midcourt
+"
+drive_message = "Midcourt  I   Target - Midcourt, Rearcourt
+"
+drop_shot_message = "Rearcourt  I   Target - Forecourt
+"
+clear_message = "Area - Rearcourt   I   Target - Rearcourt
+"
+smash_message = "Area - Rearcourt   I   Target - Midcourt, Rearcourt
+"
+intimidate_message = "Blindly pick one (1) card from your opponent’s hand."
+deception_message = "You can use this card multiple times in a single turn. Play it
+alongside a skill card and it can become any skill card you choose."
+anticipate_message = " Pick odd or even, then roll a die. If your guess matches the result,
+ignore your opponent’s last move and play any skill card you want."
+counter_message = "Match the number of cards your opponent played using any
+cards (must include at least one Skill Card). Then choose one Skill
+Card from the cards you played to represent your move."
+reversal_message = "Switch hand with your opponent."
+break_message = "Draw two (2) cards from the deck."
+cancel_message = "Your opponent’s support or talent
+card will have no effect."
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 0

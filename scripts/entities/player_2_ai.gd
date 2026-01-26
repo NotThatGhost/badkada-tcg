@@ -2,7 +2,7 @@ extends Node2D
 
 """...and God said, 'let there be the fiddy fiddy bot'"""
 
-var active_status = true
+@export var active_status = true
 var temporary_power_level_buffer = 0
 var temporary_highest_power_level_card_index = 0
 var searching_for_power_advantage_card = false

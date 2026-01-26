@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://8fpl0a8tyf55"]
 
-[ext_resource type="Script" path="res://scripts/entities/card.gd" id="1_u5168"]
-[ext_resource type="Script" path="res://addons/marquee/marquee.gd" id="2_p8l17"]
+[ext_resource type="Script" uid="uid://d3ycbph15ij52" path="res://scripts/entities/card.gd" id="1_u5168"]
+[ext_resource type="Script" uid="uid://th23x08em53c" path="res://addons/marquee/marquee.gd" id="2_p8l17"]
 [ext_resource type="Texture2D" uid="uid://ci7ncmtoag1hi" path="res://assets/card_assets/Dependent Cards/Intimidate card.png" id="2_u8xyv"]
 [ext_resource type="LabelSettings" uid="uid://b5i04hqj08wtd" path="res://assets/new_label_settings.tres" id="3_b4tg6"]
 [ext_resource type="Texture2D" uid="uid://551ywdkw1h44" path="res://assets/card_assets/Card Back.png" id="5_awi60"]

@@ -1,5 +1,7 @@
 extends Panel
 
+
+
 var card_in_focus = false
 var card_active = false
 var card_combinable = false
@@ -12,6 +14,8 @@ var checking_input = false
 var card_in_selected_series = 0
 
 var times_tapped = 0
+
+var card_owner_color
 
 var card_owner : int
 #var card_owner = [ # This is an array just in case I need to pull a string
@@ -40,6 +44,12 @@ func _ready() -> void:
 
 func set_card_visible_info():
 	#$CARDNAME.set_text(str(card_name))
+	
+	match card_owner:
+		1:
+			card_owner_color = "blue"
+		2:
+			card_owner_color = "red"
 	
 	if card_type == "skill":
 		if CardHandler.card_textures.has(card_name) == true:
@@ -378,8 +388,10 @@ func use_card(selected_card = null): # Yup another hack, maybe I can get this to
 	if TurnAndPhaseHandler.current_phase_index == 1 || TurnAndPhaseHandler.current_phase_index == 2:
 		CardHandler.emit_signal("add_card_to_grid", card_owner, card_name)
 	
-	GameLogHandler.emit_signal("add_text_to_game_log", "Player " +str(card_owner) +str(" used ") +str(card_name))
-
+	GameLogHandler.emit_signal("add_card_used_to_game_log", card_owner, card_name, card_owner_color)
+	
+	#GameLogHandler.emit_signal("add_card_used_to_game_log", card_name +str("_message"))
+	
 	#if CardHandler.counter_card_in_effect == true:
 		#print("Counter card still in effect")
 		#match card_owner:
