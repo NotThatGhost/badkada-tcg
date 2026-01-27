@@ -41,26 +41,36 @@ extends Panel
 var temporary_text_snapshot = ""
 
 func _ready() -> void:
+	GameLogHandler.change_game_log_panel_visibility.connect(change_game_log_panel_visibility)
 	GameLogHandler.connect("add_text_to_game_log", add_new_log_text)
 	GameLogHandler.connect("add_card_used_to_game_log", add_new_card_desciption_log_text)
-	text_field.append_text("[url="+str(debug_text_message)+str("]test link[/url]"))
+	#text_field.append_text("[url="+str(debug_text_message)+str("]test link[/url]"))
 
 func add_new_log_text(new_text : String):
 	text_field.append_text(new_text +str("\n"))
+	temporary_text_snapshot += (new_text +str("\n"))
+	print("Temp text buffer: \n" +temporary_text_snapshot)
 
 func add_new_card_desciption_log_text(player_number : int, card_name : String, player_color : String):
-	text_field.append_text("Player " + str(player_number) + " used: " + "[url=" + card_messages[card_name] + "][color=" + player_color + "]" + card_name + "[/color] [/url]")
+	#text_field.append_text("Player " + str(player_number) + " used: " + "[url=" + card_messages[card_name] + "][color=" + player_color + "]" + card_name + "[/color] [/url]")
+	#text_field.append_text("\n")
+	add_new_log_text("Player " + str(player_number) + " used: " + "[url=" + card_messages[card_name] + "][color=" + player_color + "]" + card_name + "[/color] [/url]")
 
-func reset_text_field():
-	text_field.set_text("")
-
+func change_game_log_panel_visibility(new_status : bool):
+	visible = new_status
 
 func _on_rich_text_label_meta_clicked(meta: Variant) -> void:
+	
 	if card_messages.has(card_messages.find_key(meta)):
 		print(meta)
-		text_field.parse_bbcode(meta)
-		text_field.append_text("[img=48x72]" + str(CardHandler.card_textures[card_messages.find_key(meta)].get_path()) + "[/img]")
+		text_field.text = ("[center][img=24x36][/center]" + str(CardHandler.card_textures[card_messages.find_key(meta)].get_path()) + "[/img]" + "\n" +meta)
+		
 		return
 	if meta is String:
 		text_field.append_text(meta)
-	print(meta)
+
+func _on_undo_button_pressed() -> void:
+	text_field.text = temporary_text_snapshot
+
+func _on_exit_button_pressed() -> void:
+	change_game_log_panel_visibility(false)

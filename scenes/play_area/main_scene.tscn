@@ -389,6 +389,7 @@ theme_override_font_sizes/font_size = 36
 text = "SCORE: 0 - 0"
 
 [node name="RallyChoicePopupZone" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -506,6 +507,7 @@ libraries = {
 layout_mode = 1
 offset_top = -146.0
 offset_bottom = 85.0
+mouse_filter = 2
 
 [connection signal="pressed" from="RallyChoicePopupZone/RallyChoicePopupZoneButton" to="." method="_on_rally_choice_popup_zone_button_pressed"]
 [connection signal="pressed" from="Player1DeceptionPanel/HBoxContainer/StrengthButton1" to="." method="_on_strength_button_1_pressed"]

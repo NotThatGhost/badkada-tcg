@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://o7tl5e48lvp1"]
 
-[ext_resource type="Script" path="res://scripts/entities/used_card_indicator.gd" id="1_mcqv3"]
+[ext_resource type="Script" uid="uid://boxsou7f6ys6m" path="res://scripts/entities/used_card_indicator.gd" id="1_mcqv3"]
 
 [node name="UsedCardIndicator" type="Control"]
 layout_mode = 3
@@ -23,3 +23,13 @@ visible = false
 layout_mode = 0
 offset_right = 28.0
 offset_bottom = 44.0
+mouse_filter = 2
+
+[node name="GameLogPanelPanel" type="Button" parent="."]
+layout_mode = 0
+offset_right = 28.0
+offset_bottom = 44.0
+flat = true
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="pressed" from="GameLogPanelPanel" to="." method="_on_game_log_panel_panel_pressed"]
