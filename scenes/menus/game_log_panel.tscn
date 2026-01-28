@@ -1,8 +1,130 @@
-[gd_scene load_steps=4 format=3 uid="uid://b5d0gdm6lk0u3"]
+[gd_scene load_steps=16 format=3 uid="uid://b5d0gdm6lk0u3"]
 
 [ext_resource type="StyleBox" uid="uid://cm6foakk6sekj" path="res://assets/styles/info_panel.tres" id="1_0u7jw"]
 [ext_resource type="Script" uid="uid://cwa4xvq8s71x2" path="res://scripts/levels_and_menus/game_log_panel.gd" id="2_k786o"]
 [ext_resource type="FontFile" uid="uid://fs8hi38lwpb8" path="res://assets/Fonts/px10.ttf" id="3_0u7jw"]
+[ext_resource type="Texture2D" uid="uid://dqe5sycg1qdxa" path="res://assets/menu_assets/ARRROW.png" id="4_b56hn"]
+[ext_resource type="Texture2D" uid="uid://1dokpps4ixmx" path="res://assets/menu_assets/X.png" id="5_nmvb8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1tucx"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xf08c"]
+bg_color = Color(0.5421875, 0.5421875, 0.5421875, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o8npq"]
+bg_color = Color(0.5828125, 0.5828125, 0.5828125, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v74us"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xrfks"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x03gx"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xvhux"]
+bg_color = Color(0.58431375, 0.58431375, 0.58431375, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mtcqv"]
+bg_color = Color(0.58431375, 0.58431375, 0.58431375, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5wdj1"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v4kf7"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
 
 [node name="GameLogPanel" type="Panel"]
 anchors_preset = 8
@@ -71,19 +193,36 @@ fit_content = true
 
 [node name="UndoButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 368.5
-offset_top = -12.0
-offset_right = 399.5
-offset_bottom = 21.0
-text = "<"
+offset_left = 323.5
+offset_top = -24.0
+offset_right = 371.5
+offset_bottom = 24.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_1tucx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_xf08c")
+theme_override_styles/hover = SubResource("StyleBoxFlat_o8npq")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_v74us")
+theme_override_styles/focus = SubResource("StyleBoxFlat_xrfks")
+icon = ExtResource("4_b56hn")
+icon_alignment = 1
+expand_icon = true
 
 [node name="ExitButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 402.5
-offset_top = -12.0
-offset_right = 433.5
-offset_bottom = 21.0
-text = "X"
+offset_left = 379.5
+offset_top = -24.0
+offset_right = 427.5
+offset_bottom = 24.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_0u7jw")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_x03gx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_xvhux")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mtcqv")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_5wdj1")
+theme_override_styles/focus = SubResource("StyleBoxFlat_v4kf7")
+icon = ExtResource("5_nmvb8")
+icon_alignment = 1
+expand_icon = true
 
 [connection signal="meta_clicked" from="ScrollContainer/RichTextLabel" to="." method="_on_rich_text_label_meta_clicked"]
 [connection signal="pressed" from="UndoButton" to="." method="_on_undo_button_pressed"]

@@ -36,6 +36,13 @@ extends Panel
 	"drop_shot" : drop_shot_message,
 	"clear" : clear_message,
 	"smash" : smash_message,
+	"intimidate" : intimidate_message,
+	"deception" : deception_message,
+	"anticipate" : anticipate_message,
+	"counter" : counter_message,
+	"reversal" : reversal_message,
+	"break" : break_message,
+	"cancel" : cancel_message,
 }
 
 var temporary_text_snapshot = ""
@@ -54,7 +61,7 @@ func add_new_log_text(new_text : String):
 func add_new_card_desciption_log_text(player_number : int, card_name : String, player_color : String):
 	#text_field.append_text("Player " + str(player_number) + " used: " + "[url=" + card_messages[card_name] + "][color=" + player_color + "]" + card_name + "[/color] [/url]")
 	#text_field.append_text("\n")
-	add_new_log_text("Player " + str(player_number) + " used: " + "[url=" + card_messages[card_name] + "][color=" + player_color + "]" + card_name + "[/color] [/url]")
+	add_new_log_text("Player " + str(player_number) + " used: " + "[url=" + card_messages[card_name] + "][color=" + player_color + "]" + card_name + "[/color][/url]")
 
 func change_game_log_panel_visibility(new_status : bool):
 	visible = new_status
@@ -63,7 +70,7 @@ func _on_rich_text_label_meta_clicked(meta: Variant) -> void:
 	
 	if card_messages.has(card_messages.find_key(meta)):
 		print(meta)
-		text_field.text = ("[center][img=24x36][/center]" + str(CardHandler.card_textures[card_messages.find_key(meta)].get_path()) + "[/img]" + "\n" +meta)
+		text_field.text = ("[center][img=96x144]" + str(CardHandler.card_textures[card_messages.find_key(meta)].get_path()) + "[/img][/center]" + "\n" +meta)
 		
 		return
 	if meta is String:
