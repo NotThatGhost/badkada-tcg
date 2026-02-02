@@ -41,6 +41,7 @@ func _ready() -> void:
 	GameLogHandler.add_text_to_game_log.emit("Game started!")
 	connect("player_changed_rally_status", player_rally_status_tracker)
 	connect("player_turn_changed", set_player_turn)
+	player_turn_changed.emit(1)
 
 func next_phase():
 	current_phase_index += 1
@@ -61,6 +62,7 @@ func phase_switch(new_phase:String):
 			#CardHandler.player_draw_new_card(2, 1)
 		"main":
 			TurnAndPhaseHandler.emit_signal("main_phase_entered")
+			
 		"rally":
 			current_phase_index = 2
 			if player_1_wants_to_rally == true && player_2_wants_to_rally == true:

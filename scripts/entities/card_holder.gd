@@ -2,11 +2,13 @@ extends HBoxContainer
 
 @export var player_owner = 0
 
+
 func _ready() -> void:
 	#get_player_owner()
 	CardHandler.connect("player_draw_card", add_card_to_hand)
 	CardHandler.connect("player_remove_card", remove_card_from_hand)
 	CardHandler.connect("player_clear_card_holder", clear_card_holder)
+	
 
 func add_card_to_hand(player_number: int, card_to_add = null):
 	if player_number == player_owner:
@@ -28,3 +30,9 @@ func clear_card_holder(player_number:int):
 			#print("Child to be deleted: ", self.get_child(0).name)
 			#self.remove_child(get_child(0))
 			#i += 1
+			
+#func update_player_card_grid_size(player_in_turn : int):
+	#if player_in_turn == player_owner:
+		#scale = Vector2(2, 2)
+	#else:
+		#scale = Vector2(1, 1)

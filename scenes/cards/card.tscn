@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://8fpl0a8tyf55"]
+[gd_scene load_steps=9 format=3 uid="uid://8fpl0a8tyf55"]
 
 [ext_resource type="Script" uid="uid://d3ycbph15ij52" path="res://scripts/entities/card.gd" id="1_u5168"]
 [ext_resource type="Script" uid="uid://th23x08em53c" path="res://addons/marquee/marquee.gd" id="2_p8l17"]
@@ -6,6 +6,7 @@
 [ext_resource type="LabelSettings" uid="uid://b5i04hqj08wtd" path="res://assets/new_label_settings.tres" id="3_b4tg6"]
 [ext_resource type="Texture2D" uid="uid://551ywdkw1h44" path="res://assets/card_assets/Card Back.png" id="5_awi60"]
 [ext_resource type="FontFile" uid="uid://c74pcc377w760" path="res://assets/Fonts/Pixel.ttf" id="5_ji4dd"]
+[ext_resource type="Texture2D" uid="uid://ces1gly7deiri" path="res://assets/card_assets/FocusIndicator/Picker.png" id="7_4tkg3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yfxjy"]
 size = Vector2(94.28, 146)
@@ -65,7 +66,7 @@ offset_bottom = 26.0
 scale = Vector2(0.95, 0.95)
 script = ExtResource("2_p8l17")
 duration = 5.0
-lines = Array[String](["", ""])
+lines = Array[String](["", "", ""])
 
 [node name="CARDTYPE" type="Label" parent="."]
 visible = false
@@ -141,6 +142,23 @@ width = 1.0
 
 [node name="InputTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="FocusIndicator" type="TextureRect" parent="."]
+visible = false
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -49.999996
+offset_top = -76.5
+offset_right = 49.0
+offset_bottom = 75.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_4tkg3")
 
 [connection signal="pressed" from="TouchScreenButton" to="." method="_on_touch_screen_button_pressed"]
 [connection signal="timeout" from="InputTimer" to="." method="_on_input_timer_timeout"]

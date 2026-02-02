@@ -24,7 +24,7 @@ func play(unused_parameter = null):
 		var card_in_use =  $"../CardHolder_Player2".get_child(random_number)
 		if already_attempted_card_indexes.has(random_number) == false:
 			if card_in_use.card_active == true && card_in_use.card_area == CardHandler.player_1_current_target:
-				if  card_in_use.card_type == "skill" && card_in_use.power_level >= CardHandler.player_1_current_power:
+				if card_in_use.card_type == "skill" && card_in_use.power_level >= CardHandler.player_1_current_power:
 					print("ai_FUCK YEAH")
 				else:
 					if card_in_use.card_type == "skill":
@@ -45,6 +45,7 @@ func play(unused_parameter = null):
 								use_card(card_in_use, random_number)
 							"counter1", "counter2":
 								use_card(card_in_use, random_number)
+						return
 				use_card(card_in_use, random_number)
 				return
 			else:

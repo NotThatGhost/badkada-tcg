@@ -61,7 +61,7 @@ func set_card_visible_info():
 			print("card texture returning")
 			return
 	if card_name != "":
-		new_marquee_card_name = [card_name, card_name]
+		new_marquee_card_name = [card_name, card_name, card_name]
 	else:
 		print("card name doesnt exist")
 	print(new_marquee_card_name)
@@ -389,6 +389,7 @@ func use_card(selected_card = null): # Yup another hack, maybe I can get this to
 		CardHandler.emit_signal("add_card_to_grid", card_owner, card_name)
 	
 	GameLogHandler.emit_signal("add_card_used_to_game_log", card_owner, card_name, card_owner_color)
+	visible = false
 	
 	#GameLogHandler.emit_signal("add_card_used_to_game_log", card_name +str("_message"))
 	
@@ -406,6 +407,7 @@ func use_card(selected_card = null): # Yup another hack, maybe I can get this to
 						#CardHandler.counter_card_in_effect = false
 func reset_card_usage():
 	card_already_used = false
+	visible = true
 
 
 func use_selected_card():
@@ -490,14 +492,18 @@ func take_card_out_of_focus():
 	card_in_focus = false
 	#$FOCUSTEXT.visible = false
 	#modulate = Color8(255, 255, 255, 255)
-	$FocusArrow.visible = false
+	#$FocusArrow.visible = false
+	$FocusIndicator.visible = false
+	z_index = 0
 
 func put_card_in_focus():
 	CardHandler.emit_signal("new_card_focus_signal")
 	card_in_focus = true
 	#$FOCUSTEXT.visible = true
 	#modulate = Color8(0, 255, 0, 255)
-	$FocusArrow.visible = true
+	#$FocusArrow.visible = true
+	$FocusIndicator.visible = true
+	z_index = 2
 
 func _physics_process(delta: float) -> void:
 	if card_in_focus == true:

@@ -11,4 +11,5 @@ extends Control
 
 func _on_game_log_panel_panel_pressed() -> void:
 	GameLogHandler.change_game_log_panel_visibility.emit(true)
+	GameLogHandler.add_card_used_to_game_log.emit()
 	print("FUCK")

@@ -2,6 +2,16 @@ extends Control
 
 const RALLY_CHOICE_POPUP_PATH = preload("res://scenes/menus/rally_choice_popup.tscn")
 
+@onready var player_1_scroll_bar = $PlayArea_Player1/HScrollBar
+@onready var player_2_scroll_bar = $PlayArea_Player2/HScrollBar
+@onready var player_1_card_holder = $PlayArea_Player1/HScrollBar/CardHolder_Player1
+@onready var player_2_card_holder = $PlayArea_Player2/HScrollBar/CardHolder_Player2
+@export var player_scroll_bar_big_scale = Vector2(1.3, 1.3)
+@export var player_scroll_bar_size_regular = Vector2(469, 163)
+@export var player_scroll_bar_size_big = Vector2(360, 163)
+@export var player_card_holder_separation_regular = 4
+@export var player_card_holder_separation_big = -20
+
 func _ready() -> void:
 	$PlayArea_Player1/HScrollBar.horizontal_scroll_mode = 3
 	$PlayArea_Player2/HScrollBar.horizontal_scroll_mode = 3
@@ -16,6 +26,8 @@ func _ready() -> void:
 	$MainAnimationPlayer.play("beginning_draw_animation")
 	await $MainAnimationPlayer.animation_finished
 	TurnAndPhaseHandler.next_phase()
+	TurnAndPhaseHandler.player_turn_changed.connect(update_player_scroll_bar_scale)
+	update_player_scroll_bar_scale(1)
 	#CardHandler.player_draw_new_card(1, 12)
 	#CardHandler.player_draw_new_card(2, 12)
 	#CardHandler.player_draw_new_card(1, 1, null, "deception1")
@@ -64,6 +76,23 @@ func activate_power_select_popup(player:int, new_status:bool):
 		2:
 			pass
 			
+
+func update_player_scroll_bar_scale(player_in_turn : int):
+	player_1_scroll_bar.scale = Vector2(1, 1)
+	player_2_scroll_bar.scale = Vector2(1, 1)
+	player_1_scroll_bar.size = player_scroll_bar_size_regular
+	player_2_scroll_bar.size = player_scroll_bar_size_regular
+	player_1_card_holder.add_theme_constant_override("separation", player_card_holder_separation_regular)
+	player_2_card_holder.add_theme_constant_override("separation", player_card_holder_separation_regular)
+	match player_in_turn:
+		1:
+			player_1_scroll_bar.scale = player_scroll_bar_big_scale
+			player_1_scroll_bar.size = player_scroll_bar_size_big
+			player_1_card_holder.add_theme_constant_override("separation", player_card_holder_separation_big)
+		2:
+			player_2_scroll_bar.scale = player_scroll_bar_big_scale
+			player_2_scroll_bar.size = player_scroll_bar_size_big
+			player_2_card_holder.add_theme_constant_override("separation", player_card_holder_separation_big)
 
 func _on_rally_choice_popup_zone_button_pressed() -> void:
 	var new_rally_choice_popup = RALLY_CHOICE_POPUP_PATH.instantiate()

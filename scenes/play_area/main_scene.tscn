@@ -205,21 +205,22 @@ color = Color(0, 0, 0, 1)
 polygon = PackedVector2Array(5, 26, 5, 42, 21, 34)
 
 [node name="HScrollBar" type="ScrollContainer" parent="PlayArea_Player1"]
+z_index = 1
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -341.0
-offset_right = 478.0
-offset_bottom = -171.0
+offset_right = 371.53848
+offset_bottom = -179.46155
 grow_vertical = 0
-horizontal_scroll_mode = 0
+scale = Vector2(1.3, 1.3)
+horizontal_scroll_mode = 2
 vertical_scroll_mode = 0
 
 [node name="CardHolder_Player1" type="HBoxContainer" parent="PlayArea_Player1/HScrollBar"]
 layout_mode = 2
-size_flags_vertical = 10
-theme_override_constants/separation = 10
+theme_override_constants/separation = -20
 alignment = 1
 script = ExtResource("5_uu4ap")
 player_owner = 1
@@ -256,6 +257,7 @@ offset_right = 462.0
 offset_bottom = 167.0
 
 [node name="HScrollBar" type="ScrollContainer" parent="PlayArea_Player2"]
+z_index = 1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -264,7 +266,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -229.0
 offset_top = 2.0
-offset_right = 232.0
+offset_right = 131.00003
 offset_bottom = 165.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -273,7 +275,7 @@ vertical_scroll_mode = 0
 
 [node name="CardHolder_Player2" type="HBoxContainer" parent="PlayArea_Player2/HScrollBar"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 alignment = 1
 script = ExtResource("5_uu4ap")
 player_owner = 2
@@ -504,6 +506,7 @@ libraries = {
 }
 
 [node name="GameLogPanel" parent="." instance=ExtResource("13_xypni")]
+visible = false
 layout_mode = 1
 offset_top = -146.0
 offset_bottom = 85.0
