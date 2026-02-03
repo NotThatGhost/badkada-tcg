@@ -37,6 +37,8 @@ signal draw_phase_entered
 signal player_changed_rally_status # use with player number and bool for status
 signal player_turn_changed
 
+signal player_1_pass_rally(bool)
+
 func _ready() -> void:
 	GameLogHandler.add_text_to_game_log.emit("Game started!")
 	connect("player_changed_rally_status", player_rally_status_tracker)

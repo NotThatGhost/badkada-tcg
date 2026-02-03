@@ -2,6 +2,9 @@ extends Control
 
 const RALLY_CHOICE_POPUP_PATH = preload("res://scenes/menus/rally_choice_popup.tscn")
 
+@onready var secondary_animation_player = $SecondaryAnimationPlayer
+
+@onready var player_turn_indicator_label = $PlayerTurnIndicatorLabel
 @onready var player_1_scroll_bar = $PlayArea_Player1/HScrollBar
 @onready var player_2_scroll_bar = $PlayArea_Player2/HScrollBar
 @onready var player_1_card_holder = $PlayArea_Player1/HScrollBar/CardHolder_Player1
@@ -22,16 +25,19 @@ func _ready() -> void:
 	$DeckIcon/DECKSIZECOUNT.set_text(str(CardHandler.game_use_deck.size()))
 	TurnAndPhaseHandler.connect("phase_changed", update_phase_label_text)
 	CardHandler.connect("power_select_screen_activate", activate_power_select_popup)
-	await get_tree().create_timer(1).timeout
-	$MainAnimationPlayer.play("beginning_draw_animation")
-	await $MainAnimationPlayer.animation_finished
-	TurnAndPhaseHandler.next_phase()
+	TurnAndPhaseHandler.draw_phase_entered.emit()
 	TurnAndPhaseHandler.player_turn_changed.connect(update_player_scroll_bar_scale)
+	TurnAndPhaseHandler.player_turn_changed.connect(update_player_turn_indicator_label_text)
+	TurnAndPhaseHandler.draw_phase_entered.connect(play_player_turn_indicator_animation)
+	TurnAndPhaseHandler.player_1_pass_rally.connect(play_player_rally_pass_animation)
 	update_player_scroll_bar_scale(1)
 	#CardHandler.player_draw_new_card(1, 12)
 	#CardHandler.player_draw_new_card(2, 12)
 	#CardHandler.player_draw_new_card(1, 1, null, "deception1")
-	
+	await get_tree().create_timer(1).timeout
+	$MainAnimationPlayer.play("beginning_draw_animation")
+	await $MainAnimationPlayer.animation_finished
+	TurnAndPhaseHandler.next_phase()
 	
 	#CardHandler.player_draw_new_card(1, 1, "reversal")
 	
@@ -94,6 +100,14 @@ func update_player_scroll_bar_scale(player_in_turn : int):
 			player_2_scroll_bar.size = player_scroll_bar_size_big
 			player_2_card_holder.add_theme_constant_override("separation", player_card_holder_separation_big)
 
+func update_player_turn_indicator_label_text(player_in_turn : int):
+	player_turn_indicator_label.text = "Player " +str(player_in_turn)
+
+func play_player_turn_indicator_animation():
+	secondary_animation_player.play("show_player_turn_indicator_label")
+
+func play_player_rally_pass_animation():
+	secondary_animation_player.play("show_player_1_pass_indicator")
 func _on_rally_choice_popup_zone_button_pressed() -> void:
 	var new_rally_choice_popup = RALLY_CHOICE_POPUP_PATH.instantiate()
 	get_parent().add_child(new_rally_choice_popup)

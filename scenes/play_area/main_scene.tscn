@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://co4uk16q2prsd"]
+[gd_scene load_steps=24 format=3 uid="uid://co4uk16q2prsd"]
 
 [ext_resource type="Script" uid="uid://cmfgw5tvq4yby" path="res://scripts/levels_and_menus/main_scene.gd" id="1_lqo8o"]
 [ext_resource type="Script" uid="uid://bj6wj7g5dedab" path="res://scripts/singletons/card_handler.gd" id="3_den1x"]
@@ -13,6 +13,8 @@
 [ext_resource type="Script" uid="uid://j1cqp0ttrrbp" path="res://scripts/entities/game_mat.gd" id="9_07ap6"]
 [ext_resource type="FontFile" uid="uid://c74pcc377w760" path="res://assets/Fonts/Pixel.ttf" id="10_ki3vl"]
 [ext_resource type="PackedScene" uid="uid://b5d0gdm6lk0u3" path="res://scenes/menus/game_log_panel.tscn" id="13_xypni"]
+[ext_resource type="Texture2D" uid="uid://bep0cnshabctv" path="res://assets/menu_assets/Opponent Pass.png" id="14_4d6jp"]
+[ext_resource type="FontFile" uid="uid://fs8hi38lwpb8" path="res://assets/Fonts/px10.ttf" id="14_kcjht"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nsvak"]
 border_width_left = 4
@@ -97,6 +99,72 @@ tracks/1/keys = {
 _data = {
 &"RESET": SubResource("Animation_no8t4"),
 &"beginning_draw_animation": SubResource("Animation_denf3")
+}
+
+[sub_resource type="Animation" id="Animation_kcjht"]
+resource_name = "show_player_turn_indicator_label"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerTurnIndicatorLabel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_4d6jp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("PlayerTurnIndicatorLabel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Player1PassBubble:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_a3p14"]
+resource_name = "show_player_1_pass_indicator"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player1PassBubble:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a3p14"]
+_data = {
+&"RESET": SubResource("Animation_4d6jp"),
+&"show_player_1_pass_indicator": SubResource("Animation_a3p14"),
+&"show_player_turn_indicator_label": SubResource("Animation_kcjht")
 }
 
 [node name="MainScene" type="Control"]
@@ -266,7 +334,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -229.0
 offset_top = 2.0
-offset_right = 131.00003
+offset_right = 237.0
 offset_bottom = 165.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -275,7 +343,7 @@ vertical_scroll_mode = 0
 
 [node name="CardHolder_Player2" type="HBoxContainer" parent="PlayArea_Player2/HScrollBar"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 4
 alignment = 1
 script = ExtResource("5_uu4ap")
 player_owner = 2
@@ -319,6 +387,43 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 26
 text = "Player 1 used: net shot!"
 
+[node name="PlayerTurnIndicatorLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -184.5
+offset_top = -51.0
+offset_right = 184.5
+offset_bottom = 51.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("14_kcjht")
+theme_override_font_sizes/font_size = 101
+text = "Player 2"
+
+[node name="SCORELABEL" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -119.0
+offset_top = -32.0
+offset_right = 119.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_ki3vl")
+theme_override_font_sizes/font_size = 36
+text = "SCORE: 0 - 0"
+
 [node name="GameMat" type="TextureRect" parent="."]
 texture_filter = 1
 layout_mode = 1
@@ -337,6 +442,7 @@ texture = ExtResource("8_2irxq")
 script = ExtResource("9_07ap6")
 
 [node name="MarginContainerP2" type="MarginContainer" parent="GameMat"]
+z_index = 1
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -355,6 +461,7 @@ theme_override_constants/separation = 40
 alignment = 1
 
 [node name="MarginContainerP1" type="MarginContainer" parent="GameMat"]
+z_index = 1
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -372,26 +479,7 @@ layout_mode = 2
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="SCORELABEL" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -119.0
-offset_top = -32.0
-offset_right = 119.0
-offset_bottom = 32.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("10_ki3vl")
-theme_override_font_sizes/font_size = 36
-text = "SCORE: 0 - 0"
-
 [node name="RallyChoicePopupZone" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -414,6 +502,7 @@ offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
+mouse_filter = 1
 flat = true
 
 [node name="Player1DeceptionPanel" type="Panel" parent="."]
@@ -500,13 +589,50 @@ theme_override_fonts/font = ExtResource("10_ki3vl")
 theme_override_font_sizes/font_size = 17
 text = "00"
 
+[node name="Player1PassBubble" type="TextureRect" parent="."]
+visible = false
+z_index = 3
+layout_mode = 0
+offset_left = 215.0
+offset_top = 696.0
+offset_right = 389.0
+offset_bottom = 789.0
+rotation = 3.1415927
+texture = ExtResource("14_4d6jp")
+
+[node name="Player1PassIndicator" type="Label" parent="Player1PassBubble"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 68.0
+offset_top = 37.499985
+offset_right = 215.0
+offset_bottom = 101.499985
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(-1, -1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("14_kcjht")
+theme_override_font_sizes/font_size = 59
+text = "PASS"
+metadata/_edit_lock_ = true
+
 [node name="MainAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_rx5v4")
 }
 
+[node name="SecondaryAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_a3p14")
+}
+
 [node name="GameLogPanel" parent="." instance=ExtResource("13_xypni")]
 visible = false
+z_index = 10
 layout_mode = 1
 offset_top = -146.0
 offset_bottom = 85.0

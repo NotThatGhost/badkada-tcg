@@ -4,6 +4,7 @@ extends Control
 
 func _on_accept_button_pressed() -> void:
 	TurnAndPhaseHandler.emit_signal("player_changed_rally_status", 1, false)
+	TurnAndPhaseHandler.player_1_pass_rally.emit()
 	queue_free()
 
 func _on_decline_button_pressed() -> void:
