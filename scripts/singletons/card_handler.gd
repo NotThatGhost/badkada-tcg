@@ -186,6 +186,8 @@ signal set_usability
 signal power_select_screen_activate
 signal new_card_focus_signal
 signal add_card_to_grid # call with player number and card name
+signal creat_new_used_card_indicator # call with player number and card type
+
 #var card_names = [
 	#"intimidate",
 	#"deception",

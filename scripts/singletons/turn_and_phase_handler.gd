@@ -36,7 +36,7 @@ signal main_phase_entered
 signal draw_phase_entered
 signal player_changed_rally_status # use with player number and bool for status
 signal player_turn_changed
-
+signal show_game_score
 signal player_1_pass_rally(bool)
 
 func _ready() -> void:
@@ -78,6 +78,8 @@ func phase_switch(new_phase:String):
 			player_2_wants_to_rally = false
 			CardHandler.player_1_current_target = ""
 			CardHandler.player_2_current_target = ""
+			TurnAndPhaseHandler.show_game_score.emit()
+			await get_tree().create_timer(1.5).timeout
 			next_phase()
 			CardHandler.clear_player_usable_cards()
 	emit_signal("phase_changed")

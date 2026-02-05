@@ -2,18 +2,23 @@ extends Control
 
 const RALLY_CHOICE_POPUP_PATH = preload("res://scenes/menus/rally_choice_popup.tscn")
 
+@onready var main_animation_player = $MainAnimationPlayer
 @onready var secondary_animation_player = $SecondaryAnimationPlayer
 
+@onready var score_label = $SCORELABEL
 @onready var player_turn_indicator_label = $PlayerTurnIndicatorLabel
 @onready var player_1_scroll_bar = $PlayArea_Player1/HScrollBar
 @onready var player_2_scroll_bar = $PlayArea_Player2/HScrollBar
 @onready var player_1_card_holder = $PlayArea_Player1/HScrollBar/CardHolder_Player1
 @onready var player_2_card_holder = $PlayArea_Player2/HScrollBar/CardHolder_Player2
+@onready var player_1_usable_card_indicator = $PlayArea_Player1/PhaseIndicator_Player1/UsableCardCountLabel
 @export var player_scroll_bar_big_scale = Vector2(1.3, 1.3)
 @export var player_scroll_bar_size_regular = Vector2(469, 163)
 @export var player_scroll_bar_size_big = Vector2(360, 163)
 @export var player_card_holder_separation_regular = 4
-@export var player_card_holder_separation_big = -20
+@export var player_card_holder_separation_big = 4
+
+var player_1_usable_card_indicator_number: int: set = set_player_1_usable_card_indicator
 
 func _ready() -> void:
 	$PlayArea_Player1/HScrollBar.horizontal_scroll_mode = 3
@@ -30,6 +35,7 @@ func _ready() -> void:
 	TurnAndPhaseHandler.player_turn_changed.connect(update_player_turn_indicator_label_text)
 	TurnAndPhaseHandler.draw_phase_entered.connect(play_player_turn_indicator_animation)
 	TurnAndPhaseHandler.player_1_pass_rally.connect(play_player_rally_pass_animation)
+	TurnAndPhaseHandler.show_game_score.connect(play_score_animation)
 	update_player_scroll_bar_scale(1)
 	#CardHandler.player_draw_new_card(1, 12)
 	#CardHandler.player_draw_new_card(2, 12)
@@ -55,7 +61,7 @@ func update_phase_label_text():
 	var tween = get_tree().create_tween()
 	var tween2 = get_tree().create_tween()
 	var new_text = TurnAndPhaseHandler.phases[TurnAndPhaseHandler.current_phase_index]
-	$SCORELABEL.set_text("SCORE: " +str(ScoreHandler.player_1_score) +str(" - ") +str(ScoreHandler.player_2_score))
+	
 	$PHASELABEL.set_text(new_text +str(" phase"))
 	$PHASELABEL2.set_text(new_text +str(" phase"))
 	tween.tween_property($PHASELABEL, "visible_characters",20, 1)
@@ -83,6 +89,9 @@ func activate_power_select_popup(player:int, new_status:bool):
 			pass
 			
 
+func set_player_1_usable_card_indicator(value):
+	player_1_usable_card_indicator.set_text(CardHandler.player_1_usable_cards.size())
+
 func update_player_scroll_bar_scale(player_in_turn : int):
 	player_1_scroll_bar.scale = Vector2(1, 1)
 	player_2_scroll_bar.scale = Vector2(1, 1)
@@ -103,8 +112,14 @@ func update_player_scroll_bar_scale(player_in_turn : int):
 func update_player_turn_indicator_label_text(player_in_turn : int):
 	player_turn_indicator_label.text = "Player " +str(player_in_turn)
 
+func update_score_label():
+	score_label.set_text(str(ScoreHandler.player_1_score) +str(" - ") +str(ScoreHandler.player_2_score))
+
 func play_player_turn_indicator_animation():
 	secondary_animation_player.play("show_player_turn_indicator_label")
+
+func play_score_animation():
+	main_animation_player.play("show_score")
 
 func play_player_rally_pass_animation():
 	secondary_animation_player.play("show_player_1_pass_indicator")
