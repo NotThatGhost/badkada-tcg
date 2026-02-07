@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://8fpl0a8tyf55"]
+[gd_scene load_steps=10 format=3 uid="uid://8fpl0a8tyf55"]
 
 [ext_resource type="Script" uid="uid://d3ycbph15ij52" path="res://scripts/entities/card.gd" id="1_u5168"]
 [ext_resource type="Script" uid="uid://th23x08em53c" path="res://addons/marquee/marquee.gd" id="2_p8l17"]
 [ext_resource type="Texture2D" uid="uid://ci7ncmtoag1hi" path="res://assets/card_assets/Dependent Cards/Intimidate card.png" id="2_u8xyv"]
 [ext_resource type="LabelSettings" uid="uid://b5i04hqj08wtd" path="res://assets/new_label_settings.tres" id="3_b4tg6"]
+[ext_resource type="FontFile" uid="uid://fs8hi38lwpb8" path="res://assets/Fonts/px10.ttf" id="5_61bms"]
 [ext_resource type="Texture2D" uid="uid://551ywdkw1h44" path="res://assets/card_assets/Card Back.png" id="5_awi60"]
 [ext_resource type="FontFile" uid="uid://c74pcc377w760" path="res://assets/Fonts/Pixel.ttf" id="5_ji4dd"]
 [ext_resource type="Texture2D" uid="uid://ces1gly7deiri" path="res://assets/card_assets/FocusIndicator/Picker.png" id="7_4tkg3"]
@@ -81,13 +82,13 @@ label_settings = ExtResource("3_b4tg6")
 horizontal_alignment = 1
 
 [node name="CARDNAME" type="Label" parent="."]
-visible = false
 layout_mode = 0
 offset_top = 6.0
 offset_right = 94.0
 offset_bottom = 29.0
-theme_override_font_sizes/font_size = 14
-text = "CARD NAME"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_61bms")
+theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
 
 [node name="AREA" type="Label" parent="."]

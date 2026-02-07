@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://co4uk16q2prsd"]
+[gd_scene load_steps=26 format=3 uid="uid://co4uk16q2prsd"]
 
 [ext_resource type="Script" uid="uid://cmfgw5tvq4yby" path="res://scripts/levels_and_menus/main_scene.gd" id="1_lqo8o"]
 [ext_resource type="Script" uid="uid://bj6wj7g5dedab" path="res://scripts/singletons/card_handler.gd" id="3_den1x"]
@@ -13,7 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://c0csm6clpqwiq" path="res://assets/menu_assets/Remaining Card.png" id="8_gdivi"]
 [ext_resource type="Script" uid="uid://j1cqp0ttrrbp" path="res://scripts/entities/game_mat.gd" id="9_07ap6"]
 [ext_resource type="FontFile" uid="uid://c74pcc377w760" path="res://assets/Fonts/Pixel.ttf" id="10_ki3vl"]
-[ext_resource type="PackedScene" uid="uid://o7tl5e48lvp1" path="res://scenes/cards/used_card_indicator.tscn" id="13_a3p14"]
 [ext_resource type="PackedScene" uid="uid://b5d0gdm6lk0u3" path="res://scenes/menus/game_log_panel.tscn" id="13_xypni"]
 [ext_resource type="Texture2D" uid="uid://bep0cnshabctv" path="res://assets/menu_assets/Opponent Pass.png" id="14_4d6jp"]
 [ext_resource type="FontFile" uid="uid://fs8hi38lwpb8" path="res://assets/Fonts/px10.ttf" id="14_kcjht"]
@@ -246,6 +245,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lqo8o")
+player_scroll_bar_big_scale = Vector2(1.18, 1.18)
+player_scroll_bar_size_big = Vector2(406, 163)
 
 [node name="TurnAndPhaseHandler" type="Node" parent="."]
 script = ExtResource("3_qu4be")
@@ -260,6 +261,82 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="GameMat" type="TextureRect" parent="."]
+z_index = 4
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -93.5
+offset_right = 240.0
+offset_bottom = 85.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_2irxq")
+script = ExtResource("9_07ap6")
+
+[node name="MarginContainerP2" type="MarginContainer" parent="GameMat"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -228.5
+offset_top = 14.0
+offset_right = 228.5
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 0
+
+[node name="CardIndicatorGridPlayer2" type="HBoxContainer" parent="GameMat/MarginContainerP2"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="MarginContainerP1" type="MarginContainer" parent="GameMat"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -228.5
+offset_top = 124.0
+offset_right = 228.5
+offset_bottom = 170.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 0
+
+[node name="CardIndicatorGridPlayer1" type="HBoxContainer" parent="GameMat/MarginContainerP1"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="UsedCardIndicatorDeckPosition" type="Control" parent="GameMat"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -16.0
+offset_right = 20.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Player1UsedCardIndicatorSpawn" type="Marker2D" parent="GameMat"]
+position = Vector2(247, 164.5)
+
+[node name="Player2UsedCardIndicatorSpawn" type="Marker2D" parent="GameMat"]
+position = Vector2(249, 13.5)
 
 [node name="PlayArea_Player1" type="ColorRect" parent="."]
 layout_mode = 1
@@ -338,7 +415,7 @@ theme_override_font_sizes/font_size = 42
 text = "END"
 
 [node name="PhaseIndicatorArrow" type="Polygon2D" parent="PlayArea_Player1/PhaseIndicator_Player1"]
-position = Vector2(2, 52)
+position = Vector2(3, 102)
 color = Color(0, 0, 0, 1)
 polygon = PackedVector2Array(5, 26, 5, 42, 21, 34)
 
@@ -387,24 +464,25 @@ offset_bottom = 45.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("14_kcjht")
 theme_override_font_sizes/font_size = 42
-text = "00"
+text = "0"
 
 [node name="HScrollBar" type="ScrollContainer" parent="PlayArea_Player1"]
-z_index = 1
+z_index = 4
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -341.0
-offset_right = 479.0
-offset_bottom = -179.46155
+offset_top = -357.0
+offset_right = 382.47012
+offset_bottom = -195.462
 grow_vertical = 0
+scale = Vector2(1.255, 1.255)
 horizontal_scroll_mode = 2
 vertical_scroll_mode = 0
 
 [node name="CardHolder_Player1" type="HBoxContainer" parent="PlayArea_Player1/HScrollBar"]
 layout_mode = 2
-theme_override_constants/separation = -20
+theme_override_constants/separation = 4
 alignment = 1
 script = ExtResource("5_uu4ap")
 player_owner = 1
@@ -433,15 +511,111 @@ offset_bottom = 165.0
 texture = ExtResource("6_il3a7")
 
 [node name="PhaseIndicator_Player2" type="Panel" parent="PlayArea_Player2"]
-visible = false
 layout_mode = 0
-offset_left = 179.0
-offset_top = 3.0
-offset_right = 462.0
-offset_bottom = 167.0
+offset_left = 9.0
+offset_top = 2.0
+offset_right = 292.0
+offset_bottom = 166.0
+theme_override_styles/panel = ExtResource("5_xypni")
+
+[node name="DRAW" type="Label" parent="PlayArea_Player2/PhaseIndicator_Player2"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 65.0
+offset_right = 140.0
+offset_bottom = 115.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("14_kcjht")
+theme_override_font_sizes/font_size = 42
+text = "DRAW"
+
+[node name="MAIN" type="Label" parent="PlayArea_Player2/PhaseIndicator_Player2"]
+layout_mode = 0
+offset_left = 178.0
+offset_top = 64.0
+offset_right = 285.0
+offset_bottom = 114.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("14_kcjht")
+theme_override_font_sizes/font_size = 42
+text = "MAIN"
+
+[node name="RALLY" type="Label" parent="PlayArea_Player2/PhaseIndicator_Player2"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 113.0
+offset_right = 155.0
+offset_bottom = 163.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("14_kcjht")
+theme_override_font_sizes/font_size = 42
+text = "RALLY"
+
+[node name="END" type="Label" parent="PlayArea_Player2/PhaseIndicator_Player2"]
+layout_mode = 0
+offset_left = 177.0
+offset_top = 112.0
+offset_right = 284.0
+offset_bottom = 162.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("14_kcjht")
+theme_override_font_sizes/font_size = 42
+text = "END"
+
+[node name="PhaseIndicatorArrow" type="Polygon2D" parent="PlayArea_Player2/PhaseIndicator_Player2"]
+position = Vector2(2, 52)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(5, 26, 5, 42, 21, 34)
+
+[node name="SeparatorLineLeft" type="ColorRect" parent="PlayArea_Player2/PhaseIndicator_Player2"]
+layout_mode = 0
+offset_top = 41.0
+offset_right = 190.0
+offset_bottom = 44.0
+color = Color(0, 0, 0, 1)
+
+[node name="PhaseText" type="Label" parent="PlayArea_Player2/PhaseIndicator_Player2"]
+layout_mode = 0
+offset_left = 196.0
+offset_top = 35.0
+offset_right = 266.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("14_kcjht")
+theme_override_font_sizes/font_size = 19
+text = "PHASE"
+
+[node name="SeparatorLineRight" type="ColorRect" parent="PlayArea_Player2/PhaseIndicator_Player2"]
+layout_mode = 0
+offset_left = 255.0
+offset_top = 41.0
+offset_right = 280.0
+offset_bottom = 44.0
+color = Color(0, 0, 0, 1)
+
+[node name="CardLeftSymbol" type="TextureRect" parent="PlayArea_Player2/PhaseIndicator_Player2"]
+layout_mode = 0
+offset_left = 171.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 17.0
+scale = Vector2(3, 3)
+texture = ExtResource("8_gdivi")
+
+[node name="UsableCardCountLabel" type="Label" parent="PlayArea_Player2/PhaseIndicator_Player2"]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 2.0
+offset_right = 262.0
+offset_bottom = 45.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("14_kcjht")
+theme_override_font_sizes/font_size = 42
+text = "0"
 
 [node name="HScrollBar" type="ScrollContainer" parent="PlayArea_Player2"]
-z_index = 1
+z_index = 4
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -449,9 +623,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -229.0
-offset_top = 2.0
+offset_top = 15.0
 offset_right = 237.0
-offset_bottom = 165.0
+offset_bottom = 178.0
 grow_horizontal = 2
 grow_vertical = 2
 horizontal_scroll_mode = 2
@@ -540,85 +714,6 @@ theme_override_fonts/font = ExtResource("14_kcjht")
 theme_override_font_sizes/font_size = 71
 text = "0 - 0"
 horizontal_alignment = 1
-
-[node name="GameMat" type="TextureRect" parent="."]
-z_index = 8
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -240.0
-offset_top = -93.5
-offset_right = 240.0
-offset_bottom = 85.5
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("8_2irxq")
-script = ExtResource("9_07ap6")
-
-[node name="MarginContainerP2" type="MarginContainer" parent="GameMat"]
-z_index = 1
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -228.5
-offset_top = 14.0
-offset_right = 228.5
-offset_bottom = 60.0
-grow_horizontal = 2
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_right = 0
-
-[node name="CardIndicatorGridPlayer2" type="HBoxContainer" parent="GameMat/MarginContainerP2"]
-layout_mode = 2
-theme_override_constants/separation = 40
-alignment = 1
-
-[node name="MarginContainerP1" type="MarginContainer" parent="GameMat"]
-z_index = 1
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -228.5
-offset_top = 124.0
-offset_right = 228.5
-offset_bottom = 170.0
-grow_horizontal = 2
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_right = 0
-
-[node name="CardIndicatorGridPlayer1" type="HBoxContainer" parent="GameMat/MarginContainerP1"]
-layout_mode = 2
-theme_override_constants/separation = 40
-alignment = 1
-
-[node name="UsedCardIndicator" parent="GameMat/MarginContainerP1/CardIndicatorGridPlayer1" instance=ExtResource("13_a3p14")]
-layout_mode = 2
-
-[node name="UsedCardIndicatorDeckPosition" type="Control" parent="GameMat"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -16.0
-offset_right = 20.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Player1UsedCardIndicatorSpawn" type="Marker2D" parent="GameMat"]
-position = Vector2(247, 164.5)
-
-[node name="Player2UsedCardIndicatorSpawn" type="Marker2D" parent="GameMat"]
-position = Vector2(249, 13.5)
 
 [node name="RallyChoicePopupZone" type="Control" parent="."]
 visible = false
@@ -777,7 +872,6 @@ z_index = 10
 layout_mode = 1
 offset_top = -146.0
 offset_bottom = 85.0
-mouse_filter = 2
 
 [connection signal="pressed" from="RallyChoicePopupZone/RallyChoicePopupZoneButton" to="." method="_on_rally_choice_popup_zone_button_pressed"]
 [connection signal="pressed" from="Player1DeceptionPanel/HBoxContainer/StrengthButton1" to="." method="_on_strength_button_1_pressed"]

@@ -12,24 +12,34 @@ const RALLY_CHOICE_POPUP_PATH = preload("res://scenes/menus/rally_choice_popup.t
 @onready var player_1_card_holder = $PlayArea_Player1/HScrollBar/CardHolder_Player1
 @onready var player_2_card_holder = $PlayArea_Player2/HScrollBar/CardHolder_Player2
 @onready var player_1_usable_card_indicator = $PlayArea_Player1/PhaseIndicator_Player1/UsableCardCountLabel
-@export var player_scroll_bar_big_scale = Vector2(1.3, 1.3)
+@onready var player_2_usable_card_indicator = $PlayArea_Player2/PhaseIndicator_Player2/UsableCardCountLabel
+@export var player_scroll_bar_big_scale = Vector2(1.255, 1.255)
 @export var player_scroll_bar_size_regular = Vector2(469, 163)
-@export var player_scroll_bar_size_big = Vector2(360, 163)
+@export var player_scroll_bar_size_big = Vector2(382, 163)
 @export var player_card_holder_separation_regular = 4
 @export var player_card_holder_separation_big = 4
+@export var test_var : int
 
-var player_1_usable_card_indicator_number: int: set = set_player_1_usable_card_indicator
+var player_1_usable_card_indicator_number = 0
+var player_2_usable_card_indicator_number = 0
+	#set(new_value):
+		#player_1_usable_card_indicator_number = new_value
+		#player_1_usable_card_indicator.set_text(str(player_1_usable_card_indicator_number))
 
 func _ready() -> void:
 	$PlayArea_Player1/HScrollBar.horizontal_scroll_mode = 3
 	$PlayArea_Player2/HScrollBar.horizontal_scroll_mode = 3
 	CardHandler.connect("card_used", update_card_used_text)
+	CardHandler.card_used.connect(update_player_card_indicator_text)
 	TurnAndPhaseHandler.player_1_card_holder = $PlayArea_Player1/HScrollBar/CardHolder_Player1
 	TurnAndPhaseHandler.player_2_card_holder = $PlayArea_Player2/HScrollBar/CardHolder_Player2
 	update_phase_label_text()
 	$DeckIcon/DECKSIZECOUNT.set_text(str(CardHandler.game_use_deck.size()))
 	TurnAndPhaseHandler.connect("phase_changed", update_phase_label_text)
 	CardHandler.connect("power_select_screen_activate", activate_power_select_popup)
+	#CardHandler.card_created.connect(update_player_1_card_indicator_text)
+	#CardHandler.add_card_to_grid.connect(update_player_1_card_indicator_text)
+	CardHandler.card_visibility_set.connect(update_player_card_indicator_text)
 	TurnAndPhaseHandler.draw_phase_entered.emit()
 	TurnAndPhaseHandler.player_turn_changed.connect(update_player_scroll_bar_scale)
 	TurnAndPhaseHandler.player_turn_changed.connect(update_player_turn_indicator_label_text)
@@ -50,6 +60,22 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	pass
 
+func update_player_card_indicator_text():
+	player_1_usable_card_indicator_number = 0
+	player_2_usable_card_indicator_number = 0
+	var i = 0
+	while i < player_1_card_holder.get_child_count():
+		if player_1_card_holder.get_child(i).visible == true:
+			player_1_usable_card_indicator_number += 1
+		i += 1
+	i = 0
+	while i < player_2_card_holder.get_child_count():
+		if player_2_card_holder.get_child(i).visible == true:
+			player_2_usable_card_indicator_number += 1
+		i += 1
+	player_2_usable_card_indicator.set_text(str(player_2_usable_card_indicator_number))
+	player_1_usable_card_indicator.set_text(str(player_1_usable_card_indicator_number))
+
 func main_scene_draw_card(player:int, amount: int):
 	CardHandler.player_draw_new_card(player, amount)
 	$DeckIcon/DECKSIZECOUNT.set_text(str(CardHandler.game_use_deck.size()))
@@ -69,16 +95,27 @@ func update_phase_label_text():
 	
 	match TurnAndPhaseHandler.current_phase_index:
 		0:
-			move_phase_indicator_arrow(-3, 2)
+			move_phase_indicator_arrow(1, 2, 53)
+			move_phase_indicator_arrow(2, 2, 53)
 		1:
-			move_phase_indicator_arrow(133, 2)
+			move_phase_indicator_arrow(1, 156, 53)
+			move_phase_indicator_arrow(2, 156, 53)
 		2:
-			move_phase_indicator_arrow(-3, 98)
+			move_phase_indicator_arrow(1, 3, 102)
+			move_phase_indicator_arrow(2, 3, 102)
 		3:
-			move_phase_indicator_arrow(133, 98)
+			move_phase_indicator_arrow(1, 152, 102)
+			move_phase_indicator_arrow(2, 152, 102)
 
-func move_phase_indicator_arrow(x, y):
-	$PlayArea_Player1/PhaseIndicator_Player1/PhaseIndicatorArrow.position = Vector2(x, y)
+func move_phase_indicator_arrow(player_number,x : float, y : float):
+	var tween = get_tree().create_tween()
+	match player_number:
+		1:
+			tween.tween_property($PlayArea_Player1/PhaseIndicator_Player1/PhaseIndicatorArrow, "position", Vector2(x, y), 0.2)
+			#$PlayArea_Player1/PhaseIndicator_Player1/PhaseIndicatorArrow.position = Vector2(x, y)
+		2:
+			tween.tween_property($PlayArea_Player2/PhaseIndicator_Player2/PhaseIndicatorArrow, "position", Vector2(x, y), 0.2)
+			#$PlayArea_Player2/PhaseIndicator_Player2/PhaseIndicatorArrow.position = Vector2(x, y)
 
 func activate_power_select_popup(player:int, new_status:bool):
 	match player:
@@ -90,7 +127,9 @@ func activate_power_select_popup(player:int, new_status:bool):
 			
 
 func set_player_1_usable_card_indicator(value):
-	player_1_usable_card_indicator.set_text(CardHandler.player_1_usable_cards.size())
+	value = CardHandler.player_1_cards.size()
+	player_1_usable_card_indicator.set_text(CardHandler.player_1_cards.size())
+	print("cock")
 
 func update_player_scroll_bar_scale(player_in_turn : int):
 	player_1_scroll_bar.scale = Vector2(1, 1)

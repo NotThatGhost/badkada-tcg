@@ -40,6 +40,7 @@ func _ready() -> void:
 	CardHandler.connect("card_selected", set_card_usability)
 	CardHandler.connect("reset_card_usage", reset_card_usage)
 	CardHandler.connect("new_card_focus_signal", take_card_out_of_focus)
+	#CardHandler.card_created.emit()
 	intitialize_card()
 
 func set_card_visible_info():
@@ -54,6 +55,8 @@ func set_card_visible_info():
 	if card_type == "skill":
 		if CardHandler.card_textures.has(card_name) == true:
 			$TextureRect.texture = CardHandler.card_textures[card_name]
+			if CardHandler.hide_player_2_cards == true && card_owner == 2:
+				$TextureRect.set_deferred("texture", CardHandler.card_textures.get("hidden"))
 			$TextureRect.visible = true
 			$POWER.set_text(str(power_level))
 			$POWER.visible = true
@@ -61,20 +64,26 @@ func set_card_visible_info():
 			print("card texture returning")
 			return
 	if card_name != "":
-		new_marquee_card_name = [card_name, card_name, card_name]
+		$CARDNAME.set_text(card_name)
+		#new_marquee_card_name = [card_name, card_name, card_name]
 	else:
 		print("card name doesnt exist")
 	print(new_marquee_card_name)
 	#if CardHandler.card_textures.has(card_name) == true:
 	print(card_name)
 	$TextureRect.set_deferred("texture", CardHandler.card_textures[card_name])
+	
+	
+	
+	if CardHandler.hide_player_2_cards == true && card_owner == 2:
+		$TextureRect.set_deferred("texture", CardHandler.card_textures.get("hidden"))
 	$TextureRect.visible = true
 	#else:
 		#print("Card textures doesnt have that in there")
-	$Marquee.lines[0] = str(" ")+str(new_marquee_card_name[0])
-	$Marquee.lines[1] = str(" ")+str(new_marquee_card_name[1])
-	$Marquee.get_child(0).set_text("  " +str(new_marquee_card_name[0]))
-	$Marquee.get_child(1).set_text("  " +str(new_marquee_card_name[1]))
+	#$Marquee.lines[0] = str(" ")+str(new_marquee_card_name[0])
+	#$Marquee.lines[1] = str(" ")+str(new_marquee_card_name[1])
+	#$Marquee.get_child(0).set_text("  " +str(new_marquee_card_name[0]))
+	#$Marquee.get_child(1).set_text("  " +str(new_marquee_card_name[1]))
 	$TARGET.set_text(str(target_area))
 	$AREA.set_text(str(card_area))
 	$CARDTYPE.set_text(str(card_type))
@@ -131,20 +140,23 @@ func set_card_usability(selected = null):
 	if card_name == "counter":
 		if CardHandler.counter_card_in_effect == true:
 			card_active = false
-			modulate = Color8(20, 20, 20, 255)
+			visible = false
+			#modulate = Color8(20, 20, 20, 255)
 			print("This card is the counter card")
 			return
 	
 	
 	if card_already_used == true:
 		card_active = false
-		modulate = Color8(20, 20, 20, 255)
+		#modulate = Color8(20, 20, 20, 255)
+		visible = false
 		print("Card already used")
 		return
 	
 	if selected == true:
 		card_active = false
-		modulate = Color8(20, 20, 20, 255)
+		#modulate = Color8(20, 20, 20, 255)
+		visible = false
 		print("Card was previously selected")
 		match card_owner:
 			1:
@@ -189,12 +201,17 @@ func set_card_usability(selected = null):
 		card_selectable_for_combine = true
 	if TurnAndPhaseHandler.player_in_turn == card_owner:
 		if card_active == true:
-			modulate = Color8(255, 255, 255, 255)
+			#modulate = Color8(255, 255, 255, 255)
+			visible = true
+			pass
 		elif card_active == false:
-			modulate = Color8(20, 20, 20, 255)
+			#modulate = Color8(20, 20, 20, 255)
+			#visible = false
+			pass
 	else:
-		modulate = Color8(255, 0, 0, 255)
-	
+		#modulate = Color8(255, 0, 0, 255)
+		visible = true
+	CardHandler.card_visibility_set.emit()
 
 func intitialize_card():
 	while card_name == "":
@@ -203,8 +220,8 @@ func intitialize_card():
 	set_card_visible_info()
 	#reset_card_usage()
 	set_card_usability()
-	if CardHandler.hide_player_2_cards == true && card_owner == 2:
-		$HiddenCardBox.visible = true
+	#if CardHandler.hide_player_2_cards == true && card_owner == 2:
+		#$HiddenCardBox.visible = true
 	if card_type == "skill":
 		card_selectable_for_combine = true
 	
@@ -373,7 +390,8 @@ func use_card(selected_card = null): # Yup another hack, maybe I can get this to
 	elif CardHandler.counter_card_in_effect == true:
 		card_already_used = true
 		card_active = false
-		modulate = Color8(20, 20, 20, 255)
+		#modulate = Color8(20, 20, 20, 255)
+		visible = false
 		match card_owner:
 			1:
 				CardHandler.player_1_current_power += power_level
@@ -390,6 +408,7 @@ func use_card(selected_card = null): # Yup another hack, maybe I can get this to
 	
 	GameLogHandler.emit_signal("add_card_used_to_game_log", card_owner, card_name, card_owner_color)
 	visible = false
+	CardHandler.card_visibility_set.emit()
 	
 	#GameLogHandler.emit_signal("add_card_used_to_game_log", card_name +str("_message"))
 	

@@ -22,6 +22,8 @@ var current_phase_index = 0
 
 var player_in_turn = 1
 
+var previous_rally_winner = 0
+
 var phases = [
 	"draw",
 	"main",
@@ -216,8 +218,9 @@ func check_for_rally_winner():
 	print("Player ", rally_winner, " won the rally")
 	CardHandler.player_1_current_power = 0
 	CardHandler.player_2_current_power = 0
+	previous_rally_winner = rally_winner
 	next_phase()
-	#previous_rally_winner = rally_winner
+	
 
 func set_global_phase(new_phase:String): # Not really for use regularly
 	

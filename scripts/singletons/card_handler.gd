@@ -19,6 +19,7 @@ const NEW_CARD_PATH = preload("res://scenes/cards/card.tscn")
 	"deception" : preload("res://assets/card_assets/Dependent Cards/Deception card.png"),
 	"intimidate" : preload("res://assets/card_assets/Dependent Cards/Intimidate card.png"),
 	"reversal" : preload("res://assets/card_assets/Dependent Cards/Reversal card.png"),
+	"hidden" : preload("res://assets/card_assets/Card Back.png")
 }
 
 #@onready var card_holder_player_1_path = $PlayArea_Player1/HScrollBar/CardHolder_Player1
@@ -187,6 +188,7 @@ signal power_select_screen_activate
 signal new_card_focus_signal
 signal add_card_to_grid # call with player number and card name
 signal creat_new_used_card_indicator # call with player number and card type
+signal card_visibility_set
 
 #var card_names = [
 	#"intimidate",
