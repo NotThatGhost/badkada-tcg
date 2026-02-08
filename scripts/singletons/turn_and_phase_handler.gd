@@ -40,6 +40,7 @@ signal player_changed_rally_status # use with player number and bool for status
 signal player_turn_changed
 signal show_game_score
 signal player_1_pass_rally(bool)
+signal play_phase_change_sfx
 
 func _ready() -> void:
 	GameLogHandler.add_text_to_game_log.emit("Game started!")
@@ -219,6 +220,7 @@ func check_for_rally_winner():
 	CardHandler.player_1_current_power = 0
 	CardHandler.player_2_current_power = 0
 	previous_rally_winner = rally_winner
+	await get_tree().create_timer(0.5).timeout
 	next_phase()
 	
 

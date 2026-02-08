@@ -199,14 +199,14 @@ func set_card_usability(selected = null):
 			card_selectable_for_combine = false
 	else:
 		card_selectable_for_combine = true
-	if TurnAndPhaseHandler.player_in_turn == card_owner:
+	if TurnAndPhaseHandler.player_in_turn == card_owner && TurnAndPhaseHandler.current_phase_index != 0:
 		if card_active == true:
 			#modulate = Color8(255, 255, 255, 255)
 			visible = true
 			pass
 		elif card_active == false:
 			#modulate = Color8(20, 20, 20, 255)
-			#visible = false
+			visible = false
 			pass
 	else:
 		#modulate = Color8(255, 0, 0, 255)
@@ -409,6 +409,7 @@ func use_card(selected_card = null): # Yup another hack, maybe I can get this to
 	GameLogHandler.emit_signal("add_card_used_to_game_log", card_owner, card_name, card_owner_color)
 	visible = false
 	CardHandler.card_visibility_set.emit()
+	SoundEffectsManager.use_sfx.play()
 	
 	#GameLogHandler.emit_signal("add_card_used_to_game_log", card_name +str("_message"))
 	
@@ -506,6 +507,7 @@ func select_card(status_override = null):
 				#CardHandler.emit_signal("card_selected", null, true)
 	
 			print("Player 2 cards power level: ", CardHandler.player_2_current_power)
+	SoundEffectsManager.select_sfx.play()
 
 func take_card_out_of_focus():
 	card_in_focus = false
@@ -514,6 +516,7 @@ func take_card_out_of_focus():
 	#$FocusArrow.visible = false
 	$FocusIndicator.visible = false
 	z_index = 0
+	#$SelectSFX.play()
 
 func put_card_in_focus():
 	CardHandler.emit_signal("new_card_focus_signal")
@@ -523,6 +526,7 @@ func put_card_in_focus():
 	#$FocusArrow.visible = true
 	$FocusIndicator.visible = true
 	z_index = 2
+	SoundEffectsManager.select_sfx.play()
 
 func _physics_process(delta: float) -> void:
 	if card_in_focus == true:

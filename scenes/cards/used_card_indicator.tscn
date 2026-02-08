@@ -3,8 +3,7 @@
 [ext_resource type="Script" uid="uid://boxsou7f6ys6m" path="res://scripts/entities/used_card_indicator.gd" id="1_mcqv3"]
 
 [node name="UsedCardIndicator" type="Control"]
-z_index = 125
-z_as_relative = false
+z_index = 5
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

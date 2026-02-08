@@ -11,12 +11,14 @@ func _ready() -> void:
 	TurnAndPhaseHandler.connect("player_turn_changed", play)
  
 func play(unused_parameter = null):
-	await get_tree().create_timer(2).timeout
+	
 	if active_status == false:
+		print("ai not active")
 		return
+	await get_tree().create_timer(2).timeout
 	var already_attempted_card_indexes = []
 	while TurnAndPhaseHandler.player_in_turn == 2:
-		
+		print("pepnis")
 		if TurnAndPhaseHandler.player_in_turn != 2:
 			print("ai turn over")
 			return
@@ -54,6 +56,12 @@ func play(unused_parameter = null):
 			pass
 		print("P2AI Card attempted!", card_in_use)
 		already_attempted_card_indexes.append(random_number)
+		if already_attempted_card_indexes.size() > $"../CardHolder_Player2".get_child_count():
+			print("P2AI Doing a hail mary fuck it we ball play")
+			var i = 0
+			while TurnAndPhaseHandler.player_in_turn == 2:
+				$"../CardHolder_Player2".get_child(i).use_card()
+				i += 1
 
 func use_card(card_in_use = null, random_number = null):
 	card_in_use.use_card()

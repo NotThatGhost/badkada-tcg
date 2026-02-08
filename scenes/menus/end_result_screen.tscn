@@ -1,15 +1,17 @@
 [gd_scene load_steps=3 format=3 uid="uid://bv0phegoy2u5q"]
 
-[ext_resource type="Script" path="res://scripts/levels_and_menus/end_result_screen.gd" id="1_gop6t"]
+[ext_resource type="Script" uid="uid://e0mkiq4kumk1" path="res://scripts/levels_and_menus/end_result_screen.gd" id="1_gop6t"]
 [ext_resource type="FontFile" uid="uid://c74pcc377w760" path="res://assets/Fonts/Pixel.ttf" id="2_ao1ku"]
 
 [node name="EndResultScreen" type="Control"]
+z_index = 4096
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_gop6t")
 
 [node name="Background" type="ColorRect" parent="."]
@@ -24,6 +26,7 @@ offset_right = 2.0
 offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="RESULT" type="Label" parent="."]
 layout_mode = 1
@@ -44,7 +47,6 @@ theme_override_font_sizes/font_size = 46
 text = "PLAYER 1 WINS!"
 
 [node name="SUBTITLE" type="Label" parent="RESULT"]
-visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5

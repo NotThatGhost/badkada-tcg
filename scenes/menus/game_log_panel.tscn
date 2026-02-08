@@ -127,6 +127,7 @@ corner_radius_bottom_right = 7
 corner_radius_bottom_left = 7
 
 [node name="GameLogPanel" type="Panel"]
+z_index = 9
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

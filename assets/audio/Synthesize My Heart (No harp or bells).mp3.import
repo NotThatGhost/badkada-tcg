@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://k2neamdwr3yp"
+path="res://.godot/imported/Synthesize My Heart (No harp or bells).mp3-f85c1a5824e91bb686d2d75ab61a7711.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/Synthesize My Heart (No harp or bells).mp3"
+dest_files=["res://.godot/imported/Synthesize My Heart (No harp or bells).mp3-f85c1a5824e91bb686d2d75ab61a7711.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

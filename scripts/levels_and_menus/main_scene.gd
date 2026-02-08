@@ -46,6 +46,7 @@ func _ready() -> void:
 	TurnAndPhaseHandler.draw_phase_entered.connect(play_player_turn_indicator_animation)
 	TurnAndPhaseHandler.player_1_pass_rally.connect(play_player_rally_pass_animation)
 	TurnAndPhaseHandler.show_game_score.connect(play_score_animation)
+	TurnAndPhaseHandler.phase_changed.connect(play_phase_change_sfx)
 	update_player_scroll_bar_scale(1)
 	#CardHandler.player_draw_new_card(1, 12)
 	#CardHandler.player_draw_new_card(2, 12)
@@ -162,6 +163,10 @@ func play_score_animation():
 
 func play_player_rally_pass_animation():
 	secondary_animation_player.play("show_player_1_pass_indicator")
+	
+	
+func play_phase_change_sfx():
+	SoundEffectsManager.phase_change_sfx.play()
 func _on_rally_choice_popup_zone_button_pressed() -> void:
 	var new_rally_choice_popup = RALLY_CHOICE_POPUP_PATH.instantiate()
 	get_parent().add_child(new_rally_choice_popup)

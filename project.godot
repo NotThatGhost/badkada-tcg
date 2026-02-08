@@ -23,6 +23,7 @@ TurnAndPhaseHandler="*res://scripts/singletons/turn_and_phase_handler.gd"
 CardHandler="*res://scripts/singletons/card_handler.gd"
 ScoreHandler="*res://scripts/singletons/score_handler.gd"
 GameLogHandler="*res://scripts/singletons/game_log_handler.gd"
+SoundEffectsManager="*res://scenes/menus/sound_effects_manager.tscn"
 
 [debug]
 

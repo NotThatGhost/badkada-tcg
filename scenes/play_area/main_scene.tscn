@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://co4uk16q2prsd"]
+[gd_scene load_steps=29 format=3 uid="uid://co4uk16q2prsd"]
 
 [ext_resource type="Script" uid="uid://cmfgw5tvq4yby" path="res://scripts/levels_and_menus/main_scene.gd" id="1_lqo8o"]
 [ext_resource type="Script" uid="uid://bj6wj7g5dedab" path="res://scripts/singletons/card_handler.gd" id="3_den1x"]
@@ -16,6 +16,8 @@
 [ext_resource type="PackedScene" uid="uid://b5d0gdm6lk0u3" path="res://scenes/menus/game_log_panel.tscn" id="13_xypni"]
 [ext_resource type="Texture2D" uid="uid://bep0cnshabctv" path="res://assets/menu_assets/Opponent Pass.png" id="14_4d6jp"]
 [ext_resource type="FontFile" uid="uid://fs8hi38lwpb8" path="res://assets/Fonts/px10.ttf" id="14_kcjht"]
+[ext_resource type="AudioStream" uid="uid://ca87pwdwjoxqs" path="res://assets/audio/phase_change.wav" id="17_fynw0"]
+[ext_resource type="AudioStream" uid="uid://k2neamdwr3yp" path="res://assets/audio/Synthesize My Heart (No harp or bells).mp3" id="17_gdivi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nsvak"]
 border_width_left = 4
@@ -236,6 +238,11 @@ _data = {
 &"show_player_turn_indicator_label": SubResource("Animation_kcjht")
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_37ph7"]
+random_pitch = 1.08
+streams_count = 1
+stream_0/stream = ExtResource("17_fynw0")
+
 [node name="MainScene" type="Control"]
 clip_contents = true
 layout_mode = 3
@@ -415,7 +422,7 @@ theme_override_font_sizes/font_size = 42
 text = "END"
 
 [node name="PhaseIndicatorArrow" type="Polygon2D" parent="PlayArea_Player1/PhaseIndicator_Player1"]
-position = Vector2(3, 102)
+position = Vector2(3, 53)
 color = Color(0, 0, 0, 1)
 polygon = PackedVector2Array(5, 26, 5, 42, 21, 34)
 
@@ -640,7 +647,6 @@ player_owner = 2
 
 [node name="Player2AIHolder" type="Node2D" parent="PlayArea_Player2/HScrollBar"]
 script = ExtResource("6_nerfj")
-active_status = false
 
 [node name="PHASELABEL" type="Label" parent="."]
 visible = false
@@ -716,7 +722,7 @@ text = "0 - 0"
 horizontal_alignment = 1
 
 [node name="RallyChoicePopupZone" type="Control" parent="."]
-visible = false
+z_index = 4
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -738,8 +744,7 @@ anchor_bottom = 1.0
 offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
-focus_mode = 0
-mouse_filter = 1
+flat = true
 
 [node name="Player1DeceptionPanel" type="Panel" parent="."]
 visible = false
@@ -872,6 +877,15 @@ z_index = 10
 layout_mode = 1
 offset_top = -146.0
 offset_bottom = 85.0
+
+[node name="PhaseChangeSFX" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_37ph7")
+
+[node name="BGMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("17_gdivi")
+volume_db = -9.279
+autoplay = true
+parameters/looping = true
 
 [connection signal="pressed" from="RallyChoicePopupZone/RallyChoicePopupZoneButton" to="." method="_on_rally_choice_popup_zone_button_pressed"]
 [connection signal="pressed" from="Player1DeceptionPanel/HBoxContainer/StrengthButton1" to="." method="_on_strength_button_1_pressed"]
