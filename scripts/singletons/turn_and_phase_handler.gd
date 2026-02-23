@@ -57,18 +57,23 @@ func next_phase():
 func phase_switch(new_phase:String):
 	match new_phase:
 		"draw":
+			emit_signal("phase_changed")
+			
 			#CardHandler.reset_player_card_scenes(1)
 			#CardHandler.reset_player_card_scenes(2)
 			print("I GUESS WE DOIN DRAW PHASES NOW")
 			emit_signal("draw_phase_entered")
 			CardHandler.player_draw_new_card(1, 1)
 			CardHandler.player_draw_new_card(2, 1)
+			await get_tree().create_timer(1).timeout
 			next_phase()
 			#CardHandler.player_draw_new_card(2, 1)
 		"main":
+			emit_signal("phase_changed")
+			await get_tree().create_timer(1).timeout
 			TurnAndPhaseHandler.emit_signal("main_phase_entered")
-			
 		"rally":
+			emit_signal("phase_changed")
 			current_phase_index = 2
 			if player_1_wants_to_rally == true && player_2_wants_to_rally == true:
 				print("Both players want to rally, good luck!")
@@ -77,6 +82,7 @@ func phase_switch(new_phase:String):
 				next_phase()
 				print("One of the players chose to skip rally phase")
 		"end": # TODO add points to whatever player didnt skip rally if applicable
+			emit_signal("phase_changed")
 			player_1_wants_to_rally = false
 			player_2_wants_to_rally = false
 			CardHandler.player_1_current_target = ""
@@ -115,7 +121,7 @@ func compare_integer_sizes(int_1:int, int_2:int):
 		return 2
 
 func rally_phase_refactor():
-	#Go to check_for_rally_phase for the meat and potatoes
+	#Go to check_for_rally_winner for the meat and potatoes
 	print("player_1_usable_cards: ", CardHandler.player_1_usable_cards.size())
 	print("player_2_usable_cards: ", CardHandler.player_2_usable_cards.size())
 	emit_signal("rally_phase_entered")
@@ -201,6 +207,12 @@ func check_for_rally_winner():
 			rally_winner = 1
 		else:
 			pass
+	if player_1_wants_to_rally == false:
+		#rally_winner == 2
+		next_phase()
+	elif player_2_wants_to_rally == false:
+		#rally_winner = 1
+		next_phase()
 	if CardHandler.player_1_usable_cards.count("skill") == 0 && rally_winner == 0:
 		rally_winner = 2
 	elif CardHandler.player_2_usable_cards.count("skill") == 0 && rally_winner == 0:

@@ -7,18 +7,17 @@ var temporary_power_level_buffer = 0
 var temporary_highest_power_level_card_index = 0
 var searching_for_power_advantage_card = false
 
-func _ready() -> void:
-	TurnAndPhaseHandler.connect("player_turn_changed", play)
- 
+#func _ready() -> void:
+	#TurnAndPhaseHandler.connect("player_turn_changed", play)
+
 func play(unused_parameter = null):
-	
+	await get_tree().create_timer(2).timeout
 	if active_status == false:
 		print("ai not active")
 		return
 	await get_tree().create_timer(2).timeout
 	var already_attempted_card_indexes = []
 	while TurnAndPhaseHandler.player_in_turn == 2:
-		print("pepnis")
 		if TurnAndPhaseHandler.player_in_turn != 2:
 			print("ai turn over")
 			return

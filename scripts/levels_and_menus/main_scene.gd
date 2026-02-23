@@ -29,6 +29,7 @@ var player_2_usable_card_indicator_number = 0
 func _ready() -> void:
 	$PlayArea_Player1/HScrollBar.horizontal_scroll_mode = 3
 	$PlayArea_Player2/HScrollBar.horizontal_scroll_mode = 3
+	$GameLogPanel/ScrollContainer.vertical_scroll_mode = 3
 	CardHandler.connect("card_used", update_card_used_text)
 	CardHandler.card_used.connect(update_player_card_indicator_text)
 	TurnAndPhaseHandler.player_1_card_holder = $PlayArea_Player1/HScrollBar/CardHolder_Player1
@@ -47,10 +48,11 @@ func _ready() -> void:
 	TurnAndPhaseHandler.player_1_pass_rally.connect(play_player_rally_pass_animation)
 	TurnAndPhaseHandler.show_game_score.connect(play_score_animation)
 	TurnAndPhaseHandler.phase_changed.connect(play_phase_change_sfx)
-	update_player_scroll_bar_scale(1)
+	
 	#CardHandler.player_draw_new_card(1, 12)
 	#CardHandler.player_draw_new_card(2, 12)
 	#CardHandler.player_draw_new_card(1, 1, null, "deception1")
+	update_player_scroll_bar_scale(1)
 	await get_tree().create_timer(1).timeout
 	$MainAnimationPlayer.play("beginning_draw_animation")
 	await $MainAnimationPlayer.animation_finished
@@ -84,7 +86,7 @@ func main_scene_draw_card(player:int, amount: int):
 func update_card_used_text():
 	$PLAYERCARDUSEINDICATORLABEL.set_text("Player " +str(TurnAndPhaseHandler.player_in_turn) +str(" used ") +str(CardHandler.most_recent_used_card))
 
-func update_phase_label_text():
+func update_phase_label_text(current_phase_int = null):
 	var tween = get_tree().create_tween()
 	var tween2 = get_tree().create_tween()
 	var new_text = TurnAndPhaseHandler.phases[TurnAndPhaseHandler.current_phase_index]
@@ -93,7 +95,6 @@ func update_phase_label_text():
 	$PHASELABEL2.set_text(new_text +str(" phase"))
 	tween.tween_property($PHASELABEL, "visible_characters",20, 1)
 	tween2.tween_property($PHASELABEL2, "visible_characters", 20, 1)
-	
 	match TurnAndPhaseHandler.current_phase_index:
 		0:
 			move_phase_indicator_arrow(1, 2, 53)
@@ -130,7 +131,7 @@ func activate_power_select_popup(player:int, new_status:bool):
 func set_player_1_usable_card_indicator(value):
 	value = CardHandler.player_1_cards.size()
 	player_1_usable_card_indicator.set_text(CardHandler.player_1_cards.size())
-	print("cock")
+
 
 func update_player_scroll_bar_scale(player_in_turn : int):
 	player_1_scroll_bar.scale = Vector2(1, 1)
@@ -188,3 +189,7 @@ func _on_strength_button_2_pressed() -> void:
 
 func _on_strength_button_3_pressed() -> void:
 	player_1_power_button_function(3)
+
+
+func _on_p_2ai_attempt_timer_timeout() -> void:
+	$PlayArea_Player2/HScrollBar/Player2AIHolder.play()

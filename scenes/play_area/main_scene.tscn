@@ -3,16 +3,16 @@
 [ext_resource type="Script" uid="uid://cmfgw5tvq4yby" path="res://scripts/levels_and_menus/main_scene.gd" id="1_lqo8o"]
 [ext_resource type="Script" uid="uid://bj6wj7g5dedab" path="res://scripts/singletons/card_handler.gd" id="3_den1x"]
 [ext_resource type="Script" uid="uid://cfts8udgxx61a" path="res://scripts/singletons/turn_and_phase_handler.gd" id="3_qu4be"]
-[ext_resource type="Texture2D" uid="uid://cbmamafn7odqp" path="res://assets/character_icons/longsword.png" id="4_3l808"]
 [ext_resource type="Script" uid="uid://by1u84oj1ixhi" path="res://scripts/entities/card_holder.gd" id="5_uu4ap"]
 [ext_resource type="StyleBox" uid="uid://cm6foakk6sekj" path="res://assets/styles/info_panel.tres" id="5_xypni"]
-[ext_resource type="Texture2D" uid="uid://b6k6m5undge3w" path="res://assets/character_icons/frozen produze.png" id="6_il3a7"]
+[ext_resource type="Texture2D" uid="uid://cky8m8ihhjpds" path="res://assets/character_icons/Character.png" id="6_fynw0"]
 [ext_resource type="Script" uid="uid://ehx3mmk8uwm7" path="res://scripts/entities/player_2_ai.gd" id="6_nerfj"]
 [ext_resource type="Texture2D" uid="uid://cs0w6lvegq6db" path="res://assets/card_assets/deck.png" id="7_g51wg"]
 [ext_resource type="Texture2D" uid="uid://cwd5jn87ux728" path="res://assets/GameMat.png" id="8_2irxq"]
 [ext_resource type="Texture2D" uid="uid://c0csm6clpqwiq" path="res://assets/menu_assets/Remaining Card.png" id="8_gdivi"]
 [ext_resource type="Script" uid="uid://j1cqp0ttrrbp" path="res://scripts/entities/game_mat.gd" id="9_07ap6"]
 [ext_resource type="FontFile" uid="uid://c74pcc377w760" path="res://assets/Fonts/Pixel.ttf" id="10_ki3vl"]
+[ext_resource type="Texture2D" uid="uid://b36uvvwydvmqw" path="res://assets/character_icons/Opponent Character.png" id="11_37ph7"]
 [ext_resource type="PackedScene" uid="uid://b5d0gdm6lk0u3" path="res://scenes/menus/game_log_panel.tscn" id="13_xypni"]
 [ext_resource type="Texture2D" uid="uid://bep0cnshabctv" path="res://assets/menu_assets/Opponent Pass.png" id="14_4d6jp"]
 [ext_resource type="FontFile" uid="uid://fs8hi38lwpb8" path="res://assets/Fonts/px10.ttf" id="14_kcjht"]
@@ -360,14 +360,13 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Portrait_Player1" type="TextureRect" parent="PlayArea_Player1"]
-texture_filter = 2
 layout_mode = 0
 offset_left = 24.0
 offset_top = 160.0
 offset_right = 1061.0
 offset_bottom = 1427.0
 scale = Vector2(0.135, 0.135)
-texture = ExtResource("4_3l808")
+texture = ExtResource("6_fynw0")
 
 [node name="PhaseIndicator_Player1" type="Panel" parent="PlayArea_Player1"]
 layout_mode = 0
@@ -387,6 +386,17 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("14_kcjht")
 theme_override_font_sizes/font_size = 42
 text = "DRAW"
+
+[node name="PlayerName" type="Label" parent="PlayArea_Player1/PhaseIndicator_Player1"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 2.0
+offset_right = 161.0
+offset_bottom = 52.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("14_kcjht")
+theme_override_font_sizes/font_size = 42
+text = "Player 1"
 
 [node name="MAIN" type="Label" parent="PlayArea_Player1/PhaseIndicator_Player1"]
 layout_mode = 0
@@ -455,18 +465,18 @@ color = Color(0, 0, 0, 1)
 
 [node name="CardLeftSymbol" type="TextureRect" parent="PlayArea_Player1/PhaseIndicator_Player1"]
 layout_mode = 0
-offset_left = 171.0
+offset_left = 196.0
 offset_top = 6.0
-offset_right = 184.0
+offset_right = 209.0
 offset_bottom = 17.0
 scale = Vector2(3, 3)
 texture = ExtResource("8_gdivi")
 
 [node name="UsableCardCountLabel" type="Label" parent="PlayArea_Player1/PhaseIndicator_Player1"]
 layout_mode = 0
-offset_left = 213.0
+offset_left = 241.0
 offset_top = 2.0
-offset_right = 262.0
+offset_right = 290.0
 offset_bottom = 45.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("14_kcjht")
@@ -509,13 +519,13 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Portrait_Player2" type="TextureRect" parent="PlayArea_Player2"]
-texture_filter = 2
+texture_filter = 1
 layout_mode = 0
 offset_left = 304.0
 offset_top = 5.0
 offset_right = 480.0
 offset_bottom = 165.0
-texture = ExtResource("6_il3a7")
+texture = ExtResource("11_37ph7")
 
 [node name="PhaseIndicator_Player2" type="Panel" parent="PlayArea_Player2"]
 layout_mode = 0
@@ -535,6 +545,16 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("14_kcjht")
 theme_override_font_sizes/font_size = 42
 text = "DRAW"
+
+[node name="PlayerName" type="Label" parent="PlayArea_Player2/PhaseIndicator_Player2"]
+layout_mode = 0
+offset_left = 15.0
+offset_right = 168.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("14_kcjht")
+theme_override_font_sizes/font_size = 42
+text = "Player 2"
 
 [node name="MAIN" type="Label" parent="PlayArea_Player2/PhaseIndicator_Player2"]
 layout_mode = 0
@@ -603,18 +623,18 @@ color = Color(0, 0, 0, 1)
 
 [node name="CardLeftSymbol" type="TextureRect" parent="PlayArea_Player2/PhaseIndicator_Player2"]
 layout_mode = 0
-offset_left = 171.0
+offset_left = 193.0
 offset_top = 6.0
-offset_right = 184.0
+offset_right = 206.0
 offset_bottom = 17.0
 scale = Vector2(3, 3)
 texture = ExtResource("8_gdivi")
 
 [node name="UsableCardCountLabel" type="Label" parent="PlayArea_Player2/PhaseIndicator_Player2"]
 layout_mode = 0
-offset_left = 213.0
+offset_left = 240.0
 offset_top = 2.0
-offset_right = 262.0
+offset_right = 289.0
 offset_bottom = 45.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("14_kcjht")
@@ -685,6 +705,7 @@ text = "Player 1 used: net shot!"
 
 [node name="PlayerTurnIndicatorLabel" type="Label" parent="."]
 visible = false
+z_index = 6
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -832,7 +853,7 @@ text = "00"
 
 [node name="Player1PassBubble" type="TextureRect" parent="."]
 visible = false
-z_index = 3
+z_index = 10
 layout_mode = 0
 offset_left = 215.0
 offset_top = 696.0
@@ -878,6 +899,9 @@ layout_mode = 1
 offset_top = -146.0
 offset_bottom = 85.0
 
+[node name="ScrollContainer" parent="GameLogPanel" index="0"]
+offset_bottom = 223.0
+
 [node name="PhaseChangeSFX" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_37ph7")
 
@@ -887,7 +911,14 @@ volume_db = -9.279
 autoplay = true
 parameters/looping = true
 
+[node name="P2AIAttemptTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
 [connection signal="pressed" from="RallyChoicePopupZone/RallyChoicePopupZoneButton" to="." method="_on_rally_choice_popup_zone_button_pressed"]
 [connection signal="pressed" from="Player1DeceptionPanel/HBoxContainer/StrengthButton1" to="." method="_on_strength_button_1_pressed"]
 [connection signal="pressed" from="Player1DeceptionPanel/HBoxContainer/StrengthButton2" to="." method="_on_strength_button_2_pressed"]
 [connection signal="pressed" from="Player1DeceptionPanel/HBoxContainer/StrengthButton3" to="." method="_on_strength_button_3_pressed"]
+[connection signal="timeout" from="P2AIAttemptTimer" to="." method="_on_p_2ai_attempt_timer_timeout"]
+
+[editable path="GameLogPanel"]

@@ -46,21 +46,6 @@ theme_override_fonts/font = ExtResource("2_ao1ku")
 theme_override_font_sizes/font_size = 46
 text = "PLAYER 1 WINS!"
 
-[node name="SUBTITLE" type="Label" parent="RESULT"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -228.0
-offset_top = 107.0
-offset_right = 228.0
-offset_bottom = 245.0
-grow_horizontal = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 31
-text = "Trading Card Game"
-horizontal_alignment = 1
-
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
