@@ -40,6 +40,7 @@ func _ready() -> void:
 	CardHandler.connect("card_selected", set_card_usability)
 	CardHandler.connect("reset_card_usage", reset_card_usage)
 	CardHandler.connect("new_card_focus_signal", take_card_out_of_focus)
+	SwipeDetector.swipe_upwards.connect(use_card_on_swipe)
 	#CardHandler.card_created.emit()
 	intitialize_card()
 
@@ -546,14 +547,18 @@ func _physics_process(delta: float) -> void:
 					else:
 						print("This bitch unselectable!")
 						return
-		if Input.is_action_just_pressed("ui_use"):
-			if card_active == true:
-				use_card()
-			
+		#if Input.is_action_just_pressed("ui_use"):
+			#if card_active == true:
+				#use_card()
+		
+		
 		elif card_active == false:
 			print("Card unusable in current phase!")
 
-
+func use_card_on_swipe():
+	if card_in_focus == true:
+		if card_active == true:
+			use_card()
 
 func _on_touch_screen_button_pressed() -> void:
 	print("input recieved")
