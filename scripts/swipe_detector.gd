@@ -1,6 +1,6 @@
 extends Node2D
 
-var length = 100
+var length = 20
 var start_position: Vector2
 var current_position: Vector2
 var swiping = false

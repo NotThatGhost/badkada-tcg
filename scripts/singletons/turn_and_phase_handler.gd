@@ -24,6 +24,8 @@ var player_in_turn = 1
 
 var previous_rally_winner = 0
 
+var game_in_reset = false
+
 var phases = [
 	"draw",
 	"main",
@@ -57,6 +59,12 @@ func next_phase():
 func phase_switch(new_phase:String):
 	match new_phase:
 		"draw":
+			current_phase_index = 0
+			await get_tree().create_timer(2).timeout
+			#if game_in_reset == true:
+				#await get_tree().create_timer(2).timeout
+				#print("Waiting for draw to end after reset")
+				#game_in_reset = false
 			emit_signal("phase_changed")
 			
 			#CardHandler.reset_player_card_scenes(1)
@@ -64,8 +72,9 @@ func phase_switch(new_phase:String):
 			print("I GUESS WE DOIN DRAW PHASES NOW")
 			emit_signal("draw_phase_entered")
 			CardHandler.player_draw_new_card(1, 1)
+			await get_tree().create_timer(0.4).timeout
 			CardHandler.player_draw_new_card(2, 1)
-			await get_tree().create_timer(1).timeout
+			#await get_tree().create_timer(1).timeout
 			next_phase()
 			#CardHandler.player_draw_new_card(2, 1)
 		"main":

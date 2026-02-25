@@ -48,7 +48,8 @@ func _ready() -> void:
 	TurnAndPhaseHandler.player_1_pass_rally.connect(play_player_rally_pass_animation)
 	TurnAndPhaseHandler.show_game_score.connect(play_score_animation)
 	TurnAndPhaseHandler.phase_changed.connect(play_phase_change_sfx)
-	
+	TurnAndPhaseHandler.draw_phase_entered.connect(play_draw_phase_draw_card_animation)
+	#TurnAndPhaseHandler.phase_switch("draw")
 	#CardHandler.player_draw_new_card(1, 12)
 	#CardHandler.player_draw_new_card(2, 12)
 	#CardHandler.player_draw_new_card(1, 1, null, "deception1")
@@ -81,6 +82,9 @@ func update_player_card_indicator_text():
 
 func main_scene_draw_card(player:int, amount: int):
 	CardHandler.player_draw_new_card(player, amount)
+	$DeckIcon/DECKSIZECOUNT.set_text(str(CardHandler.game_use_deck.size()))
+
+func draw_phase_draw_card():
 	$DeckIcon/DECKSIZECOUNT.set_text(str(CardHandler.game_use_deck.size()))
 
 func update_card_used_text():
@@ -157,17 +161,23 @@ func update_score_label():
 	score_label.set_text(str(ScoreHandler.player_1_score) +str(" - ") +str(ScoreHandler.player_2_score))
 
 func play_player_turn_indicator_animation():
+	await get_tree().create_timer(1.5).timeout
 	secondary_animation_player.play("show_player_turn_indicator_label")
 
 func play_score_animation():
 	main_animation_player.play("show_score")
+	await get_tree().create_timer(2).timeout
+	main_animation_player.play("RESET")
 
 func play_player_rally_pass_animation():
 	secondary_animation_player.play("show_player_1_pass_indicator")
 	
-	
+func play_draw_phase_draw_card_animation():
+	main_animation_player.play("draw_phase_draw_animation")
+
 func play_phase_change_sfx():
 	SoundEffectsManager.phase_change_sfx.play()
+
 func _on_rally_choice_popup_zone_button_pressed() -> void:
 	var new_rally_choice_popup = RALLY_CHOICE_POPUP_PATH.instantiate()
 	get_parent().add_child(new_rally_choice_popup)
@@ -178,6 +188,9 @@ func player_1_power_button_function(selected_power:int):
 	CardHandler.player_1_selected_card_power = selected_power
 	$Player1DeceptionPanel.visible = false
 	CardHandler.power_select_screen_visible_player_1 = false
+
+func force_draw_phase():
+	TurnAndPhaseHandler.phase_switch("draw")
 
 func _on_strength_button_1_pressed() -> void:
 	player_1_power_button_function(1)

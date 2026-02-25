@@ -256,6 +256,9 @@ func reset_game():
 	TurnAndPhaseHandler.current_phase_index = 0
 
 	TurnAndPhaseHandler.player_in_turn = 1
+	
+	TurnAndPhaseHandler.game_in_reset = true
+	print("GAME RESET")
 
 func reset_deck():
 	game_use_deck = permanent_deck2.duplicate(true)
